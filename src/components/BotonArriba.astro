@@ -1,0 +1,33 @@
+---
+/** Botón "volver arriba": aparece tras un scroll de una pantalla, se apila sobre el de WhatsApp. Sin JS no se muestra (no hace falta). */
+---
+<button class="ir-arriba" type="button" aria-label="Volver arriba" hidden>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</button>
+<style>
+  .ir-arriba { position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 4rem); z-index: 60; width: 3rem; height: 3rem; display: grid; place-items: center; padding: 0; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; background: rgba(0,26,77,.86); color: #fff; cursor: pointer; box-shadow: 0 10px 28px rgba(0,26,77,.28); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transform: translateY(.75rem); transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out), background var(--dur-2); }
+  .ir-arriba[hidden] { display: grid; pointer-events: none; }
+  .ir-arriba.visible { opacity: 1; transform: none; pointer-events: auto; }
+  .ir-arriba:hover { background: var(--marca); }
+  .ir-arriba:active { transform: scale(.94); }
+  .ir-arriba:focus-visible { outline: 3px solid var(--brillante); outline-offset: 2px; }
+  @media (max-width: 640px) { .ir-arriba { right: calc(max(1rem, env(safe-area-inset-right)) + .25rem); bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 4.25rem); } }
+  @media (prefers-reduced-motion: reduce) { .ir-arriba { transition: none; } }
+</style>
+<script>
+  const b = document.querySelector<HTMLButtonElement>('.ir-arriba');
+  if (b) {
+    b.hidden = false;
+    const umbral = () => window.innerHeight * 0.8;
+    let tick = false;
+    const revisar = () => { b.classList.toggle('visible', window.scrollY > umbral()); tick = false; };
+    addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(revisar); } }, { passive: true });
+    revisar();
+    b.addEventListener('click', () => {
+      const suave = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: suave ? 'smooth' : 'auto' });
+      (document.querySelector('.saltar') as HTMLElement | null)?.focus({ preventScroll: true });
+      (document.activeElement as HTMLElement | null)?.blur();
+    });
+  }
+</script>

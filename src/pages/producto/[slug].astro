@@ -1,0 +1,121 @@
+---
+import Base from '../../layouts/Base.astro';
+import Miga from '../../components/Miga.astro';
+import Icon from '../../components/Icon.astro';
+import Imagen from '../../components/Imagen.astro';
+import TarjetaProducto from '../../components/TarjetaProducto.astro';
+import FormularioContacto from '../../components/FormularioContacto.astro';
+import LogoQLupa from '../../components/LogoQLupa.astro';
+import { catalogo, marcaPorSlug, lineaPorSlug, logoMarca, productosDeMarca, equiposDeMarca } from '../../lib/data';
+import { migas, productoLd } from '../../lib/seo';
+export async function getStaticPaths() { return catalogo.map((p) => ({ params: { slug: p.slug }, props: { item: p } })); }
+const { item } = Astro.props;
+const marca = marcaPorSlug(item.marca);
+const lineas = item.lineas.map((l) => lineaPorSlug(l)!).filter(Boolean);
+const tipo = item.es_equipo ? 'Equipo' : 'Producto';
+const relacionados = (item.es_equipo ? productosDeMarca(item.marca!) : [...equiposDeMarca(item.marca!), ...productosDeMarca(item.marca!)]).filter((p) => p.slug !== item.slug).slice(0, 4);
+const descripcion = item.resumen || `${item.nombre}${marca ? ` de ${marca.nombre}` : ''}, distribuido en Colombia por Quimiolab con soporte técnico y científico. Solicita tu cotización.`;
+const rutaMigas = [{ nombre: item.es_equipo ? 'Equipos' : 'Productos', url: item.es_equipo ? '/equipos/' : '/productos/' }, ...(marca ? [{ nombre: marca.nombre, url: marca.url }] : []), { nombre: item.nombre, url: item.url }];
+const otrasImagenes = item.imagenes.slice(1, 5);
+---
+<Base title={`${item.nombre}${marca ? ` · ${marca.nombre}` : ''}`} description={descripcion} tipo="product" imagen={item.imagen?.src} jsonld={[migas(rutaMigas), productoLd(item)]}>
+  <article class="ficha" style={marca ? `--aliado:${marca.color}` : undefined}>
+    <!-- Hero a sangre en degradado navy: Q-lupa en el color del aliado, equipo delante, logo del aliado en placa -->
+    <header class="hero-ficha seccion-navy">
+      <span class="patron patron-red"></span>
+      <div class="wrap">
+        <Miga items={rutaMigas} />
+        <div class="arriba">
+          <div class="datos">
+            <div class="etiquetas">
+              <span class="chip chip-hero">{tipo}</span>
+              {lineas.map((l) => <a class="chip chip-hero" href={l.url}>{l.nombre}</a>)}
+              {item.familia.map((f) => <span class="chip chip-hero">{f.replace('-', ' ').toUpperCase()}</span>)}
+            </div>
+            <h1>{item.nombre}</h1>
+            {marca && <p class="marca-linea">Marca <a href={marca.url}><b>{marca.nombre}</b></a> · representada por Quimiolab en Colombia</p>}
+            <div class="acciones">
+              <a class="btn btn-primario" href="#cotizar"><Icon name="cotizar" size={18} /> Solicitar cotización</a>
+              <a class="btn btn-fantasma" href="https://wa.me/573000000000" rel="noopener"><Icon name="whatsapp" size={18} /> Preguntar por WhatsApp</a>
+            </div>
+          </div>
+          <div class="escena">
+            <LogoQLupa class="qlupa-deco q-hero" />
+            <span class="orbe brillo"></span>
+            {marca && logoMarca(marca.slug) && <a class="placa placa-marca" href={marca.url} aria-label={marca.nombre}><img src={logoMarca(marca.slug)!} alt="" width="140" height="40" /></a>}
+            <div class="equipo"><Imagen img={item.imagen} alt={item.nombre} eager cuadrada /></div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="wrap cuerpo-ficha">
+      <div class="glass intro">
+        {item.resumen_html ? <div class="prosa resumen" set:html={item.resumen_html} /> : <p class="prosa resumen">{descripcion}</p>}
+        <ul class="garantias">
+          <li><Icon name="escudo" size={18} /> <span>Registro sanitario <b>INVIMA</b> y trazabilidad de lote</span></li>
+          <li><Icon name="usuarios" size={18} /> <span>Acompañamiento <b>científico</b> en la implementación</span></li>
+          <li><Icon name="equipo" size={18} /> <span>Soporte técnico <b>local</b> en Colombia</span></li>
+        </ul>
+      </div>
+      {otrasImagenes.length > 0 && <div class="miniaturas">{otrasImagenes.map((im) => <Imagen img={im} alt={`${item.nombre} — vista adicional`} cuadrada />)}</div>}
+      {item.descripcion_html && (
+        <section class="detalle">
+          <h2>Descripción</h2>
+          <div class="prosa" set:html={item.descripcion_html} />
+        </section>
+      )}
+    </div>
+  </article>
+
+  <section class="seccion seccion-navy" id="cotizar">
+    <div class="wrap cotizar">
+      <div><span class="eyebrow">Cotización</span><h2>Cotiza {item.nombre}</h2><p class="lead">Indícanos cantidad, presentación y fecha estimada. Respondemos el mismo día hábil con disponibilidad y condiciones.</p></div>
+      <FormularioContacto tipo="cotizacion" producto={item.nombre} titulo="Solicitar cotización" />
+    </div>
+  </section>
+
+  {relacionados.length > 0 && (
+    <section class="seccion">
+      <div class="wrap">
+        <div class="cabecera"><div><span class="eyebrow">Relacionados</span><h2>Más de {marca?.nombre}</h2></div><a class="btn btn-enlace" href={marca?.url}>Ver la marca <Icon name="flecha" size={16} /></a></div>
+        <div class="grid grid-4">{relacionados.map((p) => <TarjetaProducto item={p} mostrarMarca={false} />)}</div>
+      </div>
+    </section>
+  )}
+</Base>
+<style>
+  .ficha { --aliado: var(--azul-500); background: linear-gradient(180deg, color-mix(in srgb, var(--aliado) 14%, var(--canvas)) 0%, var(--canvas) 38rem); }
+  .hero-ficha { padding-block: var(--s-5) 0; border-radius: 0 0 var(--r-bento) var(--r-bento); }
+  .hero-ficha > .patron { --patron-op: .07; --patron-size: 26rem; }
+  .hero-ficha :global(.miga), .hero-ficha :global(.miga a) { color: var(--azul-200); }
+  .hero-ficha :global(.miga [aria-current]) { color: #fff; }
+  .escena :global(.q-hero) { width: 30rem; left: 50%; top: 50%; transform: translate(-50%, -54%); opacity: .85; color: var(--aliado); }
+  .escena :global(.brillo), .brillo { width: 40rem; height: 40rem; left: 50%; top: 50%; transform: translate(-50%, -45%); background: radial-gradient(circle, color-mix(in srgb, var(--aliado) 55%, white) 0%, transparent 60%); opacity: .5; filter: blur(3rem); }
+  .arriba { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: var(--s-6); align-items: end; }
+  .datos { display: grid; gap: var(--s-4); padding-bottom: var(--s-8); }
+  .etiquetas { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chip-hero { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+  h1 { color: #fff; font-size: var(--t-3xl); max-width: 18ch; }
+  .marca-linea { color: var(--azul-200); font-size: var(--t-md); }
+  .marca-linea a { color: #fff; border-bottom: 1px solid rgba(255,255,255,.35); }
+  .acciones { display: flex; gap: var(--s-3); flex-wrap: wrap; padding-top: var(--s-2); }
+  .escena { position: relative; display: grid; justify-items: center; align-self: end; isolation: isolate; min-height: 26rem; }
+  .placa-marca { position: absolute; right: 0; top: -0.5rem; padding: .5rem .75rem; z-index: 2; }
+  .placa-marca img { max-height: 1.75rem; }
+  .equipo { width: min(100%, 26rem); aspect-ratio: 1; display: grid; place-items: center; padding: var(--s-4); margin-bottom: -4.5rem; filter: drop-shadow(0 30px 40px rgba(0,10,30,.45)); position: relative; z-index: 1; }
+  .equipo :global(img) { width: 100%; height: 100%; object-fit: contain; background: transparent; mix-blend-mode: normal; border-radius: var(--r-bento); }
+  .equipo :global(.sin-imagen) { width: 100%; height: 100%; border-radius: var(--r-bento); background: rgba(255,255,255,.08); }
+  .cuerpo-ficha { padding-block: var(--s-6) var(--s-8); display: grid; gap: var(--s-6); }
+  .intro { padding: var(--s-6); display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--s-6); align-items: start; margin-top: 0; }
+  .resumen { font-size: var(--t-lg); }
+  .garantias { list-style: none; margin: 0; padding: 0; display: grid; gap: .625rem; font-size: var(--t-sm); color: var(--ink-2); border-left: 1px solid var(--linea); padding-left: var(--s-5); }
+  .garantias li { display: flex; gap: .625rem; align-items: center; }
+  .garantias b { color: var(--marca); }
+  .garantias svg { color: var(--action); flex: none; }
+  .miniaturas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gutter-bento); max-width: 36rem; }
+  .miniaturas :global(img) { width: 100%; height: auto; border: 1px solid var(--linea); border-radius: var(--r-md); aspect-ratio: 1; object-fit: contain; padding: .5rem; background: #fff; }
+  .detalle h2 { font-size: var(--t-xl); margin-bottom: var(--s-4); }
+  .cotizar { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--s-7); align-items: start; }
+  .cotizar .lead { color: var(--navy-ink-2); font-size: var(--t-lg); margin-top: var(--s-4); }
+  @media (max-width: 860px) { .arriba, .cotizar, .intro { grid-template-columns: 1fr; } .datos { padding-bottom: var(--s-4); } .escena { justify-items: center; } .placa-marca { position: static; margin-bottom: var(--s-3); justify-self: end; } .equipo { margin-bottom: -3rem; width: min(100%, 20rem); } .garantias { border-left: 0; padding-left: 0; border-top: 1px solid var(--linea); padding-top: var(--s-4); } }
+</style>

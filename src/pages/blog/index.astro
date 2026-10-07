@@ -1,0 +1,10 @@
+---
+import Base from '../../layouts/Base.astro';
+import ListadoBlog from '../../components/ListadoBlog.astro';
+import { posts, paginar } from '../../lib/data';
+import { migas } from '../../lib/seo';
+const pags = paginar(posts, 12);
+---
+<Base title="Blog científico" description="Artículos sobre autoinmunidad, enfermedades infecciosas, biología molecular y diagnóstico clínico, escritos por el equipo científico de Quimiolab." jsonld={[migas([{ nombre: 'Blog', url: '/blog/' }])]}>
+  <ListadoBlog items={pags[0]} pagina={1} total={pags.length} />
+</Base>

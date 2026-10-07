@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Página no encontrada" description="La página que buscas no existe o cambió de dirección." noindex>
+  <section class="seccion"><div class="wrap error404">
+    <span class="eyebrow">Error 404</span>
+    <h1>No encontramos esa página</h1>
+    <p class="lead muted">Puede que la dirección haya cambiado con el sitio nuevo. Busca lo que necesitas o vuelve al catálogo.</p>
+    <form class="buscador" role="search" action="/buscar/" method="get"><Icon name="buscar" size={20} /><input id="q-404" name="q" type="search" placeholder="Buscar producto, equipo o marca" aria-label="Buscar" /><button class="btn btn-primario" type="submit">Buscar</button></form>
+    <div class="atajos"><a class="btn btn-secundario" href="/">Inicio</a><a class="btn btn-secundario" href="/marcas/">Marcas</a><a class="btn btn-secundario" href="/productos/">Productos</a><a class="btn btn-secundario" href="/equipos/">Equipos</a><a class="btn btn-secundario" href="/contactenos/">Contacto</a></div>
+  </div></section>
+</Base>
+<style>
+  .error404 { max-width: 40rem; }
+  h1 { font-size: var(--t-3xl); margin-bottom: var(--s-3); }
+  .lead { font-size: var(--t-lg); margin-bottom: var(--s-5); }
+  .buscador { display: flex; align-items: center; gap: .75rem; border: 1px solid var(--linea-fuerte); border-radius: .625rem; padding: .5rem .5rem .5rem 1rem; background: var(--card); margin-bottom: var(--s-5); }
+  .buscador svg { color: var(--ink-3); }
+  .buscador input { flex: 1; min-width: 0; border: 0; font: inherit; background: transparent; color: var(--ink); padding: .5rem 0; }
+  .buscador input:focus-visible { outline: 0; }
+  .atajos { display: flex; gap: .5rem; flex-wrap: wrap; }
+</style>
+<script is:inline>
+  // Sugerir búsqueda con las palabras de la URL rota
+  const p = decodeURIComponent(location.pathname).replace(/[\/-]+/g, ' ').replace(/producto|marca|pagina|\d+/g, '').trim();
+  const i = document.getElementById('q-404'); if (i && p) i.value = p;
+</script>

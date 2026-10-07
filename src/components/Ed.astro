@@ -1,0 +1,13 @@
+---
+/**
+ * Texto editable in situ. `id` estable para siempre (pagina_seccion_elemento).
+ * Por defecto pinta el contenido del código; si el cliente publicó algo, pinta eso.
+ *   <Ed id="home_hero_titulo" as="h1" data-gsap="words">La ciencia detrás de <em>cada resultado</em></Ed>
+ */
+import { edTexto } from '../lib/contenido';
+interface Props { id: string; as?: string; [k: string]: any }
+const { id, as = 'span', ...rest } = Astro.props;
+const Tag = as as any;
+const publicado = edTexto(id);
+---
+<Tag data-ed={id} {...rest}>{publicado !== undefined ? <Fragment set:html={publicado} /> : <slot />}</Tag>

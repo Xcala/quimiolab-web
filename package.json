@@ -1,0 +1,29 @@
+{
+  "name": "quimiolab-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "node scripts/fetch_content.mjs",
+    "build": "astro build && node scripts/aplicar_layout.mjs && pagefind --site dist && node scripts/check_build.mjs",
+    "build:preview": "cross-env PUBLIC_NOINDEX=1 npm run build",
+    "preview": "astro preview",
+    "data": "python scripts/prep_data.py && node scripts/download_images.mjs --solo-mapa",
+    "images": "node scripts/download_images.mjs",
+    "firebase:json": "node scripts/build_firebase_json.mjs",
+    "deploy:preview": "npm run build:preview && npm run firebase:json && firebase hosting:channel:deploy vista-previa --expires 30d",
+    "deploy": "npm run build && npm run firebase:json && firebase deploy --only hosting",
+    "deploy:api": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "astro": "^7.3.5",
+    "firebase": "^12.19.0",
+    "gsap": "^3.15.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "pagefind": "^1.5.2",
+    "sharp": "^0.35.5"
+  }
+}

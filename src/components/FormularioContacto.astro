@@ -1,0 +1,80 @@
+---
+/**
+ * Formulario de contacto / cotización. Envía a /api/form (Cloud Function `formulario`).
+ * Campos = los del formulario real de Fluent Forms (/contactenos/) + producto de interés opcional.
+ * Honeypot `sitio_web` oculto; la Function además valida origen, país e idioma y limita por IP.
+ */
+import Icon from './Icon.astro';
+interface Props { tipo?: 'contacto' | 'cotizacion'; producto?: string; titulo?: string; compacto?: boolean }
+const { tipo = 'contacto', producto, titulo = 'Solicita una cotización o asesoría', compacto = false } = Astro.props;
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '/api/form';
+const id = `f-${tipo}-${Math.random().toString(36).slice(2, 7)}`;
+---
+<form class:list={['formulario', { compacto }]} method="post" action={endpoint} data-formulario novalidate>
+  <h3>{titulo}</h3>
+  <input type="hidden" name="tipo" value={tipo} />
+  {producto && <input type="hidden" name="producto" value={producto} />}
+  <p class="hp" aria-hidden="true"><label>No llenes este campo <input type="text" name="sitio_web" tabindex="-1" autocomplete="off" /></label></p>
+  <div class="fila">
+    <label class="campo">Nombre y apellido <input id={`${id}-nombre`} name="nombre" type="text" required autocomplete="name" placeholder="Laura Gómez" /><span class="error" aria-live="polite"></span></label>
+    <label class="campo">Entidad <input id={`${id}-entidad`} name="entidad" type="text" required autocomplete="organization" placeholder="Laboratorio clínico, IPS, universidad…" /><span class="error" aria-live="polite"></span></label>
+  </div>
+  <div class="fila">
+    <label class="campo">Correo <input id={`${id}-correo`} name="correo" type="email" required autocomplete="email" placeholder="nombre@institucion.com" /><span class="error" aria-live="polite"></span></label>
+    <label class="campo">Teléfono móvil <input id={`${id}-tel`} name="telefono" type="tel" required autocomplete="tel" placeholder="+57 300 000 0000" /><span class="error" aria-live="polite"></span></label>
+  </div>
+  <div class="fila">
+    <label class="campo">País <select id={`${id}-pais`} name="pais" required><option value="Colombia" selected>Colombia</option><option>Ecuador</option><option>Perú</option><option>Panamá</option><option>Otro</option></select></label>
+    <label class="campo">Ciudad <input id={`${id}-ciudad`} name="ciudad" type="text" autocomplete="address-level2" placeholder="Bogotá" /></label>
+  </div>
+  {!producto && (
+    <label class="campo">¿Sobre qué te ayudamos? <select id={`${id}-tema`} name="tema"><option value="cotizacion">Cotización de productos</option><option value="demo">Demostración de equipo</option><option value="soporte">Soporte técnico</option><option value="capacitacion">Capacitación</option><option value="catalogo">Catálogo 2026 en PDF</option><option value="disponibilidad">Disponibilidad de una referencia</option><option value="otro">Otro</option></select></label>
+  )}
+  <label class="campo">Mensaje <textarea id={`${id}-msg`} name="mensaje" required minlength="10" placeholder={producto ? `Cantidad, presentación y fecha estimada para ${producto}` : 'Cuéntanos qué necesitas y con qué marca o equipo trabajas'}></textarea><span class="error" aria-live="polite"></span></label>
+  <label class="check"><input id={`${id}-acepto`} name="acepto" type="checkbox" required /> <span>Acepto la <a href="/politica-de-datos/">política de tratamiento de datos</a> de Quimiolab.</span></label>
+  <div class="alerta alerta-error" hidden data-error role="alert"><Icon name="error" /><span></span></div>
+  <div class="alerta alerta-ok" hidden data-ok role="status"><Icon name="ok" /><span>Recibimos tu solicitud. Un asesor te responde en el mismo día hábil.</span></div>
+  <button class="btn btn-primario" type="submit">{producto ? 'Solicitar cotización' : 'Enviar solicitud'}</button>
+</form>
+<style>
+  .formulario { background: var(--card); color: var(--ink); border: 1px solid var(--linea); border-radius: var(--r-xl); padding: var(--s-6); display: grid; gap: var(--s-4); box-shadow: var(--sombra-2); }
+  .formulario h3 { font-size: var(--t-xl); color: var(--marca); }
+  .fila { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+  .hp { position: absolute; left: -999rem; }
+  .compacto { padding: var(--s-5); box-shadow: none; }
+  @media (max-width: 640px) { .fila { grid-template-columns: 1fr; } }
+</style>
+<script>
+  const temaUrl = new URLSearchParams(location.search).get('tema');
+  document.querySelectorAll<HTMLFormElement>('form[data-formulario]').forEach((form) => {
+    const selTema = form.querySelector<HTMLSelectElement>('select[name=tema]');
+    if (temaUrl && selTema && [...selTema.options].some((o) => o.value === temaUrl)) selTema.value = temaUrl;
+    const boton = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const err = form.querySelector('[data-error]') as HTMLElement; const ok = form.querySelector('[data-ok]') as HTMLElement;
+    const mensajes: Record<string, string> = { valueMissing: 'Este campo es obligatorio.', typeMismatch: 'Revisa el formato.', tooShort: 'Cuéntanos un poco más (mínimo 10 caracteres).' };
+    const validar = () => {
+      let bien = true;
+      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.campo input, .campo textarea, .campo select').forEach((c) => {
+        const span = c.parentElement?.querySelector('.error'); if (!span) return;
+        const v = c.validity; const m = v.valueMissing ? mensajes.valueMissing : v.typeMismatch ? mensajes.typeMismatch : v.tooShort ? mensajes.tooShort : '';
+        span.textContent = m; c.setAttribute('aria-invalid', m ? 'true' : 'false'); if (m) bien = false;
+      });
+      const acepto = form.querySelector<HTMLInputElement>('input[name=acepto]');
+      if (acepto && !acepto.checked) { bien = false; err.hidden = false; err.querySelector('span')!.textContent = 'Para enviar, acepta la política de tratamiento de datos.'; }
+      return bien;
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); err.hidden = true; ok.hidden = true;
+      if (!validar()) { (form.querySelector('[aria-invalid=true]') as HTMLElement)?.focus(); return; }
+      boton.setAttribute('aria-busy', 'true');
+      try {
+        const datos = Object.fromEntries(new FormData(form).entries());
+        const r = await fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...datos, pagina: location.pathname }) });
+        if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'No pudimos enviar tu solicitud.');
+        ok.hidden = false; form.reset(); (window as any).dataLayer?.push({ event: 'ql_form', tipo: datos.tipo });
+      } catch (ex: any) {
+        err.hidden = false; err.querySelector('span')!.textContent = `${ex.message || 'No pudimos enviar tu solicitud.'} Escríbenos a contactenos@quimiolab.com o llama al (601) 805 4082.`;
+      } finally { boton.removeAttribute('aria-busy'); }
+    });
+  });
+</script>

@@ -1,0 +1,15 @@
+---
+/** Páginas fijas que vienen del CMS con su URL exacta (política de denuncias y los 3 registros sanitarios INVIMA). */
+import Base from '../layouts/Base.astro';
+import Miga from '../components/Miga.astro';
+import { paginas } from '../lib/data';
+import { migas } from '../lib/seo';
+export async function getStaticPaths() { return paginas.filter((p) => !['nosotros', 'contactenos'].includes(p.slug)).map((p) => ({ params: { slug: p.slug }, props: { pg: p } })); }
+const { pg } = Astro.props;
+const ruta = [{ nombre: pg.titulo, url: pg.url }];
+const esRegistro = pg.slug.startsWith('registro-sanitario');
+---
+<Base title={pg.titulo} description={esRegistro ? `${pg.titulo}. Documento de registro sanitario INVIMA publicado por Quimiolab.` : `${pg.titulo} de Quimiolab S.A.S.`} noindex={esRegistro} jsonld={[migas(ruta)]}>
+  <section class="seccion"><div class="wrap"><Miga items={ruta} /><h1>{pg.titulo}</h1><div class="prosa" set:html={pg.contenido_html} /></div></section>
+</Base>
+<style> h1 { font-size: var(--t-3xl); margin-bottom: var(--s-6); max-width: 30ch; } </style>

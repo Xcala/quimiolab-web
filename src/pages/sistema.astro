@@ -1,0 +1,166 @@
+---
+/** Guía viva del sistema de diseño. noindex. Lo que cambia en código cambia aquí. */
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import LogoQuimiolab from '../components/LogoQuimiolab.astro';
+import LogoQLupa from '../components/LogoQLupa.astro';
+import LogoSDBiosensor from '../components/LogoSDBiosensor.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import TarjetaMarca from '../components/TarjetaMarca.astro';
+import { iconos } from '../lib/icons';
+import { marcas, equipos, productos } from '../lib/data';
+const primitivos = [['--navy-900', '#00133A'], ['--navy-800', '#001A4D', 'Navy primario'], ['--navy-600', '#003087', 'Azul corporativo'], ['--azul-500', '#0097D6', 'Azul Quimiolab'], ['--azul-300', '#7FD4FF'], ['--azul-200', '#C2D8EC', 'Azul claro'], ['--azul-050', '#F3F7FB'], ['--ink-900', '#0B1B3A'], ['--ink-500', '#4A5A78'], ['--linea-200', '#DCE6F0']];
+const semanticos = ['--canvas', '--canvas-2', '--card', '--linea', '--ink', '--ink-2', '--ink-3', '--marca', '--action', '--btn', '--chip', '--ok', '--aviso', '--error'];
+const tipos = [['--t-4xl', 'Titular de hero · Poppins 700', 'clamp(38 → 66 px)'], ['--t-3xl', 'H1 de página · Poppins 600', 'clamp(30 → 44 px)'], ['--t-2xl', 'H2 en prosa', 'clamp(26 → 34 px)'], ['--t-xl', 'H3 / cabeceras de tarjeta', '22 px'], ['--t-lg', 'Lead / prosa', '18 px'], ['--t-md', 'Cuerpo · Roboto 400', '16 px'], ['--t-sm', 'Secundario', '14 px'], ['--t-xs', 'Eyebrow / etiquetas', '12 px']];
+const cortes = [['480', 'Cifras del hero a 2 columnas compactas; botón del buscador oculto'], ['640', 'Rejillas a 1 columna; filas de formulario a 1 columna; vecinos del blog apilados'], ['760', 'Barra superior sin enlaces secundarios; franja de marcas apilada'], ['860', 'Secciones de 2 columnas (nosotros, contacto, cotizar, ficha) a 1 columna'], ['900', 'Hero a 1 columna; catálogos a 1 columna; filtros del listado arriba'], ['980', 'Menú principal → hamburguesa'], ['1000/1080', 'Hubs y rejillas de 4 → 2 columnas'], ['1440 →', 'Escalado fluido: raíz 16 → 20 px hasta 1920 px']];
+---
+<Base title="Sistema de diseño" description="Guía viva del sistema de diseño del sitio de Quimiolab: tokens, tipografía, componentes, estados y cortes de pantalla." noindex>
+  <section class="seccion"><div class="wrap">
+    <span class="eyebrow">Guía viva · noindex</span>
+    <h1>Sistema de diseño Quimiolab</h1>
+    <p class="lead muted">Referencia para desarrollo. Todo en rem (rem = px ÷ 16); solo escala el <code>font-size</code> de <code>&lt;html&gt;</code>. Bordes de 1–2 px, sombras, pills y media queries quedan en px. Cambia el tema con el interruptor del encabezado para revisar ambos.</p>
+
+    <h2 id="lenguaje">0. Lenguaje visual 2026</h2>
+    <p class="muted">Lineamiento vigente desde septiembre de 2026 (nació en el Portafolio 2026). Seis principios: <b>degradado, no color plano</b> (navy #001A4D → #002468 → #003087, nunca navy → negro); <b>piezas difuminadas</b> (orbes, máx. 3 por sección, uno en azul SD solo en portada y cierre); <b>glass</b> solo sobre degradado; <b>bento</b> (radio 1 rem, gutter 0,8125 rem, sombra suave); <b>el equipo es protagonista</b>; <b>se lee escaneando</b> (numerales grandes, palabras clave en negrita navy, máx. 3 por ítem).</p>
+    <div class="grid grid-3 lenguaje">
+      <div class="seccion-navy demo-navy"><span class="chip chip-hero">.seccion-navy</span><p>Degradado 35° con dos orbes azul marca.</p><div class="glass-oscuro demo-glass">.glass-oscuro</div></div>
+      <div class="tinte demo-tinte" style="--aliado:#98B830"><span class="chip">.tinte · aliado 14 %</span><div class="glass demo-glass">.glass sobre tinte</div></div>
+      <div class="demo-endoso seccion-navy"><div class="endoso"><small>Una empresa de</small><LogoSDBiosensor label="SD Biosensor" /></div><p>Endoso de grupo: portada (arriba a la derecha) y cierre. Nunca en piezas de otros aliados.</p></div>
+    </div>
+
+    <h3>Acentos, campañas y patrones (regla 60 / 30 / 10)</h3>
+    <p class="muted">La página no puede quedar "muy azul": 60 % superficies claras (blanco, hielo, nube), 30 % navy y azul de marca, 10 % acentos. Los acentos salen del manual: <code>--brillante</code> #00CDF4 (eyebrows y énfasis sobre navy), <code>--amarillo</code> #FFCB2B (signos, comillas, detalles), <code>--teal</code>, <code>--verde</code>, <code>--verdoso</code>. Cada línea de solución lleva su <b>color de campaña por tema clínico</b>: Diagnóstico = verde #319638 (autoinmunidad, alergias), Diagnóstico molecular = teal #0E8CA9, Investigación = violeta #6B3FA0 (oncología, hematología), Point of Care = naranja #E8622A (urgencias). Se usa en el duotono de la foto, el chip, la barra inferior y los puntos; <b>nunca como fondo sólido</b>. El botón primario lleva el degradado oficial de marca <code>--grad-marca</code> (#0075DA → #00C0E4).</p>
+    <div class="grid grid-4 campanas">
+      {[['diagnostico','Diagnóstico','verde'],['diagnostico-molecular','Diagnóstico molecular','teal'],['investigacion','Investigación','violeta'],['point-of-care','Point of Care','naranja']].map(([s, n, c]) => <div class="camp" style={`--campana:var(--linea-${s})`}><span class="dot"></span><b>{n}</b><code>--linea-{s}</code><small>{c}</small></div>)}
+    </div>
+    <p class="muted">Siete patrones del sistema en <code>/patrones/</code> (ADN, retícula Q, lente, red molecular, ondas, microplaca, cromatograma) más el panel de doble hélice diagonal. Van como máscara (<code>.patron</code> + <code>.patron-adn</code>…) dentro de un contenedor <code>.con-patron</code> o <code>.seccion-navy</code>, y toman cualquier color con <code>--patron-color</code>: 4–7 % sobre claro, 12–18 % sobre oscuro (<code>.patron-oscuro</code>). <b>Un solo patrón por sección.</b> La textura "ADN clara" es la hélice blanca sobre <code>.nube</code>. Las fotos de sección van en <b>duotono</b> del color de campaña (<code>.duotono</code>: escala de grises + color en <em>screen</em>).</p>
+    <div class="grid grid-4 patrones-demo">
+      {['adn','q','red','ondas','microplaca','cromatograma','lente','panel'].map((n) => <div class={`demo-pat con-patron ${n === 'panel' ? 'seccion-navy' : ''}`}><span class={`patron patron-${n} ${n === 'panel' ? 'patron-oscuro' : ''}`} style={n === 'panel' ? '' : '--patron-op:.12'}></span><code>.patron-{n}</code></div>)}
+    </div>
+
+    <h3>Movimiento (3 capas)</h3>
+    <p class="muted">Tokens: <code>--dur-1</code> 120 ms · <code>--dur-2</code> 200 ms · <code>--dur-3</code> 320 ms · <code>--dur-4</code> 600 ms · <code>--ease-out</code> para entradas, <code>--ease-in</code> para salidas. Solo se animan <code>transform</code>, <code>translate</code>, <code>scale</code>, <code>rotate</code> y <code>opacity</code>; nada rebota; entradas de 0,8 s. Nunca se anima el LCP ni el texto que se lee, y lo que ya se ve al cargar nunca se oculta. Con «reducir movimiento» se apagan parallax, tilt, coreografías y transiciones.</p>
+    <p class="muted"><b>Capa 1</b> (todo el sitio, <code>motion.css</code> + <code>motion.ts</code>, ~2 KB): aparición al hacer scroll de tarjetas, hubs, equipos, pasos, citas y posts que estén bajo el primer pantallazo (escalonado de 70 ms), tilt 3D solo con mouse en fotos de equipos y tarjetas (máx. 5°, nunca el texto) y parallax CSS nativo en la foto de «Nosotros» (<code>data-parallax</code>). <b>Capa 2</b>: View Transitions entre páginas; el menú queda quieto y la foto de un post «vuela» desde la tarjeta hasta su portada (<code>#hero-img</code>). <b>Capa 3</b>: GSAP solo en la home (<code>&lt;Base gsap&gt;</code>, importado bajo demanda, ~47 KB), controlado por atributos:</p>
+    <table class="tabla-mov"><thead><tr><th>Atributo</th><th>Qué hace</th><th>Dónde va</th></tr></thead><tbody>
+      <tr><td><code>data-gsap="words"</code></td><td>Palabra por palabra con máscara</td><td>H1 del hero y títulos de sección</td></tr>
+      <tr><td><code>data-gsap="rise"</code></td><td>Sube y aparece, escalonado por padre</td><td>Eyebrow, lead, buscador, CTA del hero</td></tr>
+      <tr><td><code>data-gsap="count"</code></td><td>Cuenta desde 0 (el HTML trae el valor final)</td><td>Cifras</td></tr>
+      <tr><td><code>data-gsap="pop"</code></td><td>Crece, gira un poco y se enfoca</td><td>Escena del equipo, sello ISO</td></tr>
+      <tr><td><code>data-gsap="fan"</code></td><td>Los hijos se abren en abanico</td><td>Franja de confianza</td></tr>
+      <tr><td><code>data-gsap-hide</code></td><td>Oculto hasta que arranca la coreografía (red de seguridad de 1,5 s)</td><td>Junto a words/rise/pop del hero</td></tr>
+    </tbody></table>
+    <p class="muted">Sin máquina de escribir (el H1 es el LCP) y sin scroll infinito: el catálogo pagina con URLs reales. Verificado: CLS 0, sin tareas largas, sin desbordes, todo visible sin JavaScript y con «reducir movimiento».</p>
+
+    <h2 id="color">1. Color</h2>
+    <h3>Primitivos</h3>
+    <div class="muestras">{primitivos.map(([v, hex, n]) => <div class="muestra"><span class="color" style={`background:${hex}`}></span><code>{v}</code><small>{hex}{n ? ` · ${n}` : ''}</small></div>)}</div>
+    <h3>Semánticos (cambian con el tema)</h3>
+    <div class="muestras">{semanticos.map((v) => <div class="muestra"><span class="color" style={`background:var(${v})`}></span><code>{v}</code></div>)}</div>
+    <p class="muted">Regla: los componentes solo usan semánticos. El color de un aliado entra por <code>--aliado</code> en chips, puntos y reglas; nunca como fondo. Logos de aliados siempre sobre placa blanca.</p>
+
+    <h2 id="tipografia">2. Tipografía</h2>
+    <div class="tipos">{tipos.map(([v, n, px]) => <div class="tipo"><span style={`font-size:var(${v});font-family:${v.includes('4xl') || v.includes('3xl') || v.includes('2xl') || v.includes('xl') ? 'var(--f-display)' : 'var(--f-body)'};font-weight:${v.includes('4xl') ? 700 : v.includes('xl') ? 600 : 400}`}>Diagnóstico clínico</span><code>{v}</code><small>{n} · {px}</small></div>)}</div>
+
+    <h2 id="logos">3. Logos</h2>
+    <div class="logos">
+      <div class="placa"><LogoQuimiolab class="lq" label="Quimiolab" /></div>
+      <div class="placa navy"><LogoQuimiolab class="lq blanco" label="Quimiolab en blanco" /></div>
+      <div class="placa"><LogoQLupa class="lupa" label="Isotipo" /></div>
+      <div class="placa lockup"><LogoQuimiolab class="lq" /><span class="sep"></span><LogoSDBiosensor class="sd" /></div>
+    </div>
+    <p class="muted">Horizontal por defecto; isotipo solo para avatar, favicon o marcas pequeñas. Cuatro colores: azul <code>#0097D6</code>, blanco, gris <code>#9A9A9A</code>, negro. El ® nunca se recorta. Lockup con SD BIOSENSOR: regla vertical al 30 %, igual altura de wordmark.</p>
+
+    <h2 id="botones">4. Botones</h2>
+    <div class="fila-demo">
+      <a class="btn btn-primario" href="#botones">Primario <Icon name="flecha" size={16} /></a>
+      <a class="btn btn-secundario" href="#botones">Secundario</a>
+      <button class="btn btn-primario" aria-busy="true">Cargando</button>
+      <button class="btn btn-primario" disabled>Deshabilitado</button>
+      <a class="btn btn-enlace" href="#botones">Enlace <Icon name="flecha" size={16} /></a>
+      <button class="btn btn-primario btn-sm">Pequeño</button>
+    </div>
+    <div class="seccion-navy fila-demo navy-demo"><a class="btn btn-primario" href="#botones">Sobre navy</a><a class="btn btn-fantasma" href="#botones">Fantasma</a></div>
+
+    <h2 id="campos">5. Campos y estados</h2>
+    <div class="grid grid-2 campos-demo">
+      <label class="campo">Normal <input type="text" placeholder="Escribe aquí" /><span class="ayuda">Texto de ayuda con aria-describedby.</span></label>
+      <label class="campo">Con error <input type="email" value="correo-sin-arroba" aria-invalid="true" /><span class="error"><Icon name="error" size={14} /> Revisa el formato del correo.</span></label>
+      <label class="campo">Selección <select><option>Cotización de productos</option><option>Demostración de equipo</option></select></label>
+      <label class="campo">Área de texto <textarea placeholder="Cuéntanos qué necesitas"></textarea></label>
+      <label class="check"><input type="checkbox" checked /> Acepto la política de tratamiento de datos.</label>
+    </div>
+    <div class="grid grid-2 alertas-demo">
+      <div class="alerta alerta-ok"><Icon name="ok" /><span>Recibimos tu solicitud. Un asesor te responde el mismo día hábil.</span></div>
+      <div class="alerta alerta-aviso"><Icon name="aviso" /><span>Este producto tiene disponibilidad limitada; confirma tiempos con tu asesor.</span></div>
+      <div class="alerta alerta-error"><Icon name="error" /><span>No pudimos enviar tu solicitud. Escríbenos a contactenos@quimiolab.com.</span></div>
+      <div class="alerta alerta-info"><Icon name="info" /><span>Información neutra, con ícono y texto: nunca solo color.</span></div>
+    </div>
+    <div class="grid grid-3">
+      <div class="vacio"><Icon name="producto" /><p>Estado vacío: sin referencias en esta selección.</p></div>
+      <div class="tarjeta esq"><div class="esqueleto" style="height:9rem"></div><div class="esqueleto" style="height:1rem;width:70%;margin:1rem"></div><div class="esqueleto" style="height:.75rem;width:50%;margin:0 1rem 1rem"></div></div>
+      <div class="chips"><span class="chip">Diagnóstico</span><span class="chip chip-aliado" style="--aliado:#98B830">AESKU</span><span class="chip chip-aliado" style="--aliado:#004A98">SD BIOSENSOR</span><span class="chip chip-aliado" style="--aliado:#FCEA19">The Binding Site</span></div>
+    </div>
+
+    <h2 id="iconos">6. Íconos</h2>
+    <p class="muted">Cuadrícula 24, un trazo de 1,8, nombres por función en <code>src/lib/icons.ts</code>. <code>&lt;Icon name label?&gt;</code>: sin <code>label</code> es decorativo.</p>
+    <div class="iconos">{Object.keys(iconos).map((n) => <div class="icono"><Icon name={n as any} size={24} /><code>{n}</code></div>)}</div>
+
+    <h2 id="componentes">7. Componentes del catálogo</h2>
+    <div class="grid grid-3">
+      <TarjetaProducto item={productos[0]} />
+      <TarjetaProducto item={equipos[0]} />
+      <TarjetaMarca marca={marcas[0]} />
+    </div>
+
+    <h2 id="cortes">8. Cortes de pantalla</h2>
+    <table class="tabla"><thead><tr><th>Ancho (px)</th><th>Qué cambia</th></tr></thead><tbody>{cortes.map(([w, q]) => <tr><td class="tabular">{w}</td><td>{q}</td></tr>)}</tbody></table>
+    <p class="muted">Aprobación en 390, 768, 1280 y 1440 px sin scroll horizontal. Áreas táctiles ≥ 44 px (2,75 rem).</p>
+
+    <h2 id="movimiento">9. Movimiento</h2>
+    <p class="muted">Tokens <code>--dur-1..4</code> (120 / 200 / 320 / 600 ms) y <code>--ease-out / in / in-out</code>. Con <code>prefers-reduced-motion</code> todo se apaga, incluida la franja de marcas.</p>
+  </div></section>
+</Base>
+<style>
+  h1 { font-size: var(--t-3xl); margin-bottom: var(--s-3); }
+  .lead { font-size: var(--t-lg); max-width: 70ch; margin-bottom: var(--s-7); }
+  h2 { font-size: var(--t-2xl); margin: var(--s-8) 0 var(--s-4); padding-top: var(--s-4); border-top: 1px solid var(--linea); }
+  h3 { font-size: var(--t-md); color: var(--ink-2); margin: var(--s-4) 0 var(--s-3); text-transform: uppercase; letter-spacing: .08em; font-size: var(--t-xs); }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: .85em; background: var(--canvas-2); padding: .1em .35em; border-radius: .25rem; }
+  .lenguaje > div { border-radius: var(--r-bento); padding: var(--s-5); min-height: 12rem; display: grid; gap: var(--s-3); align-content: start; }
+  .demo-navy p, .demo-endoso p { color: var(--azul-200); font-size: var(--t-sm); }
+  .demo-glass { padding: var(--s-3) var(--s-4); font-size: var(--t-sm); }
+  .chip-hero { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+  .muestras { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--s-3); margin-bottom: var(--s-4); }
+  .muestra { display: grid; gap: .375rem; font-size: var(--t-xs); }
+  .muestra .color { display: block; height: 3.5rem; border-radius: var(--r-md); border: 1px solid var(--linea); }
+  .muestra small { color: var(--ink-2); }
+  .tipos { display: grid; gap: var(--s-4); }
+  .tipo { display: grid; grid-template-columns: 1fr auto; gap: var(--s-4); align-items: baseline; padding-bottom: var(--s-3); border-bottom: 1px dashed var(--linea); }
+  .tipo span { color: var(--marca); line-height: 1.1; }
+  .tipo small { grid-column: 1 / -1; color: var(--ink-2); font-size: var(--t-xs); }
+  .logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--s-4); margin-bottom: var(--s-4); }
+  .logos .placa { min-height: 7rem; }
+  .logos .navy { background: var(--navy-800); }
+  .lq { width: 11rem; color: #0097D6; } .blanco { color: #fff; } .lupa { width: 4rem; color: #0097D6; }
+  .lockup { display: flex; gap: .75rem; } .sep { width: 1px; height: 1.5rem; background: rgba(0,26,77,.3); } .sd { width: 11rem; color: #666464; }
+  .fila-demo { display: flex; gap: var(--s-3); flex-wrap: wrap; align-items: center; margin-bottom: var(--s-4); }
+  .navy-demo { padding: var(--s-4); border-radius: var(--r-md); }
+  .campos-demo, .alertas-demo { margin-bottom: var(--s-4); }
+  .esq { padding: 0; }
+  .chips { display: flex; gap: .5rem; flex-wrap: wrap; align-content: flex-start; }
+  .iconos { display: grid; grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr)); gap: var(--s-3); }
+  .icono { display: grid; place-items: center; gap: .5rem; padding: var(--s-3); border: 1px solid var(--linea); border-radius: var(--r-md); font-size: var(--t-xs); color: var(--ink); }
+  .tabla { width: 100%; border-collapse: collapse; font-size: var(--t-sm); margin-bottom: var(--s-3); }
+  .tabla th, .tabla td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--linea); vertical-align: top; }
+  .tabla th { font-family: var(--f-display); font-weight: 600; color: var(--marca); }
+  .campanas .camp { border: 1px solid var(--linea); border-radius: var(--r-bento); padding: var(--s-4); display: grid; gap: .25rem; border-top: .3125rem solid var(--campana); }
+  .campanas .dot { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--campana); margin-bottom: .25rem; }
+  .campanas small { color: var(--ink-2); }
+  .demo-pat { min-height: 9rem; border: 1px solid var(--linea); border-radius: var(--r-bento); display: grid; place-items: end start; padding: var(--s-3); }
+  .demo-pat .patron { --patron-size: 12rem; }
+  .demo-pat code { position: relative; }
+  .demo-pat.seccion-navy code { background: rgba(255,255,255,.15); color: #fff; }
+  .tabla-mov { width: 100%; border-collapse: collapse; font-size: var(--t-sm); margin-block: var(--s-4) var(--s-5); }
+  .tabla-mov th, .tabla-mov td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--linea); vertical-align: top; }
+  .tabla-mov th { font-family: var(--f-body); font-weight: 700; color: var(--marca); }
+</style>

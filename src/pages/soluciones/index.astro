@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import Miga from '../../components/Miga.astro';
+import Icon from '../../components/Icon.astro';
+import { lineas, productosDeLinea, equiposDeLinea } from '../../lib/data';
+import { migas } from '../../lib/seo';
+const imgs: Record<string, string> = { 'diagnostico': '/img/diagnostico.jpg', 'diagnostico-molecular': '/img/molecular.jpg', 'investigacion': '/img/investigacion.jpg', 'point-of-care': '/img/poc.jpg' };
+---
+<Base title="Soluciones por línea" description="Diagnóstico, diagnóstico molecular, investigación y point of care: encuentra equipos, reactivos y marcas según tu área de trabajo." jsonld={[migas([{ nombre: 'Soluciones', url: '/soluciones/' }])]}>
+  <section class="seccion"><div class="wrap">
+    <Miga items={[{ nombre: 'Soluciones', url: '/soluciones/' }]} />
+    <div class="cabecera"><div><span class="eyebrow">Soluciones</span><h1>Encuentra la solución según tu área de trabajo</h1></div></div>
+    <div class="grid grid-2">
+      {lineas.map((l) => <a class="tarjeta linea" href={l.url} style={`--campana:var(--linea-${l.slug})`}><div class="duotono"><img src={imgs[l.slug]} alt="" width="900" height="600" loading="lazy" /></div><div class="cuerpo"><h2>{l.nombre}</h2><p class="muted">{l.descripcion}</p><span class="meta"><b class="tabular">{equiposDeLinea(l.slug).length}</b> equipos · <b class="tabular">{productosDeLinea(l.slug).length}</b> productos <Icon name="flecha" size={16} /></span></div></a>)}
+    </div>
+  </div></section>
+</Base>
+<style>
+  h1 { font-size: var(--t-3xl); }
+  .linea img { aspect-ratio: 3/2; object-fit: cover; width: 100%; }
+  .linea { border-top: .3125rem solid var(--campana); }
+  .linea h2::before { content: ""; display: inline-block; width: .625rem; height: .625rem; border-radius: 50%; background: var(--campana); margin-right: .625rem; vertical-align: .05em; }
+  .linea .cuerpo { padding: var(--s-5); display: grid; gap: .5rem; }
+  .linea h2 { font-size: var(--t-xl); }
+  .meta { display: flex; gap: .375rem; align-items: center; color: var(--ink-2); font-size: var(--t-sm); padding-top: .5rem; }
+  .meta b { color: var(--marca); } .meta svg { margin-left: auto; color: var(--campana); }
+</style>

@@ -1,0 +1,62 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Miga from '../../../components/Miga.astro';
+import Icon from '../../../components/Icon.astro';
+import TarjetaProducto from '../../../components/TarjetaProducto.astro';
+import TarjetaMarca from '../../../components/TarjetaMarca.astro';
+import { lineas, productosDeLinea, equiposDeLinea, marcas } from '../../../lib/data';
+import { migas } from '../../../lib/seo';
+export async function getStaticPaths() { return lineas.map((l) => ({ params: { linea: l.slug }, props: { linea: l } })); }
+const { linea } = Astro.props;
+const productos = productosDeLinea(linea.slug);
+const equipos = equiposDeLinea(linea.slug);
+const marcasLinea = marcas.filter((m) => m.lineas.includes(linea.slug));
+const imgs: Record<string, string> = { 'diagnostico': '/img/diagnostico.jpg', 'diagnostico-molecular': '/img/molecular.jpg', 'investigacion': '/img/investigacion.jpg', 'point-of-care': '/img/poc.jpg' };
+const patrones: Record<string, string> = { 'diagnostico': 'patron-microplaca', 'diagnostico-molecular': 'patron-adn', 'investigacion': 'patron-red', 'point-of-care': 'patron-cromatograma' };
+// Descripción de portada escrita a mano (la del CMS es un pegote de los kickers de la página vieja)
+const descripciones: Record<string, string> = {
+  'diagnostico': 'Kits de autoinmunidad, alergias e infecciosas con inmunoensayo, inmunofluorescencia y quimioluminiscencia, respaldados por marcas líderes.',
+  'diagnostico-molecular': 'PCR en tiempo real, NGS y extracción automatizada para identificar mutaciones, perfiles genéticos y resistencia antimicrobiana.',
+  'investigacion': 'Insumos y equipos especializados para investigación en genética, oncología, biotecnología y enfermedades infecciosas.',
+  'point-of-care': 'Pruebas rápidas, por fluorometría y moleculares que dan resultados al lado del paciente, en urgencias y atención primaria.',
+};
+const descripcion = descripciones[linea.slug] ?? linea.descripcion;
+const ruta = [{ nombre: 'Soluciones', url: '/soluciones/' }, { nombre: linea.nombre, url: linea.url }];
+// Intro del CMS: se corta antes del bloque de logos ("Marcas asociadas…"), que ya se muestra aparte, y se quita el kicker inicial repetido
+const intro = (linea.intro_html ?? '').split(/Marcas asociadas/i)[0].replace(/^\s*<p>[^<]{0,60}<\/p>\s*<h2>[^<]*<\/h2>\s*/i, '').trim();
+---
+<Base title={`${linea.nombre} · equipos, reactivos y marcas`} description={descripcion || `Soluciones de ${linea.nombre.toLowerCase()}: ${equipos.length} equipos y ${productos.length} productos de ${marcasLinea.length} marcas representadas por Quimiolab en Colombia.`} jsonld={[migas(ruta)]}>
+  <section class="portada" style={`--campana:var(--linea-${linea.slug})`}>
+    <div class="duotono"><img src={imgs[linea.slug]} alt="" width="1600" height="900" loading="eager" /></div>
+    <span class={`patron ${patrones[linea.slug]} patron-oscuro`}></span>
+    <div class="wrap"><Miga items={ruta} /><span class="eyebrow">Solución</span><h1>{linea.nombre}</h1><p class="lead">{descripcion}</p>
+      <div class="cta"><a class="btn btn-primario" href={`${linea.url}productos/`}>Ver {productos.length} productos <Icon name="flecha" size={16} /></a>{equipos.length > 0 && <a class="btn btn-fantasma" href={`${linea.url}equipos/`}>Ver {equipos.length} equipos</a>}</div>
+    </div>
+  </section>
+  {intro && <section class="seccion tinte-2" style={`--aliado:var(--linea-${linea.slug})`}><div class="wrap"><div class="prosa intro-linea" set:html={intro} /></div></section>}
+  {marcasLinea.length > 0 && <section class="seccion seccion-2"><div class="wrap"><div class="cabecera"><div><span class="eyebrow">Marcas</span><h2>Marcas para {linea.nombre.toLowerCase()}</h2></div></div><div class="grid grid-3">{marcasLinea.map((m) => <TarjetaMarca marca={m} />)}</div></div></section>}
+  {equipos.length > 0 && <section class="seccion"><div class="wrap"><div class="cabecera"><div><span class="eyebrow">Equipos</span><h2>Equipos de {linea.nombre.toLowerCase()}</h2></div><a class="btn btn-enlace" href={`${linea.url}equipos/`}>Ver todos <Icon name="flecha" size={16} /></a></div><div class="grid grid-4">{equipos.slice(0, 8).map((e) => <TarjetaProducto item={e} />)}</div></div></section>}
+  <section class="seccion seccion-2"><div class="wrap"><div class="cabecera"><div><span class="eyebrow">Productos</span><h2>Productos destacados</h2></div><a class="btn btn-enlace" href={`${linea.url}productos/`}>Ver los {productos.length} <Icon name="flecha" size={16} /></a></div><div class="grid grid-4">{productos.slice(0, 8).map((p) => <TarjetaProducto item={p} />)}</div></div></section>
+</Base>
+<style>
+  .portada { position: relative; background: var(--grad-navy); color: #fff; overflow: hidden; isolation: isolate; border-bottom: .3125rem solid var(--campana); }
+  .portada .duotono { position: absolute; inset: 0; z-index: -2; opacity: .55; }
+  .portada .duotono img { width: 100%; height: 100%; object-fit: cover; }
+  .portada .patron { z-index: -1; --patron-op: .08; }
+  .portada::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,26,77,.95) 0%, rgba(0,36,104,.7) 55%, rgba(0,48,135,.35) 100%); z-index: -1; }
+  .portada .wrap { position: relative; }
+  .portada .wrap { padding-block: var(--s-6) var(--s-8); }
+  .portada :global(.miga), .portada :global(.miga a) { color: var(--azul-200); }
+  .portada h1 { color: #fff; font-size: var(--t-4xl); }
+  .portada .eyebrow { color: var(--brillante); }
+  .portada h1::after { content: ""; display: block; width: 3.5rem; height: .3125rem; border-radius: 999px; background: var(--campana); margin-top: var(--s-4); }
+  .portada .lead { color: var(--azul-200); font-size: var(--t-lg); max-width: 52ch; margin-block: var(--s-4) var(--s-5); }
+  .cta { display: flex; gap: var(--s-3); flex-wrap: wrap; }
+  /* Intro del CMS: kicker + título + párrafo, a dos columnas en escritorio */
+  .intro-linea { max-width: none; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--s-4) var(--s-7); align-items: start; }
+  .intro-linea :global(h2) { grid-column: 1; margin: 0; font-size: var(--t-2xl); max-width: 22ch; }
+  .intro-linea :global(p:first-child) { grid-column: 1; font-family: var(--f-body); font-weight: 700; font-size: var(--t-xs); letter-spacing: .2em; text-transform: uppercase; color: var(--aliado); margin: 0; }
+  .intro-linea :global(p:last-child) { grid-column: 2; grid-row: 1 / span 4; font-size: var(--t-lg); color: var(--ink-2); line-height: 1.6; margin: 0; }
+  .intro-linea :global(img) { display: none; }
+  @media (max-width: 860px) { .intro-linea { grid-template-columns: 1fr; } .intro-linea :global(p:last-child) { grid-column: 1; grid-row: auto; } }
+</style>

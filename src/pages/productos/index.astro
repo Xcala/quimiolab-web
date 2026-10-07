@@ -1,0 +1,10 @@
+---
+import Base from '../../layouts/Base.astro';
+import Listado from '../../components/Listado.astro';
+import { productos, paginar } from '../../lib/data';
+import { migas } from '../../lib/seo';
+const paginas = paginar(productos, 24);
+---
+<Base title="Productos y reactivos para diagnóstico in vitro" description={`${productos.length} reactivos, kits y consumibles para diagnóstico clínico, biología molecular, investigación y point of care. Cotiza en línea con Quimiolab.`} jsonld={[migas([{ nombre: 'Productos', url: '/productos/' }])]}>
+  <Listado tipo="productos" titulo="Productos" eyebrow={`Catálogo · ${productos.length} referencias`} lead="Reactivos, kits y consumibles de las marcas que representamos. Filtra por solución o por marca, o busca por referencia." items={paginas[0]} pagina={1} total={paginas.length} base="/productos/" migas={[{ nombre: 'Productos', url: '/productos/' }]} />
+</Base>

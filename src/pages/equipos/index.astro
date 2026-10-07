@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import Listado from '../../components/Listado.astro';
+import { equipos } from '../../lib/data';
+import { migas } from '../../lib/seo';
+---
+<Base title="Equipos y analizadores para el laboratorio clínico" description={`${equipos.length} equipos y analizadores para inmunodiagnóstico, biología molecular, point of care e investigación, con instalación y soporte técnico de Quimiolab en Colombia.`} jsonld={[migas([{ nombre: 'Equipos', url: '/equipos/' }])]}>
+  <Listado tipo="equipos" titulo="Equipos" eyebrow={`Catálogo · ${equipos.length} analizadores`} lead="Instrumentos con instalación, capacitación y soporte técnico y científico local. Cada ficha incluye capacidades, aplicaciones y reactivos compatibles." items={equipos} pagina={1} total={1} base="/equipos/" migas={[{ nombre: 'Equipos', url: '/equipos/' }]} />
+</Base>

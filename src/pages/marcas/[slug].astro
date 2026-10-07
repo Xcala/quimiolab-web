@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import Miga from '../../components/Miga.astro';
+import Icon from '../../components/Icon.astro';
+import TarjetaProducto from '../../components/TarjetaProducto.astro';
+import FormularioContacto from '../../components/FormularioContacto.astro';
+import LogoQLupa from '../../components/LogoQLupa.astro';
+import { marcas, productosDeMarca, equiposDeMarca, lineaPorSlug, logoMarca } from '../../lib/data';
+import { migas } from '../../lib/seo';
+export async function getStaticPaths() { return marcas.map((m) => ({ params: { slug: m.slug }, props: { marca: m } })); }
+const { marca } = Astro.props;
+const productos = productosDeMarca(marca.slug);
+const equipos = equiposDeMarca(marca.slug);
+const logo = logoMarca(marca.slug);
+const porLinea = marca.lineas.map((l) => ({ linea: lineaPorSlug(l)!, items: productos.filter((p) => p.lineas.includes(l)) })).filter((g) => g.items.length);
+const descripcion = marca.resumen || `Equipos y productos ${marca.nombre} distribuidos en Colombia por Quimiolab: ${equipos.length} equipos y ${productos.length} productos con soporte técnico y científico local.`;
+const ld = [migas([{ nombre: 'Marcas', url: '/marcas/' }, { nombre: marca.nombre, url: marca.url }]), { '@context': 'https://schema.org', '@type': 'Brand', name: marca.nombre, url: `https://www.quimiolab.com.co${marca.url}`, logo: logo ? `https://www.quimiolab.com.co${logo}` : undefined }];
+---
+<Base title={`${marca.nombre} en Colombia`} description={descripcion} jsonld={ld}>
+  <section class="cabecera-marca seccion-navy" style={`--aliado:${marca.color}`}>
+    <span class="patron patron-red"></span>
+    <LogoQLupa class="qlupa-deco q-marca" />
+    <div class="wrap">
+      <Miga items={[{ nombre: 'Marcas', url: '/marcas/' }, { nombre: marca.nombre, url: marca.url }]} />
+      <div class="intro">
+        <div class="placa">{logo ? <img src={logo} alt={`Logo ${marca.nombre}`} width="320" height="96" loading="eager" /> : <span class="nombre">{marca.nombre}</span>}</div>
+        <div>
+          <span class="eyebrow eyebrow-claro">Marca representada</span>
+          <h1>{marca.nombre}</h1>
+          <div class="cifras">
+            {equipos.length > 0 && <span><b class="tabular">{equipos.length}</b> {equipos.length === 1 ? 'equipo' : 'equipos'}</span>}
+            {productos.length > 0 && <span><b class="tabular">{productos.length}</b> productos</span>}
+            {marca.lineas.map((l) => <a class="chip chip-hero" href={lineaPorSlug(l)!.url}>{lineaPorSlug(l)!.nombre}</a>)}
+          </div>
+          <a class="btn btn-primario" href="#cotizar">Cotizar productos {marca.nombre} <Icon name="flecha" size={16} /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {marca.intro_html && <section class="seccion tinte-2" style={`--aliado:${marca.color}`}><div class="wrap"><div class="prosa" set:html={marca.intro_html} /></div></section>}
+
+  {equipos.length > 0 && (
+    <section class="seccion seccion-2" id="equipos">
+      <div class="wrap">
+        <div class="cabecera"><div><span class="eyebrow">Equipos</span><h2>Equipos {marca.nombre} con soporte en Colombia</h2></div></div>
+        <div class="grid grid-4">{equipos.map((e) => <TarjetaProducto item={e} mostrarMarca={false} />)}</div>
+      </div>
+    </section>
+  )}
+
+  {porLinea.map((g) => (
+    <section class="seccion" id={`productos-${g.linea.slug}`}>
+      <div class="wrap">
+        <div class="cabecera"><div><span class="eyebrow">Productos · {g.linea.nombre}</span><h2>{g.items.length} {g.items.length === 1 ? 'producto' : 'productos'} de {marca.nombre} para {g.linea.nombre.toLowerCase()}</h2></div><a class="btn btn-enlace" href={`${g.linea.url}productos/`}>Ver toda la línea <Icon name="flecha" size={16} /></a></div>
+        <div class="grid grid-4">{g.items.map((p) => <TarjetaProducto item={p} mostrarMarca={false} />)}</div>
+      </div>
+    </section>
+  ))}
+
+  {productos.length === 0 && equipos.length === 0 && (
+    <section class="seccion"><div class="wrap"><div class="vacio"><Icon name="producto" /><p>Estamos actualizando el catálogo de {marca.nombre}. Escríbenos y te enviamos la información de la línea.</p></div></div></section>
+  )}
+
+  <section class="seccion seccion-navy" id="cotizar">
+    <div class="wrap cotizar">
+      <div><span class="eyebrow">Cotización</span><h2>¿Trabajas o quieres trabajar con {marca.nombre}?</h2><p class="lead">Cuéntanos qué pruebas corres y el volumen mensual; un asesor científico te propone la configuración y la cotización.</p></div>
+      <FormularioContacto tipo="cotizacion" producto={`Marca ${marca.nombre}`} titulo={`Cotizar ${marca.nombre}`} />
+    </div>
+  </section>
+</Base>
+<style>
+  .cabecera-marca { padding-block: var(--s-6) var(--s-7); border-bottom: 4px solid var(--aliado); }
+  .cabecera-marca > .patron { --patron-op: .07; --patron-size: 26rem; }
+  .cabecera-marca :global(.miga), .cabecera-marca :global(.miga a) { color: var(--azul-200); }
+  .cabecera-marca :global(.miga [aria-current]) { color: #fff; }
+  .cabecera-marca h1 { color: #fff; }
+  .cabecera-marca .cifras, .cabecera-marca .cifras b { color: #fff; }
+  .cabecera-marca .cifras { color: var(--azul-200); }
+  .eyebrow-claro { color: var(--azul-300); }
+  .chip-hero { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+  .cabecera-marca :global(.q-marca) { width: 20rem; right: 4rem; top: 50%; transform: translateY(-50%); opacity: .55; }
+  .cabecera-marca::before { background: radial-gradient(circle, color-mix(in srgb, var(--aliado) 55%, white) 0%, transparent 68%); opacity: .35; }
+  .intro { display: grid; grid-template-columns: 20rem 1fr; gap: var(--s-6); align-items: center; }
+  .intro .placa { padding: var(--s-6); min-height: 10rem; }
+  .intro .placa img { max-height: 5rem; }
+  .intro .nombre { font-family: var(--f-display); font-weight: 700; font-size: var(--t-2xl); color: #0B1B3A; }
+  h1 { font-size: var(--t-3xl); margin-bottom: var(--s-4); }
+  .cifras { display: flex; flex-wrap: wrap; gap: var(--s-4); align-items: center; margin-bottom: var(--s-5); color: var(--ink-2); }
+  .cifras b { color: var(--marca); font-family: var(--f-display); font-size: var(--t-xl); }
+  .cotizar { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--s-7); align-items: start; }
+  .cotizar .lead { color: var(--navy-ink-2); font-size: var(--t-lg); margin-top: var(--s-4); }
+  @media (max-width: 860px) { .intro, .cotizar { grid-template-columns: 1fr; } .intro .placa { max-width: 20rem; } }
+</style>

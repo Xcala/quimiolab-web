@@ -1,0 +1,11 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ListadoBlog from '../../../components/ListadoBlog.astro';
+import { posts, paginar } from '../../../lib/data';
+import { migas } from '../../../lib/seo';
+export async function getStaticPaths() { const pags = paginar(posts, 12); return pags.slice(1).map((items, i) => ({ params: { n: String(i + 2) }, props: { items, n: i + 2, total: pags.length } })); }
+const { items, n, total } = Astro.props;
+---
+<Base title={`Blog científico · página ${n}`} description={`Artículos del blog científico de Quimiolab, página ${n} de ${total}.`} jsonld={[migas([{ nombre: 'Blog', url: '/blog/' }])]}>
+  <ListadoBlog items={items} pagina={n} total={total} />
+</Base>

@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import Miga from '../../components/Miga.astro';
+import TarjetaMarca from '../../components/TarjetaMarca.astro';
+import { marcas } from '../../lib/data';
+import { migas } from '../../lib/seo';
+const conCatalogo = marcas.filter((m) => m.n_productos + m.n_equipos > 0);
+const sinCatalogo = marcas.filter((m) => m.n_productos + m.n_equipos === 0);
+---
+<Base title="Marcas representadas" description={`Quimiolab representa en Colombia a ${marcas.length} marcas de diagnóstico in vitro e investigación: AESKU, Vircell, SD BIOSENSOR, The Binding Site, ELITechGroup y más.`} jsonld={[migas([{ nombre: 'Marcas', url: '/marcas/' }])]}>
+  <section class="seccion">
+    <div class="wrap">
+      <Miga items={[{ nombre: 'Marcas', url: '/marcas/' }]} />
+      <div class="cabecera"><div><span class="eyebrow">Marcas</span><h1>Representantes directos de {marcas.length} marcas</h1></div><p class="lead">Cada marca conserva su identidad; Quimiolab pone el acompañamiento científico, técnico y comercial en Colombia. Elige una para ver sus equipos, productos y contenidos.</p></div>
+      <div class="grid grid-3">{conCatalogo.map((m) => <TarjetaMarca marca={m} />)}</div>
+      {sinCatalogo.length > 0 && <>
+        <h2 class="sub">Otras marcas representadas</h2>
+        <ul class="otras">{sinCatalogo.map((m) => <li><a href={m.url} style={`--aliado:${m.color}`}><span class="punto"></span>{m.nombre}</a></li>)}</ul>
+      </>}
+    </div>
+  </section>
+</Base>
+<style>
+  h1 { font-size: var(--t-3xl); }
+  .sub { font-size: var(--t-xl); margin: var(--s-8) 0 var(--s-4); }
+  .otras { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .otras a { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .875rem; border: 1px solid var(--linea); border-radius: var(--r-pill); color: var(--ink); font-weight: 500; font-size: var(--t-sm); }
+  .otras a:hover { border-color: var(--action); color: var(--action); }
+  .punto { width: .5rem; height: .5rem; border-radius: 50%; background: var(--aliado); }
+</style>

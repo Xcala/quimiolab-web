@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+import { logoMarca } from '../lib/data';
+interface Props { marca: any }
+const { marca } = Astro.props;
+const logo = logoMarca(marca.slug);
+const total = marca.n_productos + marca.n_equipos;
+---
+<a class="tarjeta marca" href={marca.url} style={`--aliado:${marca.color}`}>
+  <div class="placa">{logo ? <img src={logo} alt={`Logo ${marca.nombre}`} loading="lazy" width="200" height="60" /> : <span class="texto">{marca.nombre}</span>}</div>
+  <div class="cuerpo">
+    <h3>{marca.nombre}</h3>
+    {marca.resumen && <p class="muted">{marca.resumen}</p>}
+    <div class="meta">
+      {marca.n_equipos > 0 && <span><b class="tabular">{marca.n_equipos}</b> {marca.n_equipos === 1 ? 'equipo' : 'equipos'}</span>}
+      {marca.n_productos > 0 && <span><b class="tabular">{marca.n_productos}</b> productos</span>}
+      {total === 0 && <span>Marca representada</span>}
+      <Icon name="flecha" size={16} class="fl" />
+    </div>
+  </div>
+</a>
+<style>
+  .marca { color: var(--ink); }
+  .placa { border: 0; border-bottom: 1px solid var(--linea); border-radius: 0; min-height: 6.5rem; padding: var(--s-5); position: relative; }
+  .placa::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: .25rem; background: var(--aliado); }
+  .placa img { max-height: 3rem; }
+  .texto { font-family: var(--f-display); font-weight: 600; color: #0B1B3A; font-size: var(--t-lg); text-align: center; }
+  .cuerpo { padding: var(--s-4); display: grid; gap: .5rem; flex: 1; align-content: start; }
+  .cuerpo h3 { font-size: var(--t-lg); }
+  .cuerpo p { font-size: var(--t-sm); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .meta { margin-top: auto; padding-top: .75rem; border-top: 1px solid var(--linea); display: flex; gap: var(--s-4); font-size: var(--t-sm); color: var(--ink-2); align-items: center; }
+  .meta b { color: var(--marca); font-weight: 600; }
+  .fl { margin-left: auto; color: var(--action); }
+</style>

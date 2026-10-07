@@ -1,0 +1,44 @@
+---
+import LogoQuimiolab from './LogoQuimiolab.astro';
+import LogoSDBiosensor from './LogoSDBiosensor.astro';
+import { sitio, lineas } from '../lib/data';
+const anio = new Date().getFullYear();
+---
+<footer class="pie">
+  <div class="wrap">
+    <div class="arriba">
+      <div>
+        <div class="logo"><LogoQuimiolab label="Quimiolab" /></div>
+        <address class="dir">
+          <span>{sitio.razon_social} · NIT {sitio.nit}</span>
+          <span>{sitio.direccion}</span>
+          <span>PBX <a href={`tel:${sitio.pbx_tel}`}>{sitio.pbx}</a> · <a href={`mailto:${sitio.correo}`}>{sitio.correo}</a></span>
+        </address>
+        <div class="endoso pie-endoso" aria-label="Una empresa de SD Biosensor"><small>Una empresa de</small><LogoSDBiosensor label="SD Biosensor" /></div>
+      </div>
+      <nav aria-label="Catálogo"><h2>Catálogo</h2><ul><li><a href="/marcas/">Marcas</a></li><li><a href="/equipos/">Equipos</a></li><li><a href="/productos/">Productos</a></li><li><a href="/buscar/">Buscar</a></li></ul></nav>
+      <nav aria-label="Soluciones"><h2>Soluciones</h2><ul>{lineas.map((l) => <li><a href={l.url}>{l.nombre}</a></li>)}</ul></nav>
+      <nav aria-label="Empresa"><h2>Empresa</h2><ul><li><a href="/nosotros/">Nosotros</a></li><li><a href="/blog/">Blog científico</a></li><li><a href="/eventos/">Eventos científicos</a></li><li><a href="/trabaja-con-nosotros/">Trabaja con nosotros</a></li><li><a href="/contactenos/">Contáctenos</a></li></ul></nav>
+      <nav aria-label="Cumplimiento"><h2>Cumplimiento</h2><ul><li><a href="/politica-de-datos/">Política de tratamiento de datos</a></li><li><a href="/linea-de-transparencia/">Línea de Transparencia e Integridad</a></li><li><a href="/vinculacion/">Vinculación de proveedores</a></li><li><a href="/politica-de-denuncias-y-no-retaliacion/">Denuncias</a></li><li><button type="button" class="btn-enlace" data-abrir-cookies>Preferencias de cookies</button></li></ul></nav>
+    </div>
+    <div class="abajo">
+      <span>© 1996–{anio} {sitio.razon_social} Todos los derechos reservados.</span>
+      <span>{sitio.tagline}</span>
+    </div>
+  </div>
+</footer>
+<style>
+  .pie { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(200deg, #001A4D 0%, #00133A 60%, #001A4D 100%); color: var(--azul-200); font-size: var(--t-sm); }
+  .pie::before { content: ""; position: absolute; width: 30rem; height: 30rem; right: -10rem; top: -14rem; border-radius: 50%; filter: blur(2.5rem); background: radial-gradient(circle, rgba(0,151,214,.28) 0%, rgba(0,151,214,0) 68%); z-index: -1; }
+  .arriba { padding-block: var(--s-8) var(--s-6); display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; gap: var(--s-6); border-bottom: 1px solid var(--navy-linea); }
+  .logo { width: 10.625rem; color: #fff; margin-bottom: var(--s-4); }
+  .dir { font-style: normal; display: grid; gap: .5rem; max-width: 32ch; }
+  .dir a { color: inherit; } .dir a:hover { color: #fff; }
+  .pie h2 { font-family: var(--f-display); font-size: var(--t-xs); letter-spacing: .1em; text-transform: uppercase; color: #fff; margin: 0 0 var(--s-3); }
+  .pie ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+  .pie ul a, .pie .btn-enlace { color: var(--azul-200); font-weight: 400; font-size: var(--t-sm); }
+  .pie ul a:hover, .pie .btn-enlace:hover { color: #fff; }
+  .abajo { padding-block: var(--s-4); display: flex; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; font-size: var(--t-xs); }
+  @media (max-width: 980px) { .arriba { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .arriba { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,29 @@
+---
+import Imagen from './Imagen.astro';
+import Icon from './Icon.astro';
+import { marcaPorSlug } from '../lib/data';
+interface Props { item: any; mostrarMarca?: boolean }
+const { item, mostrarMarca = true } = Astro.props;
+const marca = marcaPorSlug(item.marca);
+---
+<article class="tarjeta producto">
+  <a href={item.url} class="fig" aria-hidden="true" tabindex="-1"><Imagen img={item.imagen} alt="" cuadrada /></a>
+  <div class="cuerpo">
+    {mostrarMarca && marca && <span class="chip chip-aliado" style={`--aliado:${marca.color}`}>{marca.nombre}</span>}
+    <h3><a href={item.url}>{item.nombre}</a></h3>
+    {item.resumen && <p class="muted">{item.resumen}</p>}
+    <span class="ver">{item.es_equipo ? 'Ver equipo' : 'Ver ficha'} <Icon name="flecha" size={16} /></span>
+  </div>
+</article>
+<style>
+  .producto { position: relative; }
+  .fig { display: block; aspect-ratio: 1; background: #fff; border-bottom: 1px solid var(--linea); padding: var(--s-4); }
+  .fig { min-width: 0; overflow: hidden; }
+  .fig :global(img), .fig :global(.sin-imagen) { width: 100%; height: 100%; max-width: 100%; object-fit: contain; }
+  .cuerpo { padding: var(--s-4); display: grid; gap: .5rem; align-content: start; flex: 1; }
+  .cuerpo h3 { font-size: var(--t-md); line-height: 1.3; }
+  .cuerpo h3 a { color: var(--marca); }
+  .cuerpo h3 a::after { content: ""; position: absolute; inset: 0; }
+  .cuerpo p { font-size: var(--t-sm); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .ver { margin-top: auto; font-size: var(--t-sm); font-weight: 500; color: var(--action); display: inline-flex; align-items: center; gap: .375rem; padding-top: .5rem; }
+</style>

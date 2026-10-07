@@ -1,0 +1,52 @@
+---
+import Icon from './Icon.astro';
+---
+<div class="cookies" id="aviso-cookies" hidden role="dialog" aria-labelledby="cookies-t" aria-describedby="cookies-d">
+  <div class="caja">
+    <h2 id="cookies-t">Tu privacidad</h2>
+    <p id="cookies-d">Usamos cookies propias necesarias para que el sitio funcione y, solo con tu permiso, cookies de analítica (Google Analytics) y de marketing (Meta). Puedes cambiar tu elección cuando quieras en «Preferencias de cookies», al pie de la página. <a href="/politica-de-datos/">Política de tratamiento de datos</a>.</p>
+    <div class="opciones" id="cookies-opciones" hidden>
+      <label class="check"><input type="checkbox" checked disabled /> Necesarias (siempre activas)</label>
+      <label class="check"><input type="checkbox" id="ck-a" /> Analítica: entender qué páginas se usan</label>
+      <label class="check"><input type="checkbox" id="ck-m" /> Marketing: medir campañas en redes</label>
+    </div>
+    <div class="botones">
+      <button class="btn btn-secundario btn-sm" type="button" data-cookies="config">Configurar</button>
+      <button class="btn btn-secundario btn-sm" type="button" data-cookies="rechazar">Solo necesarias</button>
+      <button class="btn btn-primario btn-sm" type="button" data-cookies="aceptar">Aceptar todas</button>
+    </div>
+  </div>
+</div>
+<style>
+  .cookies { position: fixed; inset-inline: 0; bottom: 0; z-index: 90; padding: var(--s-4); pointer-events: none; }
+  .caja { pointer-events: auto; max-width: 40rem; margin-inline: auto; background: var(--card); color: var(--ink); border: 1px solid var(--linea); border-radius: var(--r-lg); box-shadow: var(--sombra-2); padding: var(--s-5); display: grid; gap: var(--s-3); }
+  .caja h2 { font-size: var(--t-lg); }
+  .caja p { font-size: var(--t-sm); color: var(--ink-2); }
+  .opciones { display: grid; gap: .5rem; padding: var(--s-3); background: var(--canvas-2); border-radius: var(--r-md); }
+  .botones { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: flex-end; }
+</style>
+<script>
+  const caja = document.getElementById('aviso-cookies')!;
+  const opciones = document.getElementById('cookies-opciones')!;
+  const ckA = document.getElementById('ck-a') as HTMLInputElement;
+  const ckM = document.getElementById('ck-m') as HTMLInputElement;
+  const leer = () => { try { return JSON.parse(localStorage.getItem('ql-consent') || 'null'); } catch { return null; } };
+  const guardar = (a: boolean, m: boolean) => {
+    const c = { a, m, t: Date.now() };
+    try { localStorage.setItem('ql-consent', JSON.stringify(c)); } catch {}
+    (window as any).gtag?.('consent', 'update', { analytics_storage: a ? 'granted' : 'denied', ad_storage: m ? 'granted' : 'denied', ad_user_data: m ? 'granted' : 'denied', ad_personalization: m ? 'granted' : 'denied' });
+    (window as any).dataLayer?.push({ event: 'ql_consent', analitica: a, marketing: m });
+    caja.hidden = true;
+  };
+  const abrir = () => { const c = leer(); ckA.checked = !!c?.a; ckM.checked = !!c?.m; caja.hidden = false; };
+  const c = leer();
+  if (!c || !c.t || Date.now() - c.t > 31536000000) caja.hidden = false;
+  caja.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest('[data-cookies]') as HTMLElement | null; if (!b) return;
+    const q = b.dataset.cookies;
+    if (q === 'config') { if (opciones.hidden) { opciones.hidden = false; b.textContent = 'Guardar mi elección'; } else guardar(ckA.checked, ckM.checked); }
+    if (q === 'rechazar') guardar(false, false);
+    if (q === 'aceptar') guardar(true, true);
+  });
+  document.querySelectorAll('[data-abrir-cookies]').forEach((el) => el.addEventListener('click', abrir));
+</script>

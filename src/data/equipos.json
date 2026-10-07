@@ -1,0 +1,596 @@
+[
+ {
+  "slug": "begenius",
+  "slug_wp": "begenius",
+  "nombre": "BeGenius",
+  "url": "/producto/begenius/",
+  "marca": "elitechgroup",
+  "marca_nombre": "ELITECHGROUP",
+  "lineas": [
+   "diagnostico-molecular"
+  ],
+  "familia": [],
+  "resumen": "",
+  "resumen_html": "",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/begenius-6c8f84f6.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "BeGenius"
+   }
+  ],
+  "imagen": {
+   "src": "/media/begenius-6c8f84f6.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "BeGenius"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "b·r·a·h·m·s-kryptor-compact-plus",
+  "slug_wp": "b%c2%b7r%c2%b7a%c2%b7h%c2%b7m%c2%b7s-kryptor-compact-plus",
+  "nombre": "B·R·A·H·M·S KRYPTOR compact PLUS",
+  "url": "/producto/b·r·a·h·m·s-kryptor-compact-plus/",
+  "marca": "thermo-fisher",
+  "marca_nombre": "Thermo Fisher",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "Modelo más compacto de la misma familia, ideal para laboratorios más pequeños o de rutina con necesidades de menor carga de muestra. Throughput : alrededor de 60 pruebas por hora . Menú de ensayos …",
+  "resumen_html": "<p>Modelo más compacto de la misma familia, ideal para laboratorios más pequeños o de rutina con necesidades de menor carga de muestra.</p>\n<p><strong>Throughput</strong>: alrededor de <strong>60 pruebas por hora</strong>.</p>\n<p><strong>Menú de ensayos</strong>: permite manejar hasta <strong>8 inmunoensayos diferentes</strong>.</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/b-r-a-h-m-s-kryptor-compact-plus-5d2ef43f.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "B·R·A·H·M·S KRYPTOR compact PLUS"
+   }
+  ],
+  "imagen": {
+   "src": "/media/b-r-a-h-m-s-kryptor-compact-plus-5d2ef43f.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "B·R·A·H·M·S KRYPTOR compact PLUS"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "b·r·a·h·m·s-kryptor-gold",
+  "slug_wp": "b%c2%b7r%c2%b7a%c2%b7h%c2%b7m%c2%b7s-kryptor-gold",
+  "nombre": "B·R·A·H·M·S KRYPTOR GOLD",
+  "url": "/producto/b·r·a·h·m·s-kryptor-gold/",
+  "marca": "thermo-fisher",
+  "marca_nombre": "Thermo Fisher",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "El KRYPTOR GOLD es un analizador inmunológico automatizado, de mesa y acceso aleatorio, emplea la tecnología TRACE (Time-Resolved Amplified Cryptate Emission). Propiedades clave Rendimiento…",
+  "resumen_html": "<p>El <strong>KRYPTOR GOLD</strong> es un analizador inmunológico automatizado, de mesa y acceso aleatorio, emplea la tecnología TRACE (Time-Resolved Amplified Cryptate Emission).</p>\n<p><strong>Propiedades clave</strong></p>\n<ul>\n<li><strong>Rendimiento (throughput)</strong>: hasta aproximadamente <strong>115 pruebas por hora</strong>, ideal para laboratorios de tamaño medio.</li>\n<li><strong>Capacidad de muestras</strong>: hasta <strong>80 muestras</strong>.</li>\n<li><strong>Capacidad de reactivos refrigerados</strong>: hasta <strong>16 kits</strong> refrigerados en la bandeja de reactivos.</li>\n<li><strong>Interfaz y operatividad</strong>: pantalla táctil intuitiva, reducción del tiempo de entrenamiento y generación de informes auditables con LabLink xL.</li>\n<li>Permite ejecutar hasta <strong>16 inmunoensayos diferentes</strong>, cubriendo áreas como cribado prenatal, oncología, endocrinología, infectología y atención aguda</li>\n</ul>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/b-r-a-h-m-s-kryptor-gold-6ccc8e81.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "B·R·A·H·M·S KRYPTOR GOLD"
+   }
+  ],
+  "imagen": {
+   "src": "/media/b-r-a-h-m-s-kryptor-gold-6ccc8e81.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "B·R·A·H·M·S KRYPTOR GOLD"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "d-block-incubator",
+  "slug_wp": "d-block-incubator",
+  "nombre": "d-BLOCK Incubator",
+  "url": "/producto/d-block-incubator/",
+  "marca": "sd-biosensor",
+  "marca_nombre": "SD BIOSENSOR",
+  "lineas": [
+   "point-of-care"
+  ],
+  "familia": [],
+  "resumen": "STANDARD d-BLOCK Incubator es un dispositivo auxiliar capaz de suministrar temperatura constante durante la prueba. Este producto ha sido desarrollado para aquellas pruebas IVD que requieren…",
+  "resumen_html": "<p>STANDARD d-BLOCK Incubator es un dispositivo auxiliar capaz de suministrar temperatura constante durante la prueba. Este<br />\nproducto ha sido desarrollado para aquellas pruebas IVD que requieren incubación térmica.</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/d-block-incubator-facb7ba6.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "d-BLOCK Incubator"
+   }
+  ],
+  "imagen": {
+   "src": "/media/d-block-incubator-facb7ba6.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "d-BLOCK Incubator"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "elite-ingenius",
+  "slug_wp": "elite-ingenius",
+  "nombre": "ELITe InGenius®",
+  "url": "/producto/elite-ingenius/",
+  "marca": "elitechgroup",
+  "marca_nombre": "ELITECHGROUP",
+  "lineas": [
+   "diagnostico-molecular"
+  ],
+  "familia": [],
+  "resumen": "El analizador ELITe InGenius® es un sistema de facil uso dedicado al diagnostico molecular que integra extracción, amplificación e interpretación de resultados como soluciuón en una sola plataforma…",
+  "resumen_html": "<p>El analizador ELITe InGenius® es un sistema de facil uso dedicado al diagnostico molecular que integra extracción, amplificación e interpretación de resultados como soluciuón en una sola plataforma con una flexibilidad y posibilidad de menú de ensayo sin precedentes.</p>\n<p>ELITe InGenius® ofrece a los laboratorios una capacidad de menú ilimitada, combinando el menú de enfermedades infecciosas CE-IVD más grande disponible en un instrumento de muestra a resultado, con una capacidad abierta real. &#8211; Procesamiento en paralelo de 1 a 12 muestras.</p>\n<ul>\n<li>Capacidad de carga del tubo primario.</li>\n<li>Conectividad a LIS de manera bidireccional.</li>\n<li>Tecnologia patentada de esferas magneticas combinada con tratamiento de muestras por ultrasonidos, termico y quimico.</li>\n<li>El mejor menú de PCR en tiempo real CE-IVD de su clase basado en la tecnología MGB.</li>\n<li>Aplicaciones cualitativas y cuantitativas.</li>\n<li>Formato unitario basado en casete.</li>\n<li>Tiempo total hasta el resultado: 2h30min dependiendo el Test o paneles.</li>\n<li>Almacenamiento de elución de ácido nucleico extraído que permite múltiples pruebas de PCR, nuevas pruebas adicionales o archivado</li>\n</ul>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/equipo-elitechg-cf826ee9.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "equipo-elitechg"
+   }
+  ],
+  "imagen": {
+   "src": "/media/equipo-elitechg-cf826ee9.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "equipo-elitechg"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "f200-analyzer",
+  "slug_wp": "f200-analyzer",
+  "nombre": "F200 Analyzer",
+  "url": "/producto/f200-analyzer/",
+  "marca": "sd-biosensor",
+  "marca_nombre": "SD BIOSENSOR",
+  "lineas": [
+   "point-of-care"
+  ],
+  "familia": [],
+  "resumen": "El analizador STANDARD F200 sirve para medir biomarcadores cuantitativos o cualitativos en fluidos corporales tales como sangre, orina, moco nasal, etc., basado en pruebas de diagnóstico in vitro en…",
+  "resumen_html": "<p>El analizador STANDARD F200 sirve para medir biomarcadores cuantitativos o cualitativos en fluidos corporales tales como sangre, orina, moco nasal, etc., basado en pruebas de diagnóstico in vitro en entornos de laboratorio y puntos de atención. El analizador es recomendado para monitorear y diagnosticar a partir de los parámetros de fluidos corporales en entornos clínicos por profesionales de la salud. El analizador debe ser utilizado con el dispositivo analizador específico producido por SD BIOSENSOR, Inc.<br />\nConectividad LIS/HIS<br />\nImpresora térmica<br />\nAlmacenamiento de 3.000 datos<br />\nOpción para conectar escaner de código de barras<br />\nConexión 220V<br />\nTroughtput: 50 test/h<br />\n7” LCD touch screen<br />\n2,7 Kg<br />\nTest: 1 a 1<br />\ndimensiones: 200 x 240 x 205 mm<br />\nCondiciones de operacion 15-32°C / 10-93% H</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/f200-analyzer-d3dbab46.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "F200 Analyzer"
+   }
+  ],
+  "imagen": {
+   "src": "/media/f200-analyzer-d3dbab46.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "F200 Analyzer"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "f2400-analyzer",
+  "slug_wp": "f2400-analyzer",
+  "nombre": "F2400 Analyzer",
+  "url": "/producto/f2400-analyzer/",
+  "marca": "sd-biosensor",
+  "marca_nombre": "SD BIOSENSOR",
+  "lineas": [
+   "point-of-care"
+  ],
+  "familia": [],
+  "resumen": "El analizador STANDARD F200 sirve para medir biomarcadores cuantitativos o cualitativos en fluidos corporales tales como sangre, orina, moco nasal, etc., basado en pruebas de diagnóstico in vitro en…",
+  "resumen_html": "<p>El analizador STANDARD F200 sirve para medir biomarcadores cuantitativos o cualitativos en fluidos corporales tales como sangre, orina, moco nasal, etc., basado en pruebas de diagnóstico in vitro en entornos de laboratorio y puntos de atención. El analizador es recomendado para monitorear y diagnosticar a partir de los parámetros de fluidos corporales en entornos clínicos por profesionales de la salud. El analizador debe ser utilizado con el dispositivo analizador específico producido por SD BIOSENSOR, Inc.<br />\nConectividad LIS/HIS<br />\nImpresora térmica<br />\nAlmacenamiento de 5.000 datos<br />\nOpción para conectar escaner de código de barras<br />\nConexión 220V<br />\nTroughtput: 70 test/h<br />\n10” LCD touch screen<br />\n20 Kg<br />\nTest: hasta 24 al tiempo<br />\ndimensiones: 510cm x 566cm x 297cm<br />\nCondiciones de operacion 15-32°C / 10-93% H</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/f2400-analyzer-c74a7cce.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "F2400 Analyzer"
+   }
+  ],
+  "imagen": {
+   "src": "/media/f2400-analyzer-c74a7cce.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "F2400 Analyzer"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "gemini",
+  "slug_wp": "gemini",
+  "nombre": "Gemini",
+  "url": "/producto/gemini/",
+  "marca": "stratec",
+  "marca_nombre": "Stratec",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "El Gemini está disponible como un instrumento de procesamiento EIA. Al proporcionar la máxima flexibilidad y los estándares de calidad actuales, el sistema está diseñado para simplificar las rutinas…",
+  "resumen_html": "<p>El Gemini está disponible como un instrumento de procesamiento EIA. Al proporcionar la máxima flexibilidad y los estándares de calidad actuales, el sistema está diseñado para simplificar las rutinas diarias en los laboratorios.</p>\n<p>PROCESADOR DE MICROPLACAS TOTALMENTE AUTOMATIZADO PARA APLICACIONES DE BAJO RENDIMIENTO</p>\n<ul>\n<li>Sistema de abandono total</li>\n<li>Modularidad – sistema abierto</li>\n<li>Facilidad de uso, instalación y mantenimiento.</li>\n<li>Rendimiento del ensayo con puntas desechables</li>\n<li>Alta seguridad de proceso con triple control de pipeteo</li>\n<li>Programación conveniente de protocolos de ensayo</li>\n<li>El sistema cumple con la directiva de diagnóstico in vitro 98/79/CE.</li>\n</ul>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/gemini-aesku-1-c723f029.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Gemini-aesku-1"
+   }
+  ],
+  "imagen": {
+   "src": "/media/gemini-aesku-1-c723f029.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Gemini-aesku-1"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "helmed-copia",
+  "slug_wp": "helmed-copia",
+  "nombre": "Helia",
+  "url": "/producto/helmed-copia/",
+  "marca": "aesku",
+  "marca_nombre": "AESKU",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "HELIA® es el analizador automatizado de alto rendimiento que revoluciona el procesamiento de inmunoensayos en línea (BLOT e IFA). Este sistema compacto no solo realiza todos los pasos del ensayo…",
+  "resumen_html": "<p>HELIA® es el analizador automatizado de alto rendimiento que revoluciona el procesamiento de inmunoensayos en línea (BLOT e IFA). Este sistema compacto no solo realiza todos los pasos del ensayo, sino que también integra un módulo de cámara de 5 megapíxeles para la lectura y el informe automático de resultados.</p>\n<p>Diseñado para simplificar y estandarizar tus pruebas de immunoblot con mínimo espacio y fácil implementación, HELIA® es tu solución &#8220;walk-away&#8221;.</p>\n<p>Beneficios Clave y Capacidades:</p>\n<p>Alta Productividad: Procesamiento de hasta 40 tiras y hasta 9 protocolos AESKUBLOTS® por corrida.<br />\nResultados Rápidos: Obtén hasta 1600 resultados en solo 3.5 horas.<br />\nSeguridad y Trazabilidad:<br />\nLector de código de barras integrado para identificación de muestras.<br />\nDetección inicial de nivel de reactivos para un flujo de trabajo sin interrupciones.<br />\nComunicación LIS bidireccional para una gestión de datos fluida.<br />\nDiseño Óptimo: Su forma compacta (65 x 57 x 75 cm) lo hace ideal para cualquier laboratorio.</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/helia-aesku-dab7ffc8.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Helia-aesku"
+   },
+   {
+    "src": "/media/helia-aesku-1-8df91487.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Helia-aesku-1"
+   }
+  ],
+  "imagen": {
+   "src": "/media/helia-aesku-dab7ffc8.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Helia-aesku"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "helios-convencional",
+  "slug_wp": "helios-convencional",
+  "nombre": "Helios convencional",
+  "url": "/producto/helios-convencional/",
+  "marca": "aesku",
+  "marca_nombre": "AESKU",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "El HELIOS es una nueva plataforma revolucionaria que emplea tecnología de inmunofluorescencia automatizada (IFA) para procesar y analizar muestras de pacientes. Es la primera plataforma de…",
+  "resumen_html": "<p>El HELIOS es una nueva plataforma revolucionaria que emplea tecnología de inmunofluorescencia automatizada (IFA) para procesar y analizar muestras de pacientes. Es la primera plataforma de diagnóstico clínico que ofrece automatización del proceso de IFA en este grado.El HELIOS es un sistema automatizado para el procesamiento de inmunofluorescencia con captura de imágenes, con un microscopio de fluorescencia integrado y software. Los resultados deben ser confirmados por un usuario capacitado. Es el primer y único sistema que realiza este proceso de manera continua de principio a fin.El HELIOS aborda y supera plenamente las limitaciones conocidas de la IFA, permitiendo al usuario adoptarlo como el método de referencia para la detección de autoinmunidad. El HELIOS se utiliza actualmente en 29 países de todo el mundo.</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/helios-convencional-2-1a855ef9.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Helios convencional 2"
+   },
+   {
+    "src": "/media/helios-convencional-fc9803e4.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Helios convencional"
+   }
+  ],
+  "imagen": {
+   "src": "/media/helios-convencional-2-1a855ef9.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Helios convencional 2"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "helios",
+  "slug_wp": "helios",
+  "nombre": "Helios HTC",
+  "url": "/producto/helios/",
+  "marca": "aesku",
+  "marca_nombre": "AESKU",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "El HELIOS HTC es un sistema automatizado revolucionario diseñado para llevar a cabo pruebas de Inmunofluorescencia Indirecta (IFI) de principio a fin, desde el pipeteo hasta la captura de imágenes…",
+  "resumen_html": "<p>El HELIOS HTC es un sistema automatizado revolucionario diseñado para llevar a cabo pruebas de Inmunofluorescencia Indirecta (IFI) de principio a fin, desde el pipeteo hasta la captura de imágenes.<br />\nEs un sistema todo en uno que automatiza todos los pasos de la metodología de diagnóstico IFI, incluyendo:<br />\nPreparación de diluciones de muestras.<br />\nIncubación controlada pozo a pozo.<br />\nLavado por ciclos que evita la contaminación cruzada.<br />\nAdición automática del medio de montaje.<br />\nCaptura digital automatizada de imágenes.<br />\nMódulo HTC (Control de Humedad y Temperatura): El módulo HTC regula y controla las condiciones internas de humedad y temperatura durante el procesamiento de las pruebas, independientemente de las variaciones microclimáticas del laboratorio. Esto asegura una mayor estandarización, exactitud y reproducibilidad de los resultados, lo cual es crucial para la metodología IFI.<br />\nPuede procesar hasta 190 muestras con códigos de barras por corrida.<br />\nSoporta hasta 20 portaobjetos.<br />\nPermite hasta 4 ensayos diferentes con diferentes conjugados por corrida.<br />\nSistema Integrado de Imagen y Análisis de Software:<br />\nIncorpora un microscopio LED con captura de imagen digital automatizada.<br />\nPosee una amplia biblioteca digital de patrones y atlas de referencia que asisten en la clasificación de resultados.<br />\nOfrece una &#8220;vista del paciente&#8221; que muestra todos los resultados en una sola pantalla para facilitar la interpretación.<br />\nReduce la imprecisión general en comparación con la interpretación manual.<br />\nEficiencia y Estandarización del Flujo de Trabajo:<br />\nReduce significativamente la intervención manual, liberando tiempo del personal de laboratorio.<br />\nLa gestión de líquidos pozo a pozo asegura tiempos de incubación consistentes.<br />\nLos lectores de códigos de barras garantizan la trazabilidad completa de muestras y portaobjetos, minimizando errores de transcripción.<br />\nSu diseño compacto integra el procesamiento y la lectura de portaobjetos en un solo sistema, eliminando la necesidad de un cuarto oscuro y optimizando el espacio del laboratorio.<br />\n</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/helios-htc-8e1181c3.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Helios HTC"
+   }
+  ],
+  "imagen": {
+   "src": "/media/helios-htc-8e1181c3.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Helios HTC"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "helmed",
+  "slug_wp": "helmed",
+  "nombre": "Helmed",
+  "url": "/producto/helmed/",
+  "marca": "aesku",
+  "marca_nombre": "AESKU",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "HELMED es un analizador automatizado compacto, flexible y de alto rendimiento, diseñado para el procesamiento eficiente de pruebas de inmunofluorescencia (IFA). Su plataforma abierta se adapta a tus…",
+  "resumen_html": "<p>HELMED es un analizador automatizado compacto, flexible y de alto rendimiento, diseñado para el procesamiento eficiente de pruebas de inmunofluorescencia (IFA). Su plataforma abierta se adapta a tus necesidades.</p>\n<p>Capacidad: Hasta 190 muestras y 20 portaobjetos por corrida.<br />\nIdentificación: Lector de códigos de barras multitipo integrado.<br />\nVersatilidad: Procesa hasta 4 pruebas diferentes con distintos sustratos y conjugados en una sola corrida.<br />\nFlujo Simplificado: Diluciones directas en placa de microtitulación y transferencias automáticas a los portaobjetos.<br />\nPrecisión Garantizada: Gestión individual de pocillos para incubaciones uniformes y lavado por ciclos que evita la contaminación cruzada.<br />\nControl Ajustable: Parámetros de lavado flexibles (altura de aguja, velocidad, ciclos) para resultados uniformes.</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/helmed-aesku-1-ca662b64.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Helmed-aesku-1"
+   },
+   {
+    "src": "/media/helmed-aesku-b6df3d0f.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Helmed-aesku"
+   }
+  ],
+  "imagen": {
+   "src": "/media/helmed-aesku-1-ca662b64.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Helmed-aesku-1"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "m10-console",
+  "slug_wp": "m10-console",
+  "nombre": "M10 CONSOLE",
+  "url": "/producto/m10-console/",
+  "marca": "sd-biosensor",
+  "marca_nombre": "SD BIOSENSOR",
+  "lineas": [
+   "point-of-care"
+  ],
+  "familia": [],
+  "resumen": "El STANDARD M10 es un sistema MDx que mide biomarcadores cuantitativos o cualitativos a partir de muestras humanas. El sistema extrae y amplifica automáticamente los ácidos nucleicos (ADN, ARN) para…",
+  "resumen_html": "<p>El STANDARD M10 es un sistema MDx que mide biomarcadores cuantitativos o cualitativos a partir de muestras humanas. El sistema extrae y amplifica automáticamente los ácidos nucleicos (ADN, ARN) para el diagnóstico molecular de las muestras recogidas y analiza los datos de amplificación en tiempo real.</p>\n<p>Interfaz gráfica de usuario fácil de usar con guía animada</p>\n<ul>\n<li>Conectividad sin interrupciones con HIS/LIS</li>\n<li>Memoria de hasta 10,000 pruebas con valores Ct &amp;</li>\n<li>Curvas de amplificación</li>\n<li>Pantalla táctil de 10,1&#8243;</li>\n<li>Configuración personalizada de hasta 8 módulos</li>\n<li>Minimización de los requisitos de mantenimiento</li>\n<li>Indicador de estado intuitivo</li>\n<li>Tamaño reducido</li>\n<li>Lector de código de barras incluido</li>\n</ul>\n<p>Dimensiones: 14 x 33 x 32 cm<br />\n</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/m10-console-74137df9.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "M10 CONSOLE"
+   }
+  ],
+  "imagen": {
+   "src": "/media/m10-console-74137df9.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "M10 CONSOLE"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "🔬-minipcr-mini16x-thermal-cycler",
+  "slug_wp": "%f0%9f%94%ac-minipcr-mini16x-thermal-cycler",
+  "nombre": "MiniPCR® mini16X Thermal Cycler",
+  "url": "/producto/🔬-minipcr-mini16x-thermal-cycler/",
+  "marca": "amplyus",
+  "marca_nombre": "AMPLYUS",
+  "lineas": [
+   "investigacion"
+  ],
+  "familia": [],
+  "resumen": "Versión ampliada que ofrece 16 pocillos, conectividad USB y Bluetooth, y ultraliviano (<380 g). Perfecto para investigación o entornos educativos con mayor demanda",
+  "resumen_html": "<p>Versión ampliada que ofrece 16 pocillos, conectividad USB y Bluetooth, y ultraliviano (&lt;380 g). Perfecto para investigación o entornos educativos con mayor demanda</p>",
+  "descripcion_html": "<p>&#8220;¿Por qué elegir miniPCR®? Portabilidad total con voltaje global y diseño super compacto—ideal para aulas, campo o laboratorio . Conectividad flexible vía app móvil y de escritorio, compatible con sistemas operativos comunes. Educativo y profesional: su desempeño está validado científicamente, incluso en misiones del espacio (ISS) . Solución completa y respaldada con garantía prolongada y soporte técnico especializado.&#8221;</p>",
+  "imagenes": [
+   {
+    "src": "/media/minipcr-mini16x-thermal-cycler-1-9836a7f1.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "MiniPCR® mini16X Thermal Cycler"
+   }
+  ],
+  "imagen": {
+   "src": "/media/minipcr-mini16x-thermal-cycler-1-9836a7f1.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "MiniPCR® mini16X Thermal Cycler"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "minipcr-mini8x-thermal-cycler",
+  "slug_wp": "minipcr-mini8x-thermal-cycler",
+  "nombre": "MiniPCR® mini8X Thermal Cycler",
+  "url": "/producto/minipcr-mini8x-thermal-cycler/",
+  "marca": "amplyus",
+  "marca_nombre": "AMPLYUS",
+  "lineas": [
+   "investigacion"
+  ],
+  "familia": [],
+  "resumen": "” Un termociclador compacto de 8 pocillos (para tubos de 0,2 ml), portátil, robusto y con tapa calefactada. Se controla vía app (Windows, Mac, Android, Chrome OS) y es ideal para pequeñas corridas de…",
+  "resumen_html": "<p>&#8221; Un termociclador compacto de 8 pocillos (para tubos de 0,2 ml), portátil, robusto y con tapa calefactada. Se controla vía app (Windows, Mac, Android, Chrome OS) y es ideal para pequeñas corridas de PCR en laboratorio o campo&#8221;</p>",
+  "descripcion_html": "<p>&#8220;¿Por qué elegir miniPCR®? Portabilidad total con voltaje global y diseño super compacto—ideal para aulas, campo o laboratorio . Conectividad flexible vía app móvil y de escritorio, compatible con sistemas operativos comunes. Educativo y profesional: su desempeño está validado científicamente, incluso en misiones del espacio (ISS) . Solución completa y respaldada con garantía prolongada y soporte técnico especializado.&#8221;</p>",
+  "imagenes": [
+   {
+    "src": "/media/minipcr-mini8x-thermal-cycler-f0919906.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "miniPCR® mini8X Thermal Cycler"
+   }
+  ],
+  "imagen": {
+   "src": "/media/minipcr-mini8x-thermal-cycler-f0919906.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "miniPCR® mini8X Thermal Cycler"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "nextractor-nx-48s-sistema-automatizado-de-extraccion-de-acidos-nucleicos",
+  "slug_wp": "nextractor-nx-48s-sistema-automatizado-de-extraccion-de-acidos-nucleicos",
+  "nombre": "Nextractor® NX-48S – Sistema Automatizado de Extracción de Ácidos Nucleicos",
+  "url": "/producto/nextractor-nx-48s-sistema-automatizado-de-extraccion-de-acidos-nucleicos/",
+  "marca": "genolution",
+  "marca_nombre": "GENOLUTION",
+  "lineas": [
+   "diagnostico-molecular"
+  ],
+  "familia": [],
+  "resumen": "Nextractor® NX-48S – Sistema Automatizado de Extracción de Ácidos Nucleicos",
+  "resumen_html": "<p>Nextractor® NX-48S – Sistema Automatizado de Extracción de Ácidos Nucleicos</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/nextractor-nx-48s-sistema-automatizado-de-extraccion-de-acid-de38124c.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Nextractor® NX-48S – Sistema Automatizado de Extracción de Ácidos Nucleicos"
+   }
+  ],
+  "imagen": {
+   "src": "/media/nextractor-nx-48s-sistema-automatizado-de-extraccion-de-acid-de38124c.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Nextractor® NX-48S – Sistema Automatizado de Extracción de Ácidos Nucleicos"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "optilite",
+  "slug_wp": "optilite",
+  "nombre": "Optilite®",
+  "url": "/producto/optilite/",
+  "marca": "binding-site",
+  "marca_nombre": "BINDING SITE",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "Optilite® es la nueva generación de analizadores de proteínas especiales. Está totalmente optimizado para simplificar los complejos procesos analíticos. Es la culminación de más de 25 años de la…",
+  "resumen_html": "<p>Optilite® es la nueva generación de analizadores de proteínas especiales. Está totalmente optimizado para simplificar los complejos procesos analíticos. Es la culminación de más de 25 años de la investigación más puntera por parte de Binding Site, líderes globales en proteínas especiales.Optilite® combina una amplia gama de características de funcionamiento inteligente para aportarle un nuevo nivel de eficiencia, optimización del flujo de trabajo y confianza en los resultados.</p>\n<p>Desarrollado como respuesta a unas necesidades cambiantes, Optilite es el sucesor natural de los analizadores de proteínas existentes. Al integrar una potente tecnología y un software inteligente, se trata de la solución perfecta para el laboratorio de proteínas de hoy en día.&#8221;</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/optilite-eca1ae63.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Optilite®"
+   }
+  ],
+  "imagen": {
+   "src": "/media/optilite-eca1ae63.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Optilite®"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "preparacion-de-muestras",
+  "slug_wp": "preparacion-de-muestras",
+  "nombre": "Preparación de Muestras",
+  "url": "/producto/preparacion-de-muestras/",
+  "marca": "mp-biomedicals",
+  "marca_nombre": "MP BIOMEDICALS",
+  "lineas": [
+   "investigacion"
+  ],
+  "familia": [],
+  "resumen": "“Descubre la línea de Sample Preparation de MP Biomedicals, una solución avanzada para optimizar tu flujo de trabajo desde el inicio del experimento. Este portafolio ofrece desde equipos como el…",
+  "resumen_html": "<p>&#8220;Descubre la línea de Sample Preparation de MP Biomedicals, una solución avanzada para optimizar tu flujo de trabajo desde el inicio del experimento. Este portafolio ofrece desde equipos como el potente FastPrep‑24 (con opciones portátiles y de alto rendimiento) hasta una variedad de matrices de lisado (tubos de 2 mL a 50 mL), diseñadas con distintos tipos de perlas (vidrio, sílice, acero inoxidable, garnet) para homogenizar eficazmente células, tejidos, suelo, esporas y muestras ambientales Además, incluye kits especializados como el FastDNA™ SPIN, que facilitan la extracción de ADN y ARN libre de inhibidores, incluso en muestras complejas como suelos y aguas residuales Con una integración completa de instrumento, tubos adaptados y reactivos específicos, MP Biomedicals asegura rapidez, reproducibilidad y alta calidad de muestra. Las matrices de lisado se seleccionan según tipo y volumen de muestra, brindando homogeneización eficiente en segundos, sin desgaste químico ni contaminación cruzada Este sistema modular permite escalar desde estudios puntuales hasta procesos de alto rendimiento, con soporte técnico experto y documentación detallada.&#8221;</p>",
+  "descripcion_html": "<p>Explora nuestro portafolio de Sample Preparation de MP Biomedicals y equipa tu laboratorio con tecnología confiable, versátil y certificada: la base sólida para obtener resultados robustos en biología molecular, ambientales o celulares.</p>",
+  "imagenes": [
+   {
+    "src": "/media/preparacion-de-muestras-17846cee.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "Preparación de Muestras"
+   }
+  ],
+  "imagen": {
+   "src": "/media/preparacion-de-muestras-17846cee.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "Preparación de Muestras"
+  },
+  "es_equipo": true
+ },
+ {
+  "slug": "virclia-lotus",
+  "slug_wp": "virclia-lotus",
+  "nombre": "VirClia® Lotus",
+  "url": "/producto/virclia-lotus/",
+  "marca": "vircell",
+  "marca_nombre": "VIRCELL",
+  "lineas": [
+   "diagnostico"
+  ],
+  "familia": [],
+  "resumen": "El VirClia LOTUS™ es un analizador, con software de aplicación “Lotus” integrado, diseñado para la automatización delas técnicas de diagnóstico médico realizadas con inmunoensayos in vitro de…",
+  "resumen_html": "<p>El VirClia LOTUS™ es un analizador, con software de aplicación &#8220;Lotus&#8221; integrado, diseñado para la automatización delas técnicas de diagnóstico médico realizadas con inmunoensayos in vitro de quimioluminiscencia (CLIA), en dispositi-vos especiales llamados VirClia® Monotest (tiras VirClia).</p>",
+  "descripcion_html": "",
+  "imagenes": [
+   {
+    "src": "/media/equipo-vircell-5c02100b.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "equipo-vircell"
+   },
+   {
+    "src": "/media/virclia-lotus-3f157b4c.webp",
+    "w": 1000,
+    "h": 1000,
+    "alt": "VirClia® Lotus"
+   }
+  ],
+  "imagen": {
+   "src": "/media/equipo-vircell-5c02100b.webp",
+   "w": 1000,
+   "h": 1000,
+   "alt": "equipo-vircell"
+  },
+  "es_equipo": true
+ }
+]

@@ -1,0 +1,14 @@
+---
+/**
+ * Foto editable in situ (src, alt y encuadre). Conserva width/height/loading del código.
+ *   <EdImg id="home_nosotros_foto" src="/img/nosotros.jpg" alt="…" width="900" height="900" loading="lazy" />
+ */
+import { ed } from '../lib/contenido';
+interface Props { id: string; src: string; alt: string; [k: string]: any }
+const { id, src, alt, style, ...rest } = Astro.props;
+const d = ed(id);
+const srcFinal = d.content || src;
+const altFinal = typeof d.alt === 'string' && d.alt ? d.alt : alt;
+const estilo = [style, d.pos ? `object-position:${d.pos}` : ''].filter(Boolean).join(';') || undefined;
+---
+<img data-ed-img={id} data-ed-orig={src} data-ed-orig-alt={alt} src={srcFinal} alt={altFinal} style={estilo} {...rest} />

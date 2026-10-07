@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Miga from '../components/Miga.astro';
+import Icon from '../components/Icon.astro';
+import FormularioContacto from '../components/FormularioContacto.astro';
+import Ed from '../components/Ed.astro';
+import EdLink from '../components/EdLink.astro';
+import { sitio } from '../lib/data';
+import { migas } from '../lib/seo';
+const ruta = [{ nombre: 'Contáctenos', url: '/contactenos/' }];
+const ld = [migas(ruta), { '@context': 'https://schema.org', '@type': 'ContactPage', url: `${sitio.url}/contactenos/`, mainEntity: { '@id': `${sitio.url}/#organizacion` } }];
+---
+<Base title="Contáctenos" description="Cotizaciones, demostraciones de equipos, soporte técnico y capacitación. Escríbenos o llámanos: un asesor comercial y científico te responde el mismo día hábil." jsonld={ld} editable="contactenos">
+  <section class="seccion"><div class="wrap contacto">
+    <div>
+      <Miga items={ruta} /><Ed id="contacto_eyebrow" class="eyebrow">Contáctenos</Ed><Ed id="contacto_titulo" as="h1">Hablemos de lo que necesita tu laboratorio</Ed>
+      <Ed id="contacto_lead" as="p" class="lead">Un asesor comercial y científico te responde en el mismo día hábil. Cotizaciones, demostraciones de equipos, soporte técnico y capacitación.</Ed>
+      <ul class="canales">
+        <li><Icon name="telefono" size={20} /><div><Ed id="contacto_pbx_titulo" as="b">PBX</Ed><EdLink id="contacto_pbx" href={`tel:${sitio.pbx_tel}`}><Ed id="contacto_pbx">{sitio.pbx}</Ed></EdLink></div></li>
+        <li><Icon name="whatsapp" size={20} /><div><Ed id="contacto_whatsapp_titulo" as="b">WhatsApp comercial</Ed><EdLink id="contacto_whatsapp" href="https://wa.me/573000000000" rel="noopener"><Ed id="contacto_whatsapp">Escríbenos</Ed></EdLink></div></li>
+        <li><Icon name="correo" size={20} /><div><Ed id="contacto_correo_titulo" as="b">Correo</Ed><EdLink id="contacto_correo" href={`mailto:${sitio.correo}`}><Ed id="contacto_correo">{sitio.correo}</Ed></EdLink></div></li>
+        <li><Icon name="ubicacion" size={20} /><div><Ed id="contacto_sede_titulo" as="b">Sede</Ed><Ed id="contacto_sede">{sitio.direccion}</Ed></div></li>
+        <li><Icon name="calendario" size={20} /><div><Ed id="contacto_horario_titulo" as="b">Horario</Ed><Ed id="contacto_horario">Lunes a viernes, 8:00 a. m. – 5:00 p. m.</Ed></div></li>
+      </ul>
+      <p class="muted otros">¿Buscas otra cosa? <a href="/trabaja-con-nosotros/">Trabaja con nosotros</a> · <a href="/vinculacion/">Vinculación de proveedores</a> · <a href="/linea-de-transparencia/">Línea de Transparencia</a> · <a href="/politica-de-denuncias-y-no-retaliacion/">Denuncias</a></p>
+    </div>
+    <FormularioContacto />
+  </div></section>
+</Base>
+<style>
+  .contacto { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--s-8); align-items: start; }
+  h1 { font-size: var(--t-3xl); margin-bottom: var(--s-4); }
+  .lead { color: var(--ink-2); font-size: var(--t-lg); margin-bottom: var(--s-6); }
+  .canales { list-style: none; margin: 0 0 var(--s-6); padding: 0; display: grid; gap: var(--s-4); }
+  .canales li { display: flex; gap: var(--s-3); align-items: flex-start; }
+  .canales svg { color: var(--action); flex: none; margin-top: .125rem; }
+  .canales b { display: block; font-family: var(--f-display); font-size: var(--t-sm); color: var(--marca); }
+  .otros { font-size: var(--t-sm); }
+  @media (max-width: 860px) { .contacto { grid-template-columns: 1fr; } }
+</style>

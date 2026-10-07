@@ -1,0 +1,43 @@
+/* Movimiento web en 3 capas (skill movimiento-web). Solo transform/translate/scale/opacity; nada rebota.
+   Capa 1: CSS + motion.ts en todo el sitio · Capa 2: View Transitions · Capa 3: GSAP solo en la home. */
+
+/* Aparición al hacer scroll (una sola vez). motion.ts marca data-rv="0" solo lo que está bajo el primer pantallazo. */
+.rv-on [data-rv="0"] { opacity: 0; translate: 0 1.5rem; }
+.rv-on [data-rv="1"] { opacity: 1; translate: 0 0;
+  transition: opacity 800ms var(--ease-out) var(--rv-d, 0ms), translate 800ms var(--ease-out) var(--rv-d, 0ms); }
+
+/* Tilt 3D: solo con mouse. Se inclina la foto, nunca el texto. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [data-tilt] { transform: perspective(56rem) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) translateZ(0);
+    transition: transform 420ms var(--ease-out), box-shadow 420ms var(--ease-out); transform-style: preserve-3d; }
+  [data-tilt][data-tilting] { transition: transform 120ms linear, box-shadow 200ms var(--ease-out);
+    box-shadow: 0 1.25rem 2.5rem -1.25rem rgba(0,26,77,.35); will-change: transform; }
+  [data-tilt-glare] { position: relative; }
+  [data-tilt-glare]::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 1;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.22), rgba(255,255,255,0) 55%);
+    opacity: 0; transition: opacity 320ms var(--ease-out); }
+  [data-tilt-glare][data-tilting]::after { opacity: 1; }
+}
+
+/* Parallax con CSS nativo: solo fotos, nunca texto. El contenedor lleva overflow: hidden. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-parallax] { scale: 1.1; animation: mv-parallax linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+  }
+}
+@keyframes mv-parallax { from { translate: 0 -4.5%; } to { translate: 0 4.5%; } }
+
+/* Capa 2: transición entre páginas. El navbar queda quieto; la foto del post "vuela" a su portada. */
+@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }
+.cabecera-sitio { view-transition-name: site-nav; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--dur-3); animation-timing-function: var(--ease-out); }
+::view-transition-group(vt-hero) { animation-duration: 420ms; animation-timing-function: var(--ease-out); }
+::view-transition-old(vt-hero), ::view-transition-new(vt-hero) { height: 100%; width: 100%; object-fit: cover; overflow: clip; }
+
+/* Capa 3: evitar el parpadeo antes de la coreografía GSAP */
+.gsap-wait [data-gsap-hide] { visibility: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-on [data-rv] { opacity: 1 !important; translate: none !important; transition: none !important; }
+  .gsap-wait [data-gsap-hide] { visibility: visible; }
+}

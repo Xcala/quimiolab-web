@@ -1,0 +1,111 @@
+---
+import LogoQuimiolab from './LogoQuimiolab.astro';
+import Icon from './Icon.astro';
+import { sitio, lineas, marcasConCatalogo } from '../lib/data';
+const ruta = Astro.url.pathname;
+const activo = (p: string) => (ruta === p || (p !== '/' && ruta.startsWith(p)) ? 'page' : undefined);
+const menu = [
+  { nombre: 'Soluciones', url: '/soluciones/', sub: lineas.map((l) => ({ nombre: l.nombre, url: l.url })) },
+  { nombre: 'Marcas', url: '/marcas/', sub: marcasConCatalogo.slice(0, 8).map((m) => ({ nombre: m.nombre, url: m.url })).concat([{ nombre: 'Ver las 26 marcas', url: '/marcas/' }]) },
+  { nombre: 'Equipos', url: '/equipos/' },
+  { nombre: 'Productos', url: '/productos/' },
+  { nombre: 'Nosotros', url: '/nosotros/' },
+  { nombre: 'Blog', url: '/blog/' },
+];
+---
+<div class="barra-superior">
+  <div class="wrap">
+    <div class="grupo">
+      <a href={`tel:${sitio.pbx_tel}`}><Icon name="telefono" size={14} /> PBX {sitio.pbx}</a>
+      <a href={`mailto:${sitio.correo}`}><Icon name="correo" size={14} /> {sitio.correo}</a>
+    </div>
+    <div class="grupo secundario">
+      <a href="/trabaja-con-nosotros/">Trabaja con nosotros</a>
+      <a href="/linea-de-transparencia/">Línea de Transparencia</a>
+      <a href="/vinculacion/">Vinculación de proveedores</a>
+    </div>
+  </div>
+</div>
+<header class="cabecera-sitio">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Quimiolab — inicio"><LogoQuimiolab /></a>
+    <nav class="menu" aria-label="Principal" id="menu-principal">
+      <ul>
+        {menu.map((it) => (
+          <li class={it.sub ? 'con-sub' : ''}>
+            <a href={it.url} aria-current={activo(it.url)}>{it.nombre}{it.sub && <Icon name="chevron" size={12} />}</a>
+            {it.sub && (
+              <ul class="sub">
+                {it.sub.map((s) => <li><a href={s.url}>{s.nombre}</a></li>)}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="acciones">
+      <a class="icono" href="/buscar/" aria-label="Buscar en el catálogo"><Icon name="buscar" size={18} /></a>
+      <button class="icono" type="button" id="tema" role="switch" aria-checked="false" aria-label="Activar modo oscuro">
+        <span class="sol"><Icon name="sol" size={18} /></span><span class="luna"><Icon name="luna" size={18} /></span>
+      </button>
+      <a class="btn btn-primario cta" href="/contactenos/?tema=cotizacion"><Icon name="cotizar" size={16} /> Cotizar</a>
+      <button class="icono hamburguesa" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-principal"><Icon name="menu" size={20} /></button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .barra-superior { background: var(--navy-2); color: var(--navy-ink-2); font-size: var(--t-sm); }
+  .barra-superior .wrap { display: flex; justify-content: space-between; align-items: center; min-height: 2.25rem; gap: var(--s-4); flex-wrap: wrap; }
+  .barra-superior .grupo { display: flex; gap: var(--s-5); flex-wrap: wrap; }
+  .barra-superior a { color: inherit; display: inline-flex; align-items: center; gap: var(--s-1); padding-block: .25rem; }
+  .barra-superior a:hover { color: #fff; }
+  @media (max-width: 760px) { .barra-superior .secundario { display: none; } }
+
+  .cabecera-sitio { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--navy) 90%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--navy-linea); color: #fff; }
+  .cabecera-sitio .wrap { display: flex; align-items: center; gap: var(--s-6); min-height: 4.75rem; }
+  .logo { color: #fff; width: 11.875rem; flex: none; display: block; }
+  .menu { margin-left: auto; }
+  .menu > ul { list-style: none; margin: 0; padding: 0; display: flex; gap: .25rem; }
+  .menu li { position: relative; }
+  .menu a { color: #fff; padding: .625rem .875rem; font-weight: 500; font-size: 0.9375rem; border-radius: var(--r-sm); display: inline-flex; align-items: center; gap: .375rem; }
+  .menu a:hover, .menu a[aria-current] { background: rgba(255,255,255,.08); color: #fff; }
+  .menu a[aria-current] { box-shadow: inset 0 -2px 0 var(--azul-500); }
+  .sub { list-style: none; margin: 0; padding: .5rem; position: absolute; top: 100%; left: 0; min-width: 14rem; background: var(--card); color: var(--ink); border: 1px solid var(--linea); border-radius: var(--r-md); box-shadow: var(--sombra-2); opacity: 0; visibility: hidden; transform: translateY(.25rem); transition: opacity var(--dur-2), transform var(--dur-2), visibility var(--dur-2); }
+  .sub a { color: var(--ink); display: block; font-weight: 400; padding: .5rem .75rem; }
+  .sub a:hover { background: var(--canvas-2); color: var(--action); box-shadow: none; }
+  .con-sub:hover > .sub, .con-sub:focus-within > .sub { opacity: 1; visibility: visible; transform: none; }
+  .acciones { display: flex; gap: .625rem; align-items: center; }
+  .icono { width: 2.625rem; height: 2.625rem; border-radius: var(--r-md); border: 1px solid var(--navy-linea); display: grid; place-items: center; color: #fff; background: transparent; cursor: pointer; }
+  .icono:hover { background: rgba(255,255,255,.08); color: #fff; }
+  #tema .luna { display: none; }
+  #tema[aria-checked="true"] .sol { display: none; }
+  #tema[aria-checked="true"] .luna { display: block; }
+  .hamburguesa { display: none; }
+  @media (max-width: 1100px) {
+    .menu, .cta { display: none; }
+    .hamburguesa { display: grid; }
+    .cabecera-sitio.abierta .menu { display: block; position: absolute; left: 0; right: 0; top: 100%; background: var(--navy); border-bottom: 1px solid var(--navy-linea); padding: var(--s-4) var(--gutter) var(--s-6); max-height: calc(100vh - 5rem); overflow: auto; }
+    .cabecera-sitio.abierta .menu > ul { flex-direction: column; gap: 0; }
+    .cabecera-sitio.abierta .menu a { padding: .875rem .5rem; font-size: var(--t-lg); border-radius: 0; border-bottom: 1px solid var(--navy-linea); display: flex; justify-content: space-between; }
+    .cabecera-sitio.abierta .sub { position: static; opacity: 1; visibility: visible; transform: none; background: transparent; border: 0; box-shadow: none; padding: 0 0 .5rem 1rem; }
+    .cabecera-sitio.abierta .sub a { color: var(--navy-ink-2); font-size: var(--t-md); border: 0; padding: .5rem; }
+  }
+</style>
+
+<script>
+  const boton = document.getElementById('tema') as HTMLButtonElement | null;
+  const raiz = document.documentElement;
+  const esOscuro = () => raiz.getAttribute('data-theme') === 'dark' || (!raiz.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+  const pintar = () => { if (!boton) return; const d = esOscuro(); boton.setAttribute('aria-checked', String(d)); boton.setAttribute('aria-label', d ? 'Activar modo claro' : 'Activar modo oscuro'); };
+  boton?.addEventListener('click', () => {
+    const nuevo = esOscuro() ? 'light' : 'dark';
+    raiz.setAttribute('data-theme', nuevo);
+    try { localStorage.setItem('ql-tema', nuevo); } catch {}
+    pintar();
+  });
+  pintar();
+  const ham = document.querySelector('.hamburguesa') as HTMLButtonElement | null;
+  const cab = document.querySelector('.cabecera-sitio');
+  ham?.addEventListener('click', () => { const ab = cab?.classList.toggle('abierta'); ham.setAttribute('aria-expanded', String(!!ab)); ham.setAttribute('aria-label', ab ? 'Cerrar menú' : 'Abrir menú'); });
+</script>

@@ -1,0 +1,17 @@
+---
+/** Imagen del CMS con width/height declarados (CLS) y carga diferida. Mientras no corra la Fase E
+ *  (descarga a WebP), apunta a la URL original; image-map.json la traducirá después. */
+interface Props { img: { src: string; w?: number | null; h?: number | null; alt?: string } | null; alt?: string; class?: string; sizes?: string; eager?: boolean; cuadrada?: boolean; id?: string }
+const { img, alt, class: cls = '', eager = false, cuadrada = false, id } = Astro.props;
+const w = img?.w ?? (cuadrada ? 600 : 1200);
+const h = img?.h ?? (cuadrada ? 600 : 800);
+---
+{img ? (
+  <img id={id} src={img.src} alt={alt ?? img.alt ?? ''} width={w} height={h} class={cls} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+) : (
+  <div class={`sin-imagen ${cls}`} aria-hidden="true"></div>
+)}
+<style>
+  img { object-fit: contain; background: #fff; }
+  .sin-imagen { aspect-ratio: 1; background: linear-gradient(160deg, var(--canvas-2), var(--card-2)); }
+</style>

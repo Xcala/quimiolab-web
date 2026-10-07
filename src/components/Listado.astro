@@ -1,0 +1,45 @@
+---
+/** Listado paginado de productos o equipos con filtros estáticos (enlaces) por marca y línea. */
+import Miga from './Miga.astro';
+import TarjetaProducto from './TarjetaProducto.astro';
+import Paginacion from './Paginacion.astro';
+import Icon from './Icon.astro';
+import { marcas, lineas } from '../lib/data';
+interface Props { titulo: string; eyebrow: string; lead: string; items: any[]; pagina: number; total: number; base: string; migas: { nombre: string; url: string }[]; filtroMarca?: boolean; filtroLinea?: boolean; tipo: 'productos' | 'equipos' }
+const { titulo, eyebrow, lead, items, pagina, total, base, migas, filtroMarca = true, filtroLinea = true, tipo } = Astro.props;
+const marcasConItems = marcas.filter((m) => (tipo === 'equipos' ? m.n_equipos : m.n_productos) > 0);
+---
+<section class="seccion listado">
+  <div class="wrap">
+    <Miga items={migas} />
+    <div class="cabecera"><div><span class="eyebrow">{eyebrow}</span><h1>{titulo}</h1></div><p class="lead">{lead}</p></div>
+    <div class="cuerpo">
+      <aside class="filtros" aria-label="Filtrar">
+        <form class="buscar" role="search" action="/buscar/" method="get"><label class="visually-hidden" for="q-listado">Buscar</label><input id="q-listado" name="q" type="search" placeholder="Buscar por nombre o referencia" /><button class="btn btn-primario btn-sm" type="submit" aria-label="Buscar"><Icon name="buscar" size={16} /></button></form>
+        {filtroLinea && <div class="grupo"><h2>Por solución</h2><ul>{lineas.map((l) => <li><a href={`${l.url}${tipo}/`} aria-current={base.startsWith(l.url) ? 'page' : undefined}>{l.nombre}</a></li>)}</ul></div>}
+        {filtroMarca && <div class="grupo"><h2>Por marca</h2><ul>{marcasConItems.map((m) => <li><a href={m.url}><span class="punto" style={`background:${m.color}`}></span>{m.nombre} <small class="tabular">{tipo === 'equipos' ? m.n_equipos : m.n_productos}</small></a></li>)}</ul></div>}
+      </aside>
+      <div>
+        <p class="conteo muted">Página {pagina} de {total}</p>
+        {items.length ? <div class="grid grid-3">{items.map((p) => <TarjetaProducto item={p} />)}</div> : <div class="vacio"><Icon name="producto" /><p>No hay referencias en esta selección todavía.</p></div>}
+        <Paginacion actual={pagina} total={total} base={base} />
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  h1 { font-size: var(--t-3xl); }
+  .cuerpo { display: grid; grid-template-columns: 16rem minmax(0, 1fr); gap: var(--s-6); align-items: start; }
+  .filtros { position: sticky; top: 6rem; display: grid; gap: var(--s-5); }
+  .buscar { display: flex; gap: .5rem; }
+  .buscar input { flex: 1; min-width: 0; font: inherit; font-size: var(--t-sm); padding: .5rem .75rem; border: 1px solid var(--linea-fuerte); border-radius: var(--r-md); background: var(--canvas); color: var(--ink); }
+  .grupo h2 { font-size: var(--t-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin-bottom: .5rem; }
+  .grupo ul { list-style: none; margin: 0; padding: 0; display: grid; }
+  .grupo a { display: flex; align-items: center; gap: .5rem; padding: .4rem .5rem; border-radius: var(--r-sm); color: var(--ink); font-size: var(--t-sm); }
+  .grupo a:hover { background: var(--canvas-2); color: var(--action); }
+  .grupo a[aria-current] { background: var(--chip); color: var(--chip-ink); font-weight: 500; }
+  .grupo small { margin-left: auto; color: var(--ink-3); }
+  .punto { width: .5rem; height: .5rem; border-radius: 50%; flex: none; }
+  .conteo { font-size: var(--t-sm); margin-bottom: var(--s-3); }
+  @media (max-width: 900px) { .cuerpo { grid-template-columns: 1fr; } .filtros { position: static; } .grupo ul { display: flex; flex-wrap: wrap; gap: .25rem; } .grupo small { margin-left: .25rem; } }
+</style>

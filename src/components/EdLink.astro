@@ -1,0 +1,13 @@
+---
+/**
+ * Enlace/botón con destino editable. El texto va adentro como <Ed as="span" />.
+ *   <EdLink id="home_hero_btn_cotizar" href="/contactenos/?tema=cotizacion" class="btn btn-primario"><Icon … /> <Ed id="home_hero_btn_cotizar" as="span">Solicitar cotización</Ed></EdLink>
+ */
+import { ed } from '../lib/contenido';
+interface Props { id: string; href: string; [k: string]: any }
+const { id, href, ...rest } = Astro.props;
+const d = ed(id);
+const hrefFinal = d.href || href;
+const externo = /^https?:\/\//.test(hrefFinal) && !hrefFinal.includes('quimiolab.com');
+---
+<a data-ed-link={id} href={hrefFinal} target={externo ? '_blank' : undefined} rel={externo ? 'noopener noreferrer' : rest.rel} {...rest}><slot /></a>

@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Miga from '../components/Miga.astro';
+import Icon from '../components/Icon.astro';
+import FranjaMarcas from '../components/FranjaMarcas.astro';
+import Ed from '../components/Ed.astro';
+import EdImg from '../components/EdImg.astro';
+import { paginas } from '../lib/data';
+import { migas } from '../lib/seo';
+const pg = paginas.find((p) => p.slug === 'nosotros');
+const ruta = [{ nombre: 'Nosotros', url: '/nosotros/' }];
+---
+<Base title="Nosotros" description="Quimiolab es una organización colombiana fundada en 1996 que suministra soluciones integrales e innovadoras para el diagnóstico in vitro, con un equipo humano confiable y comprometido." jsonld={[migas(ruta)]} editable="nosotros">
+  <section class="seccion nube con-patron" data-ed-sec="portada" data-ed-label="Portada"><span class="patron patron-adn" style="--patron-color:#fff;--patron-op:.5;--patron-size:32rem"></span><div class="wrap nosotros">
+    <div><Miga items={ruta} /><Ed id="nosotros_eyebrow" class="eyebrow">Nosotros</Ed><Ed id="nosotros_titulo" as="h1">Un equipo humano confiable, desde Bogotá para toda Colombia</Ed><Ed id="nosotros_lead" as="p" class="lead">Trabajar con el corazón para mejorar la salud de los colombianos está en nuestro ADN. Fundada en 1996 y con sede en Bogotá, representamos en Colombia a marcas reconocidas como AESKU, The Binding Site, SD BIOSENSOR, ELITechGroup y Thermo Fisher, entre otras.</Ed></div>
+    <div class="foto"><EdImg id="nosotros_foto" src="/img/nosotros.jpg" alt="Equipo Quimiolab reunido en círculo" width="900" height="900" loading="eager" /><div class="sello"><Icon name="certificado" size={40} /><div><Ed id="nosotros_sello_titulo" as="b">Sistema de gestión certificado</Ed><Ed id="nosotros_sello_texto">ICONTEC · ISO 9001</Ed></div></div></div>
+  </div></section>
+  <section class="seccion seccion-2" data-ed-sec="pilares" data-ed-label="Propósito, misión y visión"><div class="wrap">
+    <div class="grid grid-3 pilares">
+      <div class="tarjeta"><span class="ic"><Icon name="corazon" size={24} /></span><Ed id="nosotros_proposito_titulo" as="h2">Propósito superior</Ed><Ed id="nosotros_proposito_texto" as="p" class="muted">Trabajar con el corazón para mejorar la salud de los colombianos.</Ed></div>
+      <div class="tarjeta"><span class="ic"><Icon name="matraz" size={24} /></span><Ed id="nosotros_mision_titulo" as="h2">Misión</Ed><Ed id="nosotros_mision_texto" as="p" class="muted">Somos una organización colombiana que suministra soluciones integrales, innovadoras y diferenciadas para el diagnóstico in vitro, clínico y de investigación.</Ed></div>
+      <div class="tarjeta"><span class="ic"><Icon name="escudo" size={24} /></span><Ed id="nosotros_vision_titulo" as="h2">Visión</Ed><Ed id="nosotros_vision_texto" as="p" class="muted">Ser reconocidos como una organización innovadora que contribuye a mejorar la salud de los colombianos e incursiona en mercados alternos con tecnología de punta.</Ed></div>
+    </div>
+  </div></section>
+  {pg?.contenido_html && <section class="seccion" data-ed-sec="historia" data-ed-label="Texto institucional"><div class="wrap"><Ed id="nosotros_cuerpo" as="div" class="prosa"><Fragment set:html={pg.contenido_html} /></Ed></div></section>}
+  <FranjaMarcas />
+</Base>
+<style>
+  .nosotros { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--s-8); align-items: center; }
+  h1 { font-size: var(--t-3xl); margin-bottom: var(--s-4); }
+  .nosotros .lead { color: var(--ink-2); font-size: var(--t-lg); }
+  .foto { position: relative; border-radius: var(--r-xl); overflow: hidden; aspect-ratio: 1; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; }
+  .sello { position: absolute; left: 1.25rem; bottom: 1.25rem; background: #fff; color: var(--navy-800); border-radius: .75rem; padding: .875rem 1.125rem; display: flex; gap: .875rem; align-items: center; box-shadow: var(--sombra-2); }
+  .sello svg { color: var(--azul-500); } .sello b { font-family: var(--f-display); display: block; font-size: .9375rem; } .sello span { font-size: var(--t-xs); color: var(--ink-500); }
+  .pilares .tarjeta { padding: var(--s-5); gap: .625rem; }
+  .pilares .ic { width: 2.75rem; height: 2.75rem; border-radius: .625rem; background: var(--chip); color: var(--action); display: grid; place-items: center; }
+  .pilares h2 { font-size: var(--t-xl); }
+  @media (max-width: 860px) { .nosotros { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /buscar/
+Disallow: /sistema/
+Disallow: /api/
+
+# Rastreadores de IA: bienvenidos al catálogo público
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.quimiolab.com.co/sitemap-index.xml

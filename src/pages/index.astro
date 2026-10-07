@@ -1,0 +1,443 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Imagen from '../components/Imagen.astro';
+import FranjaMarcas from '../components/FranjaMarcas.astro';
+import FormularioContacto from '../components/FormularioContacto.astro';
+import LogoSDBiosensor from '../components/LogoSDBiosensor.astro';
+import LogoQLupa from '../components/LogoQLupa.astro';
+import Ed from '../components/Ed.astro';
+import EdImg from '../components/EdImg.astro';
+import EdLink from '../components/EdLink.astro';
+import { sitio, lineas, marcas, productos, equipos, posts, marcaPorSlug, logoMarca } from '../lib/data';
+
+const hubs: Record<string, { titulo: string; texto: string; img: string; marcas: string[] }> = {
+  'diagnostico': { titulo: 'Autoinmunidad, alergias e infecciosas', texto: 'Kits de diagnóstico avanzado con <strong>inmunoensayo, inmunofluorescencia y quimioluminiscencia</strong>.', img: '/img/diagnostico.jpg', marcas: ['aesku', 'vircell', 'binding-site'] },
+  'diagnostico-molecular': { titulo: 'Genómica y resistencia antimicrobiana', texto: 'Identificación de <strong>mutaciones, perfiles genéticos y resistencia</strong> con precisión y rapidez.', img: '/img/molecular.jpg', marcas: ['elitechgroup', 'genolution', 'tianlong'] },
+  'investigacion': { titulo: 'PCR, secuenciación y clonación', texto: 'Insumos especializados para investigación en <strong>genética, oncología y enfermedades infecciosas</strong>.', img: '/img/investigacion.jpg', marcas: ['mp-biomedicals', 'abm', 'ningbo-hls-medical'] },
+  'point-of-care': { titulo: 'Resultados al lado del paciente', texto: 'Equipos automatizados para <strong>biomarcadores clave</strong> en urgencias, atención primaria y cuidados intensivos.', img: '/img/poc.jpg', marcas: ['sd-biosensor', 'thermo-fisher'] },
+};
+// Equipos protagonistas del home (packshot + marca + demo)
+const destacados = ['helios-convencional', 'optilite', 'virclia-lotus', 'elite-ingenius', 'f2400-analyzer', 'b·r·a·h·m·s-kryptor-compact-plus'];
+const equiposDestacados = destacados.map((s) => equipos.find((e) => e.slug === s)).filter(Boolean) as typeof equipos;
+const [postDestacado, ...otrosPosts] = posts.slice(0, 4);
+// Slider del hero: los 5 equipos principales (uno por aliado), packshots locales del Portafolio 2026
+const heroEquipos = [
+  { slug: 'helios-convencional', img: '/img/equipos/helios.webp', w: 257, h: 348, tagline: 'Inmunofluorescencia automatizada · autoinmunidad', color: '#98B830' },
+  { slug: 'optilite', img: '/img/equipos/optilite.webp', w: 748, h: 355, tagline: 'Proteínas especiales y cadenas ligeras libres', color: '#FCEA19' },
+  { slug: 'virclia-lotus', img: '/img/equipos/virclia-lotus.webp', w: 630, h: 426, tagline: 'Quimioluminiscencia en monotest para infecciosas', color: '#009673' },
+  { slug: 'elite-ingenius', img: '/img/equipos/elite-ingenius.webp', w: 544, h: 463, tagline: 'PCR en tiempo real, de la muestra al resultado', color: '#74C043' },
+  { slug: 'b·r·a·h·m·s-kryptor-compact-plus', img: '/img/equipos/kryptor-compact-plus.webp', w: 505, h: 458, tagline: 'Inmunoensayo TRACE® para biomarcadores críticos', color: '#EF4135' },
+];
+const slides = heroEquipos.map((h) => { const e = equipos.find((x) => x.slug === h.slug); const m = e ? marcaPorSlug(e.marca) : undefined; return { ...h, nombre: e?.nombre ?? h.slug, url: e?.url ?? '/equipos/', marca: m?.nombre ?? '', logo: e ? logoMarca(e.marca) : '', color: m?.color ?? h.color }; });
+const testimonios = [
+  { k: 'vid', texto: 'Siempre hemos tenido un excelente acompañamiento de parte del asesor comercial así como de la parte científica.', quien: 'Santiago Estrada Mesa', cargo: 'Director · Fundación Organización VID', ini: 'SE' },
+  { k: 'rvg', texto: 'Tienen un muy buen servicio y excelente oportunidad en respuesta, esperamos seguir contando con ustedes como proveedor.', quien: 'Alexander Acuña Fonseca', cargo: 'Auxiliar de Compras · RVG IPS Ltda.', ini: 'AA' },
+  { k: 'compensar', texto: 'Buena disposición de la gerencia ante contingencias presentadas, excelente colaboración.', quien: 'Diana Carolina Hernández', cargo: 'Compensar EPS', ini: 'DH' },
+];
+const confianza = [
+  { k: 'invima', ic: 'sello', b: 'Registro INVIMA', s: 'en todos los productos y equipos' },
+  { k: 'iso', ic: 'certificado', b: 'ISO 9001', s: 'sistema de gestión certificado' },
+  { k: 'respuesta', ic: 'reloj', b: 'Respuesta el mismo día hábil', s: 'asesor comercial y científico' },
+  { k: 'soporte', ic: 'mapa', b: 'Soporte técnico en Bogotá', s: 'con cobertura en toda Colombia' },
+  { k: 'capacitacion', ic: 'usuarios', b: 'Capacitación incluida', s: 'en cada implementación' },
+];
+---
+<Base title="Quimiolab · Equipos y reactivos de diagnóstico con soporte científico en Colombia" description={sitio.descripcion} imagen="/og-quimiolab.jpg" gsap editable="home">
+  <!-- 1. Hero: una promesa, el buscador como acción principal y el equipo protagonista -->
+  <section class="hero" data-ed-sec="hero" data-ed-label="Portada">
+    <div class="fondo" role="img" aria-label="Científica trabajando en un laboratorio clínico"></div>
+    <div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span><span class="patron patron-panel patron-oscuro"></span>
+    <div class="wrap">
+      <div class="endoso hero-endoso" aria-label="Una empresa de SD Biosensor"><small>Una empresa de</small><LogoSDBiosensor label="SD Biosensor" /></div>
+      <div class="texto">
+        <Ed id="home_hero_titulo" as="h1" data-gsap="words" data-gsap-hide>La ciencia detrás de <em>cada resultado</em></Ed>
+        <Ed id="home_hero_lead" as="p" class="lead" data-gsap="rise" data-gsap-hide><strong>{marcas.length} marcas</strong> en diagnóstico clínico, biología molecular, investigación y point of care, con <strong>soporte técnico local</strong> en Colombia.</Ed>
+        <form class="buscador" role="search" data-gsap="rise" data-gsap-hide action="/buscar/" method="get">
+          <Icon name="buscar" size={20} />
+          <input id="buscar-home" name="q" type="search" placeholder="Busca un equipo, reactivo o marca… ej. VirClia, Freelite" aria-label="Buscar en el catálogo" />
+          <button class="btn btn-primario" type="submit">Buscar</button>
+        </form>
+        <div class="cta" data-gsap="rise" data-gsap-hide>
+          <EdLink id="home_hero_btn_cotizar" class="btn btn-primario btn-lg" href="/contactenos/?tema=cotizacion"><Icon name="cotizar" size={18} /> <Ed id="home_hero_btn_cotizar">Solicitar cotización</Ed></EdLink>
+          <EdLink id="home_hero_btn_equipos" class="btn btn-enlace enlace-claro" href="/equipos/"><Ed id="home_hero_btn_equipos">Ver los {equipos.length} equipos</Ed> <Icon name="flecha" size={16} /></EdLink>
+        </div>
+      </div>
+      <div class="escena" data-gsap="pop" data-gsap-hide aria-roledescription="carrusel" aria-label="Equipos principales" style={`--n:${slides.length};${slides.map((sl, i) => `--c${i}:${sl.color}`).join(';')}`}>
+        <LogoQLupa class="qlupa-deco q-hero" />
+        <span class="brillo"></span>
+        {slides.map((sl, i) => (
+          <a class={`slide${i === 0 ? ' activa' : ''}`} href={sl.url} aria-label={`${sl.nombre}: ${sl.tagline}. Ver ficha`} data-slide={i} style={`--aliado:${sl.color};--i:${i}`} aria-hidden={i === 0 ? undefined : 'true'} tabindex={i === 0 ? undefined : -1}>
+            <img class="equipo" src={sl.img} alt="" width={sl.w} height={sl.h} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
+            <span class="placa placa-hero"><img src={sl.logo} alt={sl.marca} width="160" height="48" loading={i === 0 ? 'eager' : 'lazy'} /></span>
+            <span class="glass ficha-mini"><b>{sl.nombre}</b><span>{sl.tagline}</span><i>Ver ficha <Icon name="flecha" size={14} /></i></span>
+          </a>
+        ))}
+        <div class="puntos" role="tablist" aria-label="Elegir equipo">
+          {slides.map((sl, i) => <span class="punto" style={`--i:${i}`}><input type="radio" name="hero-slide" id={`hero-slide-${i}`} value={i} data-ir={i} aria-label={sl.nombre} /><label for={`hero-slide-${i}`}><span></span></label></span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Franja de confianza: la pregunta "¿es seguro?" se responde antes que "¿qué venden?" -->
+  <section class="confianza" aria-label="Respaldo y garantías" data-ed-sec="confianza" data-ed-label="Garantías">
+    <div class="wrap">
+      <ul class="bento garantias" data-gsap="fan">
+        {confianza.map((c) => <li><span class="ic"><Icon name={c.ic as any} size={22} /></span><div><Ed id={`home_confianza_${c.k}_titulo`} as="b">{c.b}</Ed><Ed id={`home_confianza_${c.k}_texto`}>{c.s}</Ed></div></li>)}
+        <li class="anios"><b class="tabular"><small>+</small><span data-gsap="count">30</span></b><div><Ed id="home_confianza_anios_texto">años representando marcas líderes en Colombia</Ed></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <FranjaMarcas />
+
+  <!-- 3. Equipos protagonistas -->
+  <section class="seccion tinte-2" id="equipos" data-ed-sec="equipos" data-ed-label="Equipos">
+    <div class="wrap">
+      <div class="cabecera">
+        <div><Ed id="home_equipos_eyebrow" class="eyebrow">Equipos</Ed><Ed id="home_equipos_titulo" as="h2" data-gsap="words">Los analizadores que instalamos y sostenemos en Colombia</Ed></div>
+        <Ed id="home_equipos_lead" as="p" class="lead">Cada equipo llega con <strong>instalación, capacitación y soporte técnico local</strong>. Pide una demostración y lo vemos con tus muestras.</Ed>
+      </div>
+      <ul class="carrusel" aria-label="Equipos destacados">
+        {equiposDestacados.map((e) => { const m = marcaPorSlug(e.marca); const logo = logoMarca(e.marca); return (
+          <li class="equipo-card" style={m ? `--aliado:${m.color}` : undefined}>
+            <a href={e.url} class="fig" aria-hidden="true" tabindex="-1"><span class="halo"></span><Imagen img={e.imagen} alt="" cuadrada /></a>
+            <div class="cuerpo">
+              {logo ? <span class="placa placa-card"><img src={logo} alt={m?.nombre ?? ''} width="120" height="36" loading="lazy" /></span> : <span class="chip chip-aliado">{m?.nombre}</span>}
+              <h3><a href={e.url}>{e.nombre}</a></h3>
+              <p class="muted">{e.resumen}</p>
+              <div class="acciones"><a class="btn btn-secundario btn-sm" href={e.url}>Ficha técnica</a><a class="btn btn-enlace" href={`${e.url}#cotizar`}>Solicitar demo <Icon name="flecha" size={14} /></a></div>
+            </div>
+          </li>
+        ); })}
+      </ul>
+      <div class="ver-todos"><a class="btn btn-secundario" href="/equipos/">Ver los {equipos.length} equipos <Icon name="flecha" size={16} /></a></div>
+    </div>
+  </section>
+
+  <!-- 4. Soluciones por línea -->
+  <section class="seccion" id="soluciones" data-ed-sec="soluciones" data-ed-label="Soluciones por línea">
+    <div class="wrap">
+      <div class="cabecera">
+        <div><Ed id="home_soluciones_eyebrow" class="eyebrow">Soluciones por línea</Ed><Ed id="home_soluciones_titulo" as="h2" data-gsap="words">Encuentra tu solución según el área de tu laboratorio</Ed></div>
+        <Ed id="home_soluciones_lead" as="p" class="lead">Cada línea reúne los <strong>equipos, reactivos y marcas</strong> que la respaldan, con su ficha y cotización en línea.</Ed>
+      </div>
+      <div class="hubs">
+        {lineas.map((l) => { const h = hubs[l.slug]; return (
+          <a class="hub" href={l.url} style={`--campana:var(--linea-${l.slug})`}>
+            <EdImg id={`home_hub_${l.slug}_foto`} src={h.img} alt="" width="900" height="600" loading="lazy" /><span class="duo"></span>
+            <span class="chip etiqueta">{l.nombre}</span>
+            <Ed id={`home_hub_${l.slug}_titulo`} as="h3">{h.titulo}</Ed>
+            <Ed id={`home_hub_${l.slug}_texto`} as="p"><Fragment set:html={h.texto} /></Ed>
+            <div class="meta"><span>{h.marcas.map((s) => marcaPorSlug(s)?.nombre).filter(Boolean).join(' · ')}</span><Icon name="flecha" size={16} /></div>
+          </a>
+        ); })}
+      </div>
+      <p class="productos-nota">¿Buscas un reactivo puntual? <a href="/productos/">Explora las {productos.length} referencias del catálogo</a> por marca, línea o nombre.</p>
+    </div>
+  </section>
+
+  <!-- 5. Nosotros + prueba social -->
+  <section class="seccion seccion-navy" id="nosotros" data-ed-sec="nosotros" data-ed-label="Nosotros y testimonios">
+    <span class="patron patron-red" style="--patron-op:.08;--patron-size:28rem"></span>
+    <div class="wrap nosotros">
+      <div class="foto"><EdImg id="home_nosotros_foto" src="/img/nosotros.jpg" alt="Equipo Quimiolab reunido en círculo" width="900" height="900" loading="lazy" data-parallax /><div class="sello" data-gsap="pop"><Icon name="certificado" size={40} /><div><Ed id="home_nosotros_sello_titulo" as="b">Sistema de gestión certificado</Ed><Ed id="home_nosotros_sello_texto">ICONTEC · ISO 9001</Ed></div></div></div>
+      <div>
+        <Ed id="home_nosotros_eyebrow" class="eyebrow">Nosotros</Ed>
+        <Ed id="home_nosotros_titulo" as="h2" data-gsap="words">Un equipo humano confiable, desde Bogotá para toda Colombia</Ed>
+        <Ed id="home_nosotros_lead" as="p" class="lead">Somos una organización colombiana que suministra <strong>soluciones integrales, innovadoras y diferenciadas</strong> para el diagnóstico in vitro. Trabajar con el corazón para <strong>mejorar la salud de los colombianos</strong> está en nuestro ADN.</Ed>
+        <div class="numeros">
+          <div class="num"><b class="tabular"><small>+</small><span data-gsap="count">30</span></b><Ed id="home_num_anios">años asesorando laboratorios</Ed></div>
+          <div class="num"><b class="tabular" data-gsap="count">{marcas.length}</b><Ed id="home_num_marcas">marcas representadas de forma directa</Ed></div>
+          <div class="num"><b class="tabular" data-gsap="count">{equipos.length}</b><Ed id="home_num_equipos">plataformas con soporte técnico local</Ed></div>
+          <div class="num"><b class="tabular" data-gsap="count">{productos.length}</b><Ed id="home_num_productos">referencias en catálogo</Ed></div>
+        </div>
+        <EdLink id="home_nosotros_btn" class="btn btn-fantasma" href="/nosotros/"><Ed id="home_nosotros_btn">Conoce a Quimiolab</Ed> <Icon name="flecha" size={16} /></EdLink>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="citas">
+        {testimonios.map((t) => <blockquote class="cita glass-oscuro"><Ed id={`home_testimonio_${t.k}_texto`} as="p">{t.texto}</Ed><footer><i>{t.ini}</i><div><Ed id={`home_testimonio_${t.k}_quien`} as="b">{t.quien}</Ed><Ed id={`home_testimonio_${t.k}_cargo`}>{t.cargo}</Ed></div></footer></blockquote>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Micro-compromisos: pasos pequeños antes del formulario -->
+  <section class="seccion nube con-patron" id="siguiente-paso" data-ed-sec="siguiente-paso" data-ed-label="Siguiente paso">
+    <span class="patron patron-adn" style="--patron-color:#fff;--patron-op:.5;--patron-size:32rem"></span>
+    <div class="wrap">
+      <div class="cabecera"><div><Ed id="home_pasos_eyebrow" class="eyebrow">Siguiente paso</Ed><Ed id="home_pasos_titulo" as="h2" data-gsap="words">Empieza por lo que necesites hoy</Ed></div></div>
+      <div class="bento pasos">
+        <EdLink id="home_paso_catalogo" class="paso" href="/contactenos/?tema=catalogo"><span class="ic" style="--acento:var(--teal)"><Icon name="descargar" size={24} /></span><Ed id="home_paso_catalogo_titulo" as="h3">Catálogo 2026 en PDF</Ed><Ed id="home_paso_catalogo_texto" as="p">Todas las marcas, equipos y líneas en un solo documento. <strong>Te lo enviamos al correo.</strong></Ed><span class="link"><Ed id="home_paso_catalogo">Recibir catálogo</Ed> <Icon name="flecha" size={16} /></span></EdLink>
+        <EdLink id="home_paso_demo" class="paso" href="/contactenos/?tema=demo"><span class="ic" style="--acento:var(--camp-naranja)"><Icon name="calendario" size={24} /></span><Ed id="home_paso_demo_titulo" as="h3">Demo de 20 minutos</Ed><Ed id="home_paso_demo_texto" as="p">Vemos el equipo con tus muestras y resolvemos <strong>las preguntas técnicas</strong> de tu equipo.</Ed><span class="link"><Ed id="home_paso_demo">Agendar demo</Ed> <Icon name="flecha" size={16} /></span></EdLink>
+        <EdLink id="home_paso_disponibilidad" class="paso" href="/contactenos/?tema=disponibilidad"><span class="ic" style="--acento:var(--verde)"><Icon name="producto" size={24} /></span><Ed id="home_paso_disponibilidad_titulo" as="h3">Disponibilidad de una referencia</Ed><Ed id="home_paso_disponibilidad_texto" as="p">Dinos qué reactivo o consumible buscas y te confirmamos <strong>existencias y tiempo de entrega</strong>.</Ed><span class="link"><Ed id="home_paso_disponibilidad">Consultar disponibilidad</Ed> <Icon name="flecha" size={16} /></span></EdLink>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Blog: autoridad científica -->
+  <section class="seccion" id="contenidos" data-ed-sec="contenidos" data-ed-label="Blog">
+    <div class="wrap">
+      <div class="cabecera"><div><Ed id="home_blog_eyebrow" class="eyebrow">Blog científico</Ed><Ed id="home_blog_titulo" as="h2" data-gsap="words">Lo último en investigación y diagnóstico clínico</Ed></div><a class="btn btn-enlace" href="/blog/">Ver todo el blog <Icon name="flecha" size={16} /></a></div>
+      <div class="blog">
+        {postDestacado && <a class="destacado tarjeta" href={postDestacado.url}><div class="img duotono" style="--campana:var(--camp-teal)"><Imagen img={postDestacado.imagen} alt="" /></div><div class="cuerpo"><span class="chip">Artículo destacado</span><h3>{postDestacado.titulo}</h3><p class="muted">{postDestacado.resumen}</p><span class="link">Leer artículo <Icon name="flecha" size={16} /></span></div></a>}
+        <div class="posts">
+          {otrosPosts.map((p) => <a class="post" href={p.url}><div><h3>{p.titulo}</h3><p class="muted">{p.resumen}</p></div><span class="fl"><Icon name="flecha" size={16} /></span></a>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Contacto -->
+  <section class="seccion contacto" id="contacto" data-ed-sec="contacto" data-ed-label="Contacto">
+    <div class="fondo"></div><div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span>
+    <div class="wrap">
+      <div>
+        <Ed id="home_contacto_eyebrow" class="eyebrow">Contáctenos</Ed>
+        <Ed id="home_contacto_titulo" as="h2" data-gsap="words">Hablemos de lo que necesita tu laboratorio</Ed>
+        <Ed id="home_contacto_lead" as="p" class="lead">Un asesor comercial y científico te responde <strong>en el mismo día hábil</strong>. Cotizaciones, <strong>demostraciones de equipos</strong>, soporte técnico y capacitación.</Ed>
+        <ul class="canales">
+          <li><a href={`tel:${sitio.pbx_tel}`}><Icon name="telefono" size={18} /> PBX {sitio.pbx}</a></li>
+          <li><EdLink id="home_contacto_whatsapp" href="https://wa.me/573000000000" rel="noopener"><Icon name="whatsapp" size={18} /> <Ed id="home_contacto_whatsapp">WhatsApp comercial</Ed></EdLink></li>
+          <li><a href={`mailto:${sitio.correo}`}><Icon name="correo" size={18} /> {sitio.correo}</a></li>
+          <li><span><Icon name="ubicacion" size={18} /> {sitio.direccion}</span></li>
+        </ul>
+      </div>
+      <FormularioContacto />
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---- Hero ---- */
+  .hero { position: relative; overflow: hidden; background: var(--grad-navy); color: #fff; isolation: isolate; }
+  .hero .fondo { position: absolute; inset: 0; background: url(/img/hero.jpg) center/cover no-repeat; opacity: .5; filter: blur(6px); transform: scale(1.03); }
+  .hero .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,26,77,.95) 0%, rgba(0,36,104,.82) 45%, rgba(0,48,135,.35) 100%), linear-gradient(0deg, rgba(0,26,77,.9) 0%, rgba(0,26,77,0) 40%); }
+  .hero .orbe { z-index: 0; }
+  .hero .o1 { width: 42rem; height: 42rem; right: -12rem; top: -14rem; background: radial-gradient(circle, rgba(0,151,214,.55) 0%, rgba(0,151,214,0) 68%); }
+  .hero .o2 { width: 30rem; height: 30rem; left: 30%; bottom: -16rem; }
+  .hero .patron { z-index: 0; --patron-op: .1; }
+  .hero-endoso { position: absolute; right: var(--gutter); top: 1.75rem; z-index: 2; }
+  @media (max-width: 900px) { .hero-endoso { position: static; margin-bottom: var(--s-4); } }
+  .hero .wrap { position: relative; padding-block: clamp(4rem, 9vw, 7rem) clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: var(--s-7); align-items: center; }
+  .hero h1 { color: #fff; font-size: clamp(2.25rem, 1.5rem + 2.9vw, 3.75rem); max-width: 20ch; margin-block: 0 var(--s-4); }
+  .hero h1 em { font-style: normal; color: var(--brillante); }
+  .hero .eyebrow { color: var(--brillante); }
+  .hero .lead { font-size: clamp(1.0625rem, 1.4vw, 1.25rem); color: var(--azul-200); max-width: 42ch; margin-bottom: var(--s-6); }
+  .hero .lead strong { color: #fff; }
+  .buscador { display: flex; align-items: center; gap: var(--s-3); background: #fff; color: var(--ink-900); border-radius: 0.75rem; padding: .5rem .5rem .5rem 1.125rem; max-width: 40rem; box-shadow: var(--sombra-3); }
+  .buscador svg { color: var(--ink-500); flex: none; }
+  .buscador input { flex: 1; min-width: 0; border: 0; font: inherit; font-size: var(--t-md); color: var(--ink-900); background: transparent; padding: .75rem 0; }
+  .buscador input::placeholder { color: #7A8AA6; }
+  .buscador input:focus-visible { outline: 0; }
+  .buscador .btn { padding-inline: 1.125rem; }
+  .hero .cta { display: flex; gap: var(--s-5); flex-wrap: wrap; align-items: center; margin-top: var(--s-5); }
+  .btn-lg { min-height: 3.25rem; padding-inline: 1.625rem; font-size: var(--t-md); }
+  .enlace-claro { color: #fff; }
+  .enlace-claro:hover { color: var(--brillante); }
+  /* equipo protagonista: slider automático de los 5 equipos principales */
+  .escena { position: relative; aspect-ratio: 1; max-width: 34rem; margin-inline: auto; width: 100%; isolation: isolate; color: #fff; --aliado: var(--c0, var(--azul-500)); }
+  .escena :global(.q-hero) { width: 96%; left: 50%; top: 48%; transform: translate(-50%, -50%); opacity: .95; color: var(--aliado); transition: color var(--dur-4) var(--ease-in-out); }
+  .escena .brillo { position: absolute; left: 50%; top: 50%; width: 110%; height: 110%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.55) 0%, color-mix(in srgb, var(--aliado) 40%, transparent) 30%, transparent 62%); filter: blur(2.5rem); z-index: -1; pointer-events: none; transition: background var(--dur-4); }
+  .slide { position: absolute; inset: 0; display: block; color: #fff; opacity: 0; visibility: hidden; transition: opacity var(--dur-4) var(--ease-in-out), visibility var(--dur-4); }
+  .slide.activa { opacity: 1; visibility: visible; }
+  /* Sin JS: rotación por CSS (5 s por equipo). Con JS, .escena.js toma el control. */
+  @keyframes desfile { 0%, 3% { opacity: 0; visibility: hidden; } 6%, 20% { opacity: 1; visibility: visible; } 23%, 100% { opacity: 0; visibility: hidden; } }
+  .escena:not(.js) .slide { animation: desfile calc(var(--n) * 5s) infinite; animation-delay: calc(var(--i) * 5s - 0.75s); }
+  .escena:not(.js) .slide.activa { opacity: 0; visibility: hidden; }
+  @media (prefers-reduced-motion: reduce) { .escena:not(.js) .slide { animation: none; } .escena:not(.js) .slide.activa { opacity: 1; visibility: visible; } }
+  .slide .equipo { position: absolute; left: 50%; top: 50%; max-width: 72%; max-height: 62%; width: auto; height: auto; transform: translate(-50%, -48%) scale(.96); filter: drop-shadow(0 30px 40px rgba(0,10,40,.45)); transition: transform var(--dur-4) var(--ease-out); }
+  .slide.activa .equipo { transform: translate(-50%, -48%) scale(1); }
+  .slide:hover .equipo { transform: translate(-50%, -50%) scale(1.03); }
+  .placa-hero { position: absolute; right: 0; top: 1rem; padding: .625rem .875rem; }
+  .placa-hero img { height: 2.25rem; width: auto; max-width: 11rem; object-fit: contain; display: block; }
+  .ficha-mini { position: absolute; left: 0; bottom: .5rem; display: grid; gap: .125rem; padding: .875rem 1rem; max-width: 18rem; }
+  /* siempre placa clara sobre el navy del hero, también en tema oscuro: el contraste no depende del tema */
+  .escena .ficha-mini { background: rgba(255,255,255,.94); color: var(--navy-800, #001A4D); border-color: #fff; box-shadow: 0 12px 32px rgba(0,26,77,.35); }
+  .escena .ficha-mini b { font-family: var(--f-display); font-size: var(--t-md); color: #001A4D; }
+  .escena .ficha-mini > span { font-size: var(--t-xs); color: #3B4C6B; }
+  .escena .ficha-mini i { font-style: normal; font-size: var(--t-xs); font-weight: 700; color: #0062B8; display: inline-flex; gap: .25rem; align-items: center; margin-top: .25rem; }
+  .puntos { position: absolute; left: 50%; bottom: -1.75rem; transform: translateX(-50%); display: flex; gap: .25rem; z-index: 2; }
+  .punto input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+  .punto label { width: 2.75rem; height: 2.75rem; cursor: pointer; display: grid; place-items: center; }
+  .punto label span { width: .5rem; height: .5rem; border-radius: 999px; background: rgba(255,255,255,.35); transition: width var(--dur-3) var(--ease-out), background var(--dur-3); }
+  .punto input:checked + label span, .punto.activa label span { width: 1.75rem; background: var(--brillante); }
+  .punto label:hover span { background: #fff; }
+  .punto input:focus-visible + label span { outline: 3px solid var(--focus); outline-offset: 3px; }
+  /* Sin JS: los puntos siguen la rotación por CSS y al elegir uno se detiene y muestra ese equipo */
+  @keyframes punto-desfile { 0%, 3% { width: .5rem; background: rgba(255,255,255,.35); } 6%, 20% { width: 1.75rem; background: var(--brillante); } 23%, 100% { width: .5rem; background: rgba(255,255,255,.35); } }
+  .escena:not(.js) .punto label span { animation: punto-desfile calc(var(--n) * 5s) infinite; animation-delay: calc(var(--i) * 5s - 0.75s); }
+  .escena:not(.js):has(input:checked) .slide, .escena:not(.js):has(input:checked) .punto label span { animation: none; }
+  .escena:not(.js):has(input:checked) .slide.activa { opacity: 0; visibility: hidden; }
+  /* Sin JS: la Q y el brillo toman el color del aliado del slide visible */
+  @keyframes q-color { 0%, 18% { color: var(--c0); } 20%, 38% { color: var(--c1); } 40%, 58% { color: var(--c2); } 60%, 78% { color: var(--c3); } 80%, 100% { color: var(--c4); } }
+  .escena:not(.js) :global(.q-hero) { animation: q-color calc(var(--n) * 5s) infinite; animation-delay: -0.75s; }
+  .escena:not(.js):has(input:checked) :global(.q-hero) { animation: none; }
+  .escena:not(.js):has(#hero-slide-0:checked) .slide[data-slide="0"] { opacity: 1; visibility: visible; }
+  .escena:not(.js):has(#hero-slide-0:checked) { --aliado: var(--c0); }
+  .escena:not(.js):has(#hero-slide-1:checked) .slide[data-slide="1"] { opacity: 1; visibility: visible; }
+  .escena:not(.js):has(#hero-slide-1:checked) { --aliado: var(--c1); }
+  .escena:not(.js):has(#hero-slide-2:checked) .slide[data-slide="2"] { opacity: 1; visibility: visible; }
+  .escena:not(.js):has(#hero-slide-2:checked) { --aliado: var(--c2); }
+  .escena:not(.js):has(#hero-slide-3:checked) .slide[data-slide="3"] { opacity: 1; visibility: visible; }
+  .escena:not(.js):has(#hero-slide-3:checked) { --aliado: var(--c3); }
+  .escena:not(.js):has(#hero-slide-4:checked) .slide[data-slide="4"] { opacity: 1; visibility: visible; }
+  .escena:not(.js):has(#hero-slide-4:checked) { --aliado: var(--c4); }
+  @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } .hero .scrim { background: linear-gradient(180deg, rgba(0,26,77,.92), rgba(0,26,77,.97)); } .escena { max-width: 24rem; margin-bottom: 2.5rem; } .ficha-mini { max-width: 14rem; } }
+  @media (max-width: 480px) { .buscador .btn { display: none; } .hero .cta .btn-lg { width: 100%; justify-content: center; } }
+
+  /* ---- Franja de confianza ---- */
+  .confianza { background: var(--canvas); border-bottom: 1px solid var(--linea); position: relative; z-index: 1; }
+  .confianza .wrap { padding-block: var(--s-5); }
+  .garantias { list-style: none; margin: 0; padding: 0; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .garantias li { display: grid; gap: .625rem; align-content: start; padding: 1rem; border-radius: var(--r-bento); background: var(--card-2); }
+  .garantias .ic { width: 2.5rem; height: 2.5rem; border-radius: .625rem; background: #fff; color: var(--verde); display: grid; place-items: center; flex: none; box-shadow: var(--sombra-bento); }
+  .garantias li:nth-child(2) .ic { color: var(--teal); } .garantias li:nth-child(3) .ic { color: var(--camp-naranja); } .garantias li:nth-child(4) .ic { color: var(--azul-500); } .garantias li:nth-child(5) .ic { color: var(--camp-violeta); }
+  .garantias b { display: block; font-family: var(--f-display); font-weight: 600; font-size: var(--t-sm); color: var(--marca); line-height: 1.25; }
+  .garantias li > div > span { font-size: var(--t-xs); color: var(--ink-2); }
+  .garantias .anios { background: var(--grad-navy); color: #fff; align-content: center; }
+  .garantias .anios b { font-size: 2rem; letter-spacing: -.02em; color: #fff; line-height: 1; }
+  .garantias .anios b small { color: var(--amarillo); font-size: 1.125rem; }
+  .garantias .anios span { color: var(--azul-200); }
+  :global(:root[data-theme="dark"]) .garantias .ic { background: var(--card); }
+  @media (max-width: 1100px) { .garantias { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .garantias { grid-template-columns: 1fr 1fr; } .garantias li { padding: .75rem; } .garantias .ic { width: 2.125rem; height: 2.125rem; } }
+
+  /* ---- Equipos protagonistas ---- */
+  /* Escritorio: retícula sin scroll (6 equipos = 2 filas). Solo en móvil se vuelve carrusel con snap y sin barra visible. */
+  .carrusel { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter-bento); }
+  @media (max-width: 960px) { .carrusel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .carrusel { margin: 0 calc(var(--gutter) * -1); padding: .25rem var(--gutter) .5rem; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+    .carrusel::-webkit-scrollbar { display: none; }
+  }
+  .equipo-card { --aliado: var(--azul-500); scroll-snap-align: start; background: var(--card); border: 1px solid var(--linea); border-radius: var(--r-bento); box-shadow: var(--sombra-bento); display: grid; grid-template-rows: auto 1fr; overflow: hidden; transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
+  .equipo-card:hover { transform: translateY(-3px); box-shadow: var(--sombra-2); }
+  .equipo-card .fig { position: relative; display: block; aspect-ratio: 4/3; background: linear-gradient(180deg, color-mix(in srgb, var(--aliado) 10%, #fff), #fff); padding: 1.5rem; isolation: isolate; }
+  .equipo-card .fig :global(img) { width: 100%; height: 100%; object-fit: contain; position: relative; background: transparent; mix-blend-mode: multiply; }
+  .equipo-card .halo { position: absolute; left: 50%; top: 55%; width: 80%; height: 80%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--aliado) 55%, #fff) 0%, transparent 62%); filter: blur(1.5rem); opacity: .7; z-index: 0; }
+  .equipo-card .cuerpo { padding: 1.125rem 1.25rem 1.25rem; display: grid; gap: .5rem; align-content: start; }
+  .placa-card { justify-self: start; padding: .375rem .625rem; }
+  .placa-card img { height: 1.375rem; width: auto; display: block; }
+  .equipo-card h3 { font-size: var(--t-lg); }
+  .equipo-card h3 a { color: var(--marca); }
+  .equipo-card p { font-size: var(--t-sm); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .equipo-card .acciones { display: flex; gap: var(--s-4); align-items: center; margin-top: .5rem; flex-wrap: wrap; }
+  .ver-todos { margin-top: var(--s-5); display: flex; justify-content: center; }
+
+  /* ---- Hubs ---- */
+  .hubs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); }
+  .hub { position: relative; border-radius: var(--r-bento); overflow: hidden; min-height: 25rem; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.625rem; color: #fff; isolation: isolate; transition: transform var(--dur-3) var(--ease-out); }
+  .hub:hover { transform: translateY(-3px); }
+  .hub img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: grayscale(1) contrast(1.08) brightness(.95); transition: transform var(--dur-4) var(--ease-out); }
+  .hub:hover img { transform: scale(1.05); }
+  .hub .duo { position: absolute; inset: 0; z-index: -2; background: var(--campana); mix-blend-mode: screen; opacity: .9; }
+  .hub::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0,26,77,.02) 25%, rgba(0,26,77,.94) 78%); }
+  .hub::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: .3125rem; background: var(--campana); z-index: 1; }
+  .hub h3 { color: #fff; font-size: 1.5rem; margin-bottom: .625rem; }
+  .hub p { font-size: 0.9rem; color: var(--azul-200); line-height: 1.5; margin-bottom: var(--s-4); }
+  .hub p :global(strong) { color: #fff; }
+  .hub .etiqueta { position: absolute; top: 1.25rem; left: 1.375rem; background: #fff; color: var(--navy-800); z-index: 1; }
+  .hub .etiqueta::before { content: ""; display: inline-block; width: .5rem; height: .5rem; border-radius: 50%; background: var(--campana); margin-right: .5rem; }
+  .hub .meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,.2); padding-top: .875rem; font-size: var(--t-sm); color: var(--azul-200); }
+  .hub .meta svg { color: var(--campana); }
+  .productos-nota { margin-top: var(--s-5); text-align: center; color: var(--ink-2); }
+  .productos-nota a { font-weight: 500; }
+  @media (max-width: 1000px) { .hubs { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .hubs { grid-template-columns: 1fr; } .hub { min-height: 20rem; } }
+
+  /* ---- Nosotros + prueba social ---- */
+  .nosotros { display: grid; grid-template-columns: .9fr 1.1fr; gap: var(--s-8); align-items: center; margin-bottom: var(--s-7); }
+  .nosotros h2 { margin-block: 0 var(--s-4); }
+  .nosotros .lead { color: var(--azul-200); font-size: var(--t-lg); margin-bottom: var(--s-5); }
+  .foto { position: relative; border-radius: var(--r-bento); overflow: hidden; aspect-ratio: 1; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; }
+  .sello { position: absolute; left: 1.25rem; bottom: 1.25rem; background: #fff; color: var(--navy-800); border-radius: 0.75rem; padding: .875rem 1.125rem; display: flex; gap: .875rem; align-items: center; box-shadow: var(--sombra-2); }
+  .sello svg { color: var(--verde); }
+  .sello b { font-family: var(--f-display); font-size: 0.9375rem; display: block; }
+  .sello span { font-size: var(--t-xs); color: var(--ink-500); }
+  .numeros { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--s-5); border-top: 1px solid var(--navy-linea); margin-bottom: var(--s-6); }
+  .num { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: baseline; padding: 1rem 0; border-bottom: 1px solid var(--navy-linea); }
+  .num b { font-family: var(--f-display); font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 700; line-height: 1; letter-spacing: -.02em; min-width: 3ch; }
+  .num b small { font-size: .5em; color: var(--amarillo); vertical-align: top; margin-right: .125rem; }
+  .num > span { color: var(--azul-200); font-size: var(--t-sm); }
+  .citas { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter-bento); }
+  .cita { margin: 0; padding: 1.5rem 1.625rem; display: grid; gap: var(--s-4); align-content: space-between; }
+  .cita p { font-size: var(--t-md); line-height: 1.55; }
+  .cita p::before { content: "“"; color: var(--amarillo); font-family: var(--f-display); font-size: 1.6em; line-height: 0; vertical-align: -.25em; margin-right: .25rem; }
+  .cita footer { display: flex; gap: .75rem; align-items: center; font-size: 0.85rem; color: var(--azul-200); }
+  .cita i { width: 2.125rem; height: 2.125rem; border-radius: 50%; background: var(--grad-marca); display: grid; place-items: center; font-style: normal; font-family: var(--f-display); font-weight: 600; color: #fff; font-size: 0.8rem; flex: none; }
+  .cita b { display: block; color: #fff; font-weight: 500; }
+  @media (max-width: 900px) { .nosotros { grid-template-columns: 1fr; } .citas { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .numeros { grid-template-columns: 1fr; } }
+
+  /* ---- Micro-compromisos ---- */
+  .pasos { grid-template-columns: repeat(3, 1fr); }
+  .paso { display: grid; gap: .625rem; align-content: start; padding: 1.5rem; background: var(--card); border: 1px solid rgba(255,255,255,.9); border-radius: var(--r-bento); box-shadow: var(--sombra-bento); color: var(--ink); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
+  .paso:hover { transform: translateY(-3px); box-shadow: var(--sombra-2); color: var(--ink); }
+  .paso .ic { width: 3rem; height: 3rem; border-radius: .75rem; background: color-mix(in srgb, var(--acento) 14%, var(--card)); color: var(--acento); display: grid; place-items: center; }
+  .paso h3 { font-size: var(--t-lg); }
+  .paso p { font-size: var(--t-sm); color: var(--ink-2); }
+  .paso .link, .destacado .link { display: inline-flex; gap: .375rem; align-items: center; font-weight: 700; color: var(--action); font-size: var(--t-sm); margin-top: .25rem; }
+  :global(:root[data-theme="dark"]) .paso { border-color: var(--linea); }
+  @media (max-width: 860px) { .pasos { grid-template-columns: 1fr; } }
+
+  /* ---- Blog ---- */
+  .blog { display: grid; grid-template-columns: 1.1fr .9fr; gap: var(--s-6); align-items: start; }
+  .destacado { display: grid; grid-template-rows: auto 1fr; overflow: hidden; color: var(--ink); }
+  .destacado .img { aspect-ratio: 16/8; }
+  .destacado .img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .destacado .cuerpo { padding: 1.5rem; display: grid; gap: .625rem; }
+  .destacado h3 { font-size: var(--t-xl); }
+  .destacado p { font-size: var(--t-sm); }
+  .posts { display: grid; border-top: 1px solid var(--linea); }
+  .post { display: grid; grid-template-columns: 1fr auto; gap: var(--s-5); padding: 1.125rem 0; border-bottom: 1px solid var(--linea); align-items: center; color: var(--ink); }
+  .post h3 { font-size: var(--t-md); max-width: 48ch; }
+  .post p { font-size: var(--t-sm); margin-top: .375rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .post .fl { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--linea); display: grid; place-items: center; color: var(--marca); transition: background var(--dur-2), color var(--dur-2); flex: none; }
+  .post:hover .fl { background: var(--action); color: #fff; border-color: var(--action); }
+  @media (max-width: 860px) { .blog { grid-template-columns: 1fr; } }
+
+  /* ---- Contacto ---- */
+  .contacto { position: relative; overflow: hidden; background: var(--grad-navy-v); color: #fff; isolation: isolate; }
+  .contacto .fondo { position: absolute; inset: 0; background: url(/img/dna.jpg) center/cover; opacity: .45; filter: blur(7px); transform: scale(1.04); }
+  .contacto .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,26,77,.95), rgba(0,36,104,.7)); }
+  .contacto .o1 { width: 36rem; height: 36rem; right: -10rem; top: -12rem; background: radial-gradient(circle, rgba(0,151,214,.55) 0%, rgba(0,151,214,0) 68%); z-index: 0; }
+  .contacto .o2 { width: 24rem; height: 24rem; left: -8rem; bottom: -10rem; z-index: 0; }
+  .contacto .wrap { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-7); align-items: center; }
+  .contacto h2 { color: #fff; margin-block: 0 var(--s-4); }
+  .contacto .eyebrow { color: var(--brillante); }
+  .contacto .lead { color: var(--azul-200); font-size: var(--t-lg); max-width: 44ch; margin-bottom: var(--s-6); }
+  .canales { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; font-size: 0.9375rem; }
+  .canales a, .canales span { display: flex; gap: .75rem; align-items: center; color: #fff; min-height: 2.75rem; }
+  .canales svg { color: var(--brillante); flex: none; }
+  @media (max-width: 860px) { .contacto .wrap { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !new URLSearchParams(location.search).has('edit')) import('../scripts/gsap-hero.ts');
+  else document.documentElement.classList.remove('gsap-wait');
+  // Slider del hero: autoplay 5 s, pausa al pasar el mouse o enfocar, se detiene con reduced-motion
+  const escena = document.querySelector<HTMLElement>('.escena');
+  if (escena) {
+    escena.classList.add('js');
+    const slides = [...escena.querySelectorAll<HTMLAnchorElement>('.slide')];
+    const puntos = [...escena.querySelectorAll<HTMLInputElement>('[data-ir]')];
+    let i = 0; let timer: number | undefined;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ir = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => { const on = k === i; s.classList.toggle('activa', on); s.toggleAttribute('aria-hidden', !on); s.tabIndex = on ? 0 : -1; });
+      puntos.forEach((p, k) => { p.checked = k === i; p.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+      escena.style.setProperty('--aliado', slides[i].style.getPropertyValue('--aliado'));
+    };
+    const play = () => { if (reduce) return; stop(); timer = window.setInterval(() => ir(i + 1), 5000); };
+    const stop = () => { if (timer) clearInterval(timer); timer = undefined; };
+    puntos.forEach((p) => p.addEventListener('change', () => { ir(Number(p.dataset.ir)); play(); }));
+    escena.addEventListener('mouseenter', stop); escena.addEventListener('mouseleave', play);
+    escena.addEventListener('focusin', stop); escena.addEventListener('focusout', play);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : play()));
+    ir(0); play();
+  }
+</script>

@@ -1,0 +1,11 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Listado from '../../../components/Listado.astro';
+import { productos, paginar } from '../../../lib/data';
+import { migas } from '../../../lib/seo';
+export async function getStaticPaths() { const pags = paginar(productos, 24); return pags.slice(1).map((items, i) => ({ params: { n: String(i + 2) }, props: { items, n: i + 2, total: pags.length } })); }
+const { items, n, total } = Astro.props;
+---
+<Base title={`Productos · página ${n}`} description={`Catálogo de productos Quimiolab, página ${n} de ${total}.`} jsonld={[migas([{ nombre: 'Productos', url: '/productos/' }])]}>
+  <Listado tipo="productos" titulo="Productos" eyebrow={`Catálogo · ${productos.length} referencias`} lead="Reactivos, kits y consumibles de las marcas que representamos." items={items} pagina={n} total={total} base="/productos/" migas={[{ nombre: 'Productos', url: '/productos/' }, { nombre: `Página ${n}`, url: `/productos/pagina/${n}/` }]} />
+</Base>

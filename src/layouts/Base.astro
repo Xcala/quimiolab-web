@@ -1,0 +1,140 @@
+---
+/**
+ * Layout base: <head> completo (title, meta, canonical, OG, JSON-LD), tema claro/oscuro sin parpadeo,
+ * consentimiento (Consent Mode v2) y GTM solo en producción con permiso.
+ */
+import '../styles/global.css';
+import '../styles/motion.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AvisoCookies from '../components/AvisoCookies.astro';
+import BotonWhatsApp from '../components/BotonWhatsApp.astro';
+import BotonArriba from '../components/BotonArriba.astro';
+import { sitio } from '../lib/data';
+import { organizacion, sitioWeb } from '../lib/seo';
+
+interface Props {
+  title: string;              // sin sufijo; el layout agrega " · Quimiolab" salvo en el home
+  description: string;
+  canonical?: string;         // ruta absoluta o relativa; por defecto la URL actual
+  noindex?: boolean;
+  imagen?: string;            // OG image absoluta o relativa
+  tipo?: 'website' | 'article' | 'product';
+  jsonld?: object[];          // bloques adicionales (Organization y WebSite van siempre)
+  claseBody?: string;
+  gsap?: boolean;      // coreografía GSAP (solo vitrina: home)
+  heroImg?: boolean;   // la página tiene #hero-img (portada del post) para la transición
+  editable?: string;   // clave de página para el editor in situ (home, nosotros, contactenos)
+}
+const { title, description, canonical, noindex = false, imagen, tipo = 'website', jsonld = [], claseBody = '', gsap = false, heroImg = false, editable } = Astro.props;
+const esHome = Astro.url.pathname === '/';
+const titulo = esHome ? title : `${title} · Quimiolab`;
+const abs = (u: string) => (u.startsWith('http') ? u : `${sitio.url}${u.startsWith('/') ? u : '/' + u}`);
+const urlCanonica = abs(canonical ?? Astro.url.pathname);
+const og = abs(imagen ?? '/og-quimiolab.jpg');
+const previsualizacion = import.meta.env.PUBLIC_NOINDEX === '1';
+const robots = noindex || previsualizacion ? 'noindex, follow' : 'index, follow, max-image-preview:large';
+const bloques = [organizacion(), sitioWeb(), ...jsonld];
+---
+<!doctype html>
+<html lang="es-CO" data-gsap={gsap ? '' : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={urlCanonica} />
+    <meta property="og:type" content={tipo === 'article' ? 'article' : 'website'} />
+    <meta property="og:site_name" content="Quimiolab" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={urlCanonica} />
+    <meta property="og:image" content={og} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#001A4D" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Blog científico de Quimiolab" href="/blog/rss.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" />
+    <!-- Tema: se aplica antes de pintar para evitar el parpadeo -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('ql-tema');
+          if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+    <!-- Navegación: toda página nueva abre arriba; "atrás" conserva el scroll -->
+    <script is:inline>
+      (function () {
+        try {
+          var nav = performance.getEntriesByType('navigation')[0];
+          var atras = nav && nav.type === 'back_forward';
+          if (!atras && !location.hash) {
+            window.scrollTo(0, 0);
+            window.addEventListener('pageshow', function (e) { if (!e.persisted) window.scrollTo(0, 0); }, { once: true });
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <!-- Movimiento: red de seguridad para la coreografía GSAP y foto que "vuela" entre páginas -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        if (d.hasAttribute('data-gsap') && !matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]edit/.test(location.search)) {
+          d.classList.add('gsap-wait'); setTimeout(function () { d.classList.remove('gsap-wait'); }, 1500);
+        }
+        addEventListener('pagereveal', function (e) {
+          if (!e.viewTransition) return;
+          var h = document.getElementById('hero-img'); if (!h) return;
+          h.style.viewTransitionName = 'vt-hero';
+          e.viewTransition.finished.finally(function () { h.style.viewTransitionName = ''; });
+        });
+      })();
+    </script>
+    {heroImg && <link rel="expect" href="#hero-img" blocking="render" />}
+    <!-- Consent Mode v2: todo denegado hasta que la persona decida -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', functionality_storage: 'granted', security_storage: 'granted', wait_for_update: 500 });
+      try {
+        var c = JSON.parse(localStorage.getItem('ql-consent') || 'null');
+        if (c && c.t && Date.now() - c.t < 31536000000) {
+          gtag('consent', 'update', { analytics_storage: c.a ? 'granted' : 'denied', ad_storage: c.m ? 'granted' : 'denied', ad_user_data: c.m ? 'granted' : 'denied', ad_personalization: c.m ? 'granted' : 'denied' });
+          window.__qlConsent = c;
+        }
+      } catch (e) {}
+    </script>
+    {!previsualizacion && sitio.gtm && (
+      <script is:inline define:vars={{ gtm: sitio.gtm }}>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',gtm);
+      </script>
+    )}
+    {bloques.map((b) => <script type="application/ld+json" set:html={JSON.stringify(b)} />)}
+  </head>
+  <body class={claseBody}>
+    <a class="saltar" href="#contenido">Ir al contenido</a>
+    <Header />
+    <main id="contenido" data-ed-page={editable}>
+      <slot />
+    </main>
+    <Footer />
+    <AvisoCookies />
+    <BotonWhatsApp />
+    <BotonArriba />
+    <script>
+      import '../scripts/contenido.ts';
+      import '../scripts/motion.ts';
+    </script>
+    <style>
+      .saltar { position: absolute; left: -999rem; top: 0.5rem; z-index: 100; background: var(--btn); color: var(--btn-ink); padding: .5rem 1rem; border-radius: var(--r-md); }
+      .saltar:focus { left: 0.5rem; }
+    </style>
+  </body>
+</html>

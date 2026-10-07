@@ -1,0 +1,406 @@
+/* ============================================================================
+   Quimiolab — sistema de diseño en código
+   Tokens en 3 capas: primitivos → semánticos → (de componente, solo si hace falta).
+   Todo en rem; solo cambia el font-size de <html> (escalado fluido, ver abajo).
+   Se quedan en px: bordes 1–2 px, sombras, filtros, pills y media queries.
+   Guía viva: /sistema
+   ========================================================================== */
+
+/* ---------- 1. Primitivos (nombres de color, nunca se usan en componentes) ---------- */
+:root {
+  --navy-900: #00133A;
+  --navy-800: #001A4D;   /* Navy primario (manual) */
+  --navy-700: #002468;   /* Navy medio (lenguaje 2026) */
+  --inst-500: #044495;   /* Azul institucional: panel plano cuando no hay degradado */
+  --sd-500: #004A98;     /* Azul SD (solo orbe de portada/cierre o SD como marca representada) */
+  --navy-600: #003087;   /* Azul corporativo (manual) */
+  --navy-500: #0B4AA8;
+  --azul-500: #0097D6;   /* Azul Quimiolab — el del logo */
+  --azul-400: #26AEE6;
+  --azul-300: #7FD4FF;
+  --azul-200: #C2D8EC;   /* Azul claro (manual) */
+  --azul-100: #E3EEF8;
+  --azul-050: #F3F7FB;
+  --ink-900: #0B1B3A;
+  --ink-700: #2E3D5C;
+  --ink-500: #4A5A78;
+  --ink-300: #8A97B0;
+  --linea-200: #DCE6F0;
+  --blanco: #FFFFFF;
+  --ok-500: #1F9D62;   --ok-100: #DDF5E8;
+  --aviso-500: #C77700; --aviso-100: #FFF0D6;
+  --error-500: #C8312B; --error-100: #FDE3E1;
+
+  /* Tipografía */
+  --f-display: Poppins, "Helvetica Neue", Arial, sans-serif;
+  --f-body: Roboto, "Helvetica Neue", Arial, sans-serif;
+  --t-xs: 0.75rem;   /* 12 */
+  --t-sm: 0.875rem;  /* 14 */
+  --t-md: 1rem;      /* 16 */
+  --t-lg: 1.125rem;  /* 18 */
+  --t-xl: 1.375rem;  /* 22 */
+  --t-2xl: clamp(1.625rem, 1.2rem + 1.4vw, 2.125rem);   /* 26 → 34 */
+  --t-3xl: clamp(1.875rem, 1.3rem + 2vw, 2.75rem);      /* 30 → 44 */
+  --t-4xl: clamp(2.375rem, 1.6rem + 3.2vw, 4.125rem);   /* 38 → 66 */
+
+  /* Espacio (escala 4) */
+  --s-1: 0.25rem; --s-2: 0.5rem; --s-3: 0.75rem; --s-4: 1rem; --s-5: 1.5rem;
+  --s-6: 2rem; --s-7: 3rem; --s-8: 4rem; --s-9: 6rem;
+  --seccion: clamp(4rem, 8vw, 7rem);
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --max: 75rem;           /* 1200 */
+  --max-texto: 42rem;     /* ~65 caracteres */
+
+  /* Radios */
+  --r-sm: 0.375rem; --r-md: 0.5rem; --r-lg: 0.875rem; --r-xl: 1rem; --r-pill: 999px;
+
+  /* Movimiento */
+  --dur-1: 120ms; --dur-2: 200ms; --dur-3: 320ms; --dur-4: 600ms;
+  --ease-out: cubic-bezier(.2,.7,.2,1); --ease-in: cubic-bezier(.5,0,.8,.4); --ease-in-out: cubic-bezier(.65,0,.35,1);
+
+  /* Sombras (px a propósito) */
+  --sombra-1: 0 1px 2px rgba(0,26,77,.06), 0 4px 12px rgba(0,26,77,.06);
+  --sombra-2: 0 12px 40px rgba(0,26,77,.18);
+  --sombra-3: 0 30px 80px rgba(0,0,0,.35);
+  --sombra-bento: 0 6px 18px rgba(11,27,51,.06);
+  --sombra-glass: 0 8px 24px rgba(0,26,77,.06);
+  --r-bento: 1rem;        /* 0,22 in */
+  --gutter-bento: 0.8125rem; /* 0,18 in */
+
+  /* Lenguaje visual 2026: degradado navy (20–75°), nunca navy → negro */
+  --grad-navy: linear-gradient(35deg, #001A4D 0%, #002468 52%, #003087 100%);
+  --grad-navy-v: linear-gradient(160deg, #001A4D 0%, #002468 55%, #003087 100%);
+  /* Degradado oficial de marca (manual v2/v3): tarjetas, botones, Q-lupa */
+  --grad-marca: linear-gradient(135deg, #0075DA 0%, #00C0E4 100%);
+
+  /* Acentos del manual (paleta institucional ampliada) — el 10 % de la regla 60/30/10 */
+  --brillante: #00CDF4;   /* Azul Brillante — deco sobre navy */
+  --azul-medio: #0081F1;
+  --cielo: #2E86C8;
+  --teal: #0E8CA9;        /* Teal Científico */
+  --verde: #00946E;
+  --verdoso: #00B6AB;     /* Azul Verdoso */
+  --verdoso-900: #1D4851;
+  --amarillo: #FFCB2B;
+  --nube: #D0E7F5;        /* Azul Nube — fondo de textura ADN clara */
+  --hielo: #E0F4FB;       /* Azul Hielo */
+  --gris-500: #717371;
+
+  /* Colores de campaña por tema clínico (manual › Campañas) */
+  --camp-magenta: #9C3367;  /* malaria, vectores */
+  --camp-rosa: #F33C76;     /* tuberculosis, respiratoria */
+  --camp-verde: #319638;    /* autoinmunidad, alergias */
+  --camp-inst: #044495;     /* institucional */
+  --camp-teal: #0E8CA9;     /* biología molecular, genética, NGS/PCR */
+  --camp-violeta: #6B3FA0;  /* oncología, hematología */
+  --camp-naranja: #E8622A;  /* urgencias, point of care */
+
+  /* Color de cada línea de solución (campaña del tema clínico) */
+  --linea-diagnostico: var(--camp-verde);
+  --linea-diagnostico-molecular: var(--camp-teal);
+  --linea-investigacion: var(--camp-violeta);
+  --linea-point-of-care: var(--camp-naranja);
+
+  color-scheme: light;
+}
+
+/* ---------- 2. Semánticos — tema claro (principal en catálogo y blog) ---------- */
+:root {
+  --canvas: var(--blanco);          /* fondo de página */
+  --canvas-2: var(--azul-050);      /* franjas alternas */
+  --card: var(--blanco);
+  --card-2: var(--azul-050);
+  --linea: var(--linea-200);
+  --linea-fuerte: #B9CBE0;
+  --ink: var(--ink-900);            /* texto principal */
+  --ink-2: var(--ink-500);          /* texto secundario */
+  --ink-3: var(--ink-300);          /* texto terciario / placeholders */
+  --marca: var(--navy-800);         /* titulares de marca sobre claro */
+  --action: var(--azul-500);        /* enlaces, acentos */
+  --action-hover: #0088C2;
+  --action-ink: var(--blanco);      /* texto sobre --action */
+  --btn: var(--azul-500);
+  --btn-ink: var(--blanco);
+  --btn-hover: #00A9EE;
+  --focus: var(--azul-500);
+  --chip: var(--azul-100);
+  --chip-ink: var(--navy-600);
+  --ok: var(--ok-500); --ok-bg: var(--ok-100);
+  --aviso: var(--aviso-500); --aviso-bg: var(--aviso-100);
+  --error: var(--error-500); --error-bg: var(--error-100);
+  --scrim: rgba(0,26,77,.55);
+
+  /* Bloques navy (hero, resultados, contacto): iguales en ambos temas */
+  --navy: var(--navy-800);
+  --navy-2: var(--navy-600);
+  --navy-ink: var(--blanco);
+  --navy-ink-2: var(--azul-200);
+  --navy-linea: rgba(194,216,236,.16);
+  --navy-card: rgba(0,48,135,.35);
+}
+
+/* ---------- 2b. Tema oscuro — paleta propia, no invertida ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #071734;
+  --canvas-2: #0B1F45;
+  --card: #0F2650;
+  --card-2: #142E5C;
+  --linea: rgba(194,216,236,.14);
+  --linea-fuerte: rgba(194,216,236,.28);
+  --ink: #EAF1F9;
+  --ink-2: #B7C7DC;
+  --ink-3: #7F93B2;
+  --marca: #EAF1F9;
+  --action: #3FB6EE;
+  --action-hover: #7FD4FF;
+  --action-ink: #071734;
+  --btn: var(--azul-500);
+  --btn-ink: var(--blanco);
+  --btn-hover: #26AEE6;
+  --focus: #7FD4FF;
+  --chip: rgba(0,151,214,.18);
+  --chip-ink: #BFE5F8;
+  --ok: #4CC58B; --ok-bg: rgba(31,157,98,.18);
+  --aviso: #F2B21F; --aviso-bg: rgba(199,119,0,.18);
+  --error: #FF7B73; --error-bg: rgba(200,49,43,.2);
+  --scrim: rgba(0,10,30,.65);
+  --sombra-1: 0 1px 2px rgba(0,0,0,.25), 0 4px 12px rgba(0,0,0,.25);
+  --sombra-2: 0 12px 40px rgba(0,0,0,.45);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --canvas: #071734;
+    --canvas-2: #0B1F45;
+    --card: #0F2650;
+    --card-2: #142E5C;
+    --linea: rgba(194,216,236,.14);
+    --linea-fuerte: rgba(194,216,236,.28);
+    --ink: #EAF1F9;
+    --ink-2: #B7C7DC;
+    --ink-3: #7F93B2;
+    --marca: #EAF1F9;
+    --action: #3FB6EE;
+    --action-hover: #7FD4FF;
+    --action-ink: #071734;
+    --btn: var(--azul-500);
+    --btn-ink: var(--blanco);
+    --btn-hover: #26AEE6;
+    --focus: #7FD4FF;
+    --chip: rgba(0,151,214,.18);
+    --chip-ink: #BFE5F8;
+    --ok: #4CC58B; --ok-bg: rgba(31,157,98,.18);
+    --aviso: #F2B21F; --aviso-bg: rgba(199,119,0,.18);
+    --error: #FF7B73; --error-bg: rgba(200,49,43,.2);
+    --scrim: rgba(0,10,30,.65);
+    --sombra-1: 0 1px 2px rgba(0,0,0,.25), 0 4px 12px rgba(0,0,0,.25);
+    --sombra-2: 0 12px 40px rgba(0,0,0,.45);
+  }
+}
+
+/* ---------- 3. Escalado fluido (método Ricks) ----------
+   Hasta 1440 px: tamaño del navegador (16 px). 1440 → 1920 px: 16 → 20 px; tope 20 px.
+   pendiente 4/480 = 0,008333 → 0,8333vw; intersección 16 − 12 = 4 px = 0,25 rem. */
+html { font-size: 100%; -webkit-text-size-adjust: 100%; }
+@media (min-width: 1440px) { html { font-size: clamp(1rem, 0.25rem + 0.8333vw, 1.25rem); } }
+
+/* ---------- 4. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--canvas); color: var(--ink);
+  font-family: var(--f-body); font-size: var(--t-md); line-height: 1.6;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  /* Pie siempre abajo: la página ocupa al menos la altura de la ventana y <main> absorbe el sobrante */
+  min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+}
+body > main { flex: 1 0 auto; }
+body > footer { flex-shrink: 0; }
+h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 700; letter-spacing: -.025em; line-height: 1.12; margin: 0; text-wrap: balance; color: var(--marca); }
+h1 { font-size: var(--t-4xl); font-weight: 700; }
+h2 { font-size: var(--t-3xl); }
+h3 { font-size: var(--t-xl); }
+h4 { font-size: var(--t-lg); }
+p { margin: 0; }
+a { color: var(--action); text-decoration: none; }
+a:hover { color: var(--action-hover); }
+img, svg, video { max-width: 100%; height: auto; display: block; }
+button { font: inherit; }
+:where(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--r-sm); }
+::selection { background: var(--azul-500); color: #fff; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- 5. Utilidades de layout ---------- */
+.wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+.wrap-texto { max-width: var(--max-texto); }
+.seccion { padding-block: var(--seccion); }
+.seccion-2 { background: var(--canvas-2); }
+.seccion-navy { position: relative; isolation: isolate; overflow: hidden; background: var(--grad-navy); color: var(--navy-ink); }
+/* Orbes difuminados (máx. 3 por pieza): se funden a transparencia antes del borde */
+.seccion-navy::before, .seccion-navy::after, .orbe { content: ""; position: absolute; border-radius: 50%; pointer-events: none; z-index: -1; filter: blur(2.5rem); }
+.seccion-navy::before { width: 38rem; height: 38rem; right: -12rem; top: -14rem; background: radial-gradient(circle, rgba(0,151,214,.55) 0%, rgba(0,151,214,0) 68%); }
+.seccion-navy::after { width: 28rem; height: 28rem; left: -10rem; bottom: -12rem; background: radial-gradient(circle, rgba(0,151,214,.35) 0%, rgba(0,151,214,0) 68%); }
+.seccion-navy > :where(:not(.orbe):not(.patron):not(.qlupa-deco)) { position: relative; }
+.orbe-sd { background: radial-gradient(circle, rgba(0,74,152,.6) 0%, rgba(0,74,152,0) 68%); }
+/* Fondo claro de contenido: blanco → tinte del aliado/sección al 14 % */
+.tinte { --aliado: var(--azul-500); background: linear-gradient(180deg, var(--canvas) 0%, color-mix(in srgb, var(--aliado) 14%, var(--canvas)) 100%); }
+.tinte-2 { --aliado: var(--azul-500); background: linear-gradient(180deg, color-mix(in srgb, var(--aliado) 14%, var(--canvas)) 0%, var(--canvas) 100%); }
+/* Fondo de textura ADN clara: hélice sobre Azul Nube (documentos, fichas, franjas claras) */
+.nube { background: linear-gradient(180deg, var(--hielo) 0%, var(--nube) 100%); }
+:root[data-theme="dark"] .nube { background: linear-gradient(180deg, #0B1F45, #0F2650); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nube { background: linear-gradient(180deg, #0B1F45, #0F2650); } }
+
+/* Patrones del sistema (7 texturas tileables + panel de ADN). Un solo patrón por pieza:
+   4–7 % sobre claro, 12–18 % sobre oscuro. Van como máscara para tomar cualquier color. */
+.patron { position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: var(--patron-color, var(--azul-500)); opacity: var(--patron-op, .06);
+  -webkit-mask: var(--patron-img) var(--patron-pos, 0 0) / var(--patron-size, 22rem) repeat; mask: var(--patron-img) var(--patron-pos, 0 0) / var(--patron-size, 22rem) repeat; }
+.patron-adn { --patron-img: url(/patrones/adn.svg); }
+.patron-q { --patron-img: url(/patrones/reticula-q.svg); }
+.patron-lente { --patron-img: url(/patrones/lente.svg); --patron-size: 60rem; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+.patron-red { --patron-img: url(/patrones/red-molecular.svg); }
+.patron-ondas { --patron-img: url(/patrones/ondas.svg); }
+.patron-microplaca { --patron-img: url(/patrones/microplaca.svg); --patron-size: 18rem; }
+.patron-cromatograma { --patron-img: url(/patrones/cromatograma.svg); }
+/* Panel de doble hélice diagonal: entero, sin repetir; portadas, banners y franjas de cierre */
+.patron-panel { --patron-img: url(/patrones/panel-adn-diagonal.webp); --patron-size: cover; --patron-pos: center; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+.seccion-navy .patron, .patron-oscuro { --patron-color: #fff; --patron-op: .14; }
+.patron-suave { --patron-op: .04; }
+.patron-desvanecido { -webkit-mask-image: var(--patron-img), linear-gradient(#000, transparent); mask-image: var(--patron-img), linear-gradient(#000, transparent); -webkit-mask-composite: source-in; mask-composite: intersect; }
+:root[data-theme="dark"] .patron:not(.patron-oscuro) { --patron-color: #C2D8EC; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .patron:not(.patron-oscuro) { --patron-color: #C2D8EC; } }
+/* El contenedor que lleva patrón u orbes debe aislar */
+.con-patron { position: relative; isolation: isolate; overflow: hidden; }
+.con-patron > :where(:not(.patron):not(.orbe):not(.qlupa-deco)) { position: relative; }
+
+/* Foto en duotono del color de campaña (manual › Fotografía) */
+/* sombras al color de campaña (screen), luces claras; la foto se intuye, no compite */
+.duotono { position: relative; isolation: isolate; overflow: hidden; }
+.duotono > img { filter: grayscale(1) contrast(1.08) brightness(.92); display: block; }
+.duotono::after { content: ""; position: absolute; inset: 0; background: var(--campana, var(--navy-600)); mix-blend-mode: screen; opacity: .9; pointer-events: none; }
+
+/* Glass: solo sobre degradado o fondo con luz */
+.glass { background: rgba(255,255,255,.82); color: var(--ink-900); border: 1px solid rgba(255,255,255,.9); border-radius: var(--r-bento); box-shadow: var(--sombra-glass); backdrop-filter: blur(10px); }
+.glass-oscuro { background: rgba(255,255,255,.07); color: #fff; border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-bento); backdrop-filter: blur(10px); }
+:root[data-theme="dark"] .glass { background: rgba(15,38,80,.78); color: var(--ink); border-color: rgba(194,216,236,.22); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .glass { background: rgba(15,38,80,.78); color: var(--ink); border-color: rgba(194,216,236,.22); } }
+/* Bento: radio 16 px, gutter 13 px, sombra suave, llena el alto */
+.bento { display: grid; gap: var(--gutter-bento); align-items: stretch; }
+/* Endoso de grupo SD Biosensor */
+.endoso { display: inline-grid; justify-items: start; gap: .375rem; }
+.endoso small { font-family: var(--f-body); font-weight: 700; font-size: 0.5rem; letter-spacing: .25em; text-transform: uppercase; color: var(--azul-200); }
+.endoso svg { width: 7.5rem; color: #fff; }
+.endoso-claro small { color: var(--ink-3); } .endoso-claro svg { color: #666464; }
+/* Q-lupa decorativa en el color del aliado */
+.qlupa-deco { position: absolute; pointer-events: none; z-index: -1; color: var(--aliado, var(--azul-500)); opacity: .9; }
+.seccion-navy h1, .seccion-navy h2, .seccion-navy h3 { color: var(--navy-ink); }
+.seccion-navy .eyebrow { color: var(--brillante); }
+.seccion-navy p.lead, .seccion-navy .muted { color: var(--navy-ink-2); }
+.cabecera { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--s-5); margin-bottom: var(--s-7); flex-wrap: wrap; }
+.cabecera h2 { max-width: 18ch; }
+.cabecera .lead { max-width: 52ch; color: var(--ink-2); font-size: var(--t-lg); }
+.eyebrow { font-family: var(--f-body); font-weight: 700; font-size: var(--t-xs); letter-spacing: .2em; text-transform: uppercase; color: var(--action); margin-bottom: var(--s-3); display: block; }
+.muted { color: var(--ink-2); }
+/* Negritas para escanear: la negrita sube un paso de contraste, nunca cambia de color de marca */
+p strong, li strong, .lead strong { font-weight: 700; color: var(--marca); }
+.seccion-navy p strong, .seccion-navy li strong, .hero p strong, .contacto p strong, .pie p strong { color: #fff; }
+.tabular { font-variant-numeric: tabular-nums; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.grid { display: grid; gap: var(--gutter-bento); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1080px) { .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+/* ---------- 6. Botones ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+  font-family: var(--f-display); font-weight: 600; font-size: 0.9375rem; line-height: 1;
+  min-height: 2.75rem; padding: 0.8125rem 1.375rem; border-radius: var(--r-md);
+  border: 1.5px solid transparent; cursor: pointer; text-decoration: none;
+  transition: background var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.btn:active { transform: translateY(1px) scale(.98); }
+:where(a, button, [role="button"], input, select, textarea, summary) { touch-action: manipulation; }
+:target, [id] { scroll-margin-top: 5.5rem; }
+.btn[aria-busy="true"] { position: relative; color: transparent !important; pointer-events: none; }
+.btn[aria-busy="true"]::after { content: ""; position: absolute; width: 1.125rem; height: 1.125rem; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; color: var(--btn-ink); animation: girar .7s linear infinite; }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+.btn-primario { background: var(--grad-marca); color: var(--btn-ink); box-shadow: 0 6px 18px rgba(0,151,214,.28); }
+.btn-primario:hover { background: linear-gradient(135deg, #0081F1 0%, #00CDF4 100%); color: var(--btn-ink); box-shadow: 0 8px 22px rgba(0,151,214,.4); }
+.btn-secundario { background: transparent; color: var(--marca); border-color: var(--linea-fuerte); }
+.btn-secundario:hover { border-color: var(--marca); color: var(--marca); background: var(--canvas-2); }
+.seccion-navy .btn-secundario, .btn-fantasma { background: transparent; color: #fff; border-color: rgba(255,255,255,.35); }
+.seccion-navy .btn-secundario:hover, .btn-fantasma:hover { border-color: #fff; background: rgba(255,255,255,.06); color: #fff; }
+.btn-enlace { background: none; border: 0; padding: 0; min-height: 0; color: var(--action); font-weight: 500; font-family: var(--f-body); gap: var(--s-2); }
+.btn-enlace:hover { gap: var(--s-3); color: var(--action-hover); }
+.btn-sm { min-height: 2.25rem; padding: 0.5rem 0.875rem; font-size: var(--t-sm); }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* ---------- 7. Campos ---------- */
+.campo { display: grid; gap: var(--s-2); font-size: var(--t-sm); font-weight: 500; color: var(--ink-2); }
+.campo input, .campo select, .campo textarea {
+  font: inherit; font-size: var(--t-md); font-weight: 400; color: var(--ink);
+  padding: 0.75rem 0.875rem; border: 1px solid var(--linea-fuerte); border-radius: var(--r-md);
+  background: var(--canvas); width: 100%; min-height: 2.75rem;
+  transition: border-color var(--dur-2), box-shadow var(--dur-2);
+}
+.campo input::placeholder, .campo textarea::placeholder { color: var(--ink-3); }
+.campo input:hover, .campo select:hover, .campo textarea:hover { border-color: var(--ink-3); }
+.campo input:focus-visible, .campo select:focus-visible, .campo textarea:focus-visible { outline: 0; border-color: var(--action); box-shadow: 0 0 0 3px color-mix(in srgb, var(--action) 25%, transparent); }
+.campo textarea { min-height: 6rem; resize: vertical; }
+.campo [aria-invalid="true"] { border-color: var(--error); }
+.campo .ayuda { font-weight: 400; color: var(--ink-3); font-size: var(--t-xs); }
+.campo .error { display: flex; gap: var(--s-1); align-items: center; color: var(--error); font-weight: 500; font-size: var(--t-xs); }
+.campo .error:empty { display: none; }
+.check { display: flex; gap: var(--s-2); align-items: flex-start; font-size: var(--t-sm); color: var(--ink-2); font-weight: 400; }
+.check input { width: 1.125rem; height: 1.125rem; margin-top: 0.125rem; accent-color: var(--action); flex: none; }
+
+/* ---------- 8. Chips, alertas, tarjetas ---------- */
+.chip { display: inline-flex; align-items: center; gap: var(--s-1); padding: 0.25rem 0.625rem; border-radius: var(--r-pill); font-size: var(--t-xs); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--chip-ink); white-space: nowrap; }
+.chip-aliado { --aliado: var(--azul-500); background: #fff; color: #0B1B3A; border: 1px solid var(--linea); padding-left: 0.5rem; }
+.chip-aliado::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--aliado); }
+.alerta { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-4); border-radius: var(--r-md); font-size: var(--t-sm); border: 1px solid transparent; }
+.alerta[hidden] { display: none; }
+.alerta svg { width: 1.25rem; height: 1.25rem; flex: none; }
+.alerta-ok { background: var(--ok-bg); color: var(--ok); border-color: color-mix(in srgb, var(--ok) 30%, transparent); }
+.alerta-aviso { background: var(--aviso-bg); color: var(--aviso); border-color: color-mix(in srgb, var(--aviso) 30%, transparent); }
+.alerta-error { background: var(--error-bg); color: var(--error); border-color: color-mix(in srgb, var(--error) 30%, transparent); }
+.alerta-info { background: var(--chip); color: var(--chip-ink); }
+.tarjeta { background: var(--card); border: 1px solid var(--linea); border-radius: var(--r-bento); box-shadow: var(--sombra-bento); overflow: hidden; display: flex; flex-direction: column; transition: border-color var(--dur-2), box-shadow var(--dur-2), transform var(--dur-2) var(--ease-out); }
+.tarjeta:hover { border-color: var(--linea-fuerte); box-shadow: var(--sombra-2); transform: translateY(-2px); }
+.placa { background: #fff; border-radius: var(--r-md); border: 1px solid var(--linea); box-shadow: var(--sombra-bento); display: grid; place-items: center; padding: var(--s-3) var(--s-4); }
+.placa img, .placa svg { max-height: 2.75rem; width: auto; max-width: 100%; }
+.esqueleto { background: linear-gradient(90deg, var(--canvas-2) 25%, var(--card-2) 50%, var(--canvas-2) 75%); background-size: 200% 100%; animation: brillo 1.4s linear infinite; border-radius: var(--r-sm); color: transparent; }
+@keyframes brillo { to { background-position: -200% 0; } }
+.vacio { text-align: center; padding: var(--s-8) var(--s-4); color: var(--ink-2); border: 1px dashed var(--linea-fuerte); border-radius: var(--r-lg); }
+.vacio svg { width: 2.5rem; height: 2.5rem; margin: 0 auto var(--s-3); color: var(--ink-3); }
+
+/* ---------- 9. Prosa (contenido del CMS) ---------- */
+.prosa { max-width: var(--max-texto); font-size: var(--t-lg); line-height: 1.7; color: var(--ink); }
+.prosa > * + * { margin-top: 1.1em; }
+.prosa h2 { font-size: var(--t-2xl); margin-top: 1.8em; }
+.prosa h3 { margin-top: 1.5em; }
+.prosa ul, .prosa ol { padding-left: 1.25em; }
+.prosa li + li { margin-top: .35em; }
+.prosa a { text-decoration: underline; text-underline-offset: .15em; }
+.prosa img { border-radius: var(--r-md); }
+.prosa table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+.prosa th, .prosa td { border: 1px solid var(--linea); padding: .5rem .75rem; text-align: left; }
+.prosa strong, .prosa b { color: var(--marca); font-weight: 700; }
+.prosa blockquote { border-left: 3px solid var(--action); margin: 0; padding-left: 1rem; color: var(--ink-2); }
+.prosa .tabla-scroll { overflow-x: auto; }
+
+/* ---------- 10. Miga de pan y paginación ---------- */
+.miga { display: flex; flex-wrap: wrap; gap: var(--s-2); font-size: var(--t-sm); color: var(--ink-2); list-style: none; margin: 0 0 var(--s-5); padding: 0; }
+.miga li + li::before { content: "/"; margin-right: var(--s-2); color: var(--ink-3); }
+.miga a { color: var(--ink-2); }
+.miga a:hover { color: var(--action); }
+.miga [aria-current] { color: var(--ink); font-weight: 500; }
+.paginacion { display: flex; gap: var(--s-2); justify-content: center; align-items: center; margin-top: var(--s-7); flex-wrap: wrap; }
+.paginacion a, .paginacion span { min-width: 2.5rem; height: 2.5rem; display: inline-grid; place-items: center; border-radius: var(--r-md); border: 1px solid var(--linea); padding-inline: var(--s-3); font-weight: 500; color: var(--ink); }
+.paginacion a:hover { border-color: var(--action); color: var(--action); }
+.paginacion [aria-current="page"] { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }

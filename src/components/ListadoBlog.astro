@@ -1,0 +1,30 @@
+---
+import Miga from './Miga.astro';
+import Imagen from './Imagen.astro';
+import Paginacion from './Paginacion.astro';
+import Icon from './Icon.astro';
+import { fecha } from '../lib/data';
+interface Props { items: any[]; pagina: number; total: number }
+const { items, pagina, total } = Astro.props;
+const ruta = [{ nombre: 'Blog', url: '/blog/' }, ...(pagina > 1 ? [{ nombre: `Página ${pagina}`, url: `/blog/pagina/${pagina}/` }] : [])];
+---
+<section class="seccion"><div class="wrap">
+  <Miga items={ruta} />
+  <div class="cabecera"><div><span class="eyebrow">Blog científico</span><h1>Lo último en investigación y diagnóstico clínico</h1></div><p class="lead">Artículos del equipo científico de Quimiolab sobre autoinmunidad, enfermedades infecciosas, biología molecular y práctica del laboratorio.</p></div>
+  <div class="grid grid-3">
+    {items.map((p) => <article class="tarjeta entrada"><a href={p.url} class="fig" tabindex="-1" aria-hidden="true"><Imagen img={p.imagen} alt="" /></a><div class="cuerpo"><time datetime={p.fecha} class="muted">{fecha(p.fecha)}</time><h2><a href={p.url}>{p.titulo}</a></h2><p class="muted">{p.resumen}</p><span class="ver">Leer <Icon name="flecha" size={16} /></span></div></article>)}
+  </div>
+  <Paginacion actual={pagina} total={total} base="/blog/" />
+</div></section>
+<style>
+  h1 { font-size: var(--t-3xl); }
+  .entrada { position: relative; }
+  .fig { display: block; aspect-ratio: 16/10; overflow: hidden; background: var(--canvas-2); }
+  .fig :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .cuerpo { padding: var(--s-4); display: grid; gap: .5rem; flex: 1; align-content: start; }
+  time { font-size: var(--t-xs); text-transform: uppercase; letter-spacing: .08em; }
+  h2 { font-size: var(--t-lg); line-height: 1.3; }
+  h2 a { color: var(--marca); } h2 a::after { content: ""; position: absolute; inset: 0; }
+  .cuerpo p { font-size: var(--t-sm); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .ver { margin-top: auto; padding-top: .5rem; color: var(--action); font-size: var(--t-sm); font-weight: 500; display: inline-flex; gap: .375rem; align-items: center; }
+</style>

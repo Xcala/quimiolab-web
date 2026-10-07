@@ -1,0 +1,766 @@
+{
+  "hosting": {
+    "public": "dist",
+    "cleanUrls": false,
+    "trailingSlash": true,
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "archivo/**",
+      "**/*.map"
+    ],
+    "redirects": [
+      {
+        "source": "/marca/vircell/",
+        "destination": "/marcas/vircell/",
+        "type": 301
+      },
+      {
+        "source": "/vircell/",
+        "destination": "/marcas/vircell/",
+        "type": 301
+      },
+      {
+        "source": "/marca/aesku/",
+        "destination": "/marcas/aesku/",
+        "type": 301
+      },
+      {
+        "source": "/aesku/",
+        "destination": "/marcas/aesku/",
+        "type": 301
+      },
+      {
+        "source": "/marca/sd-biosensor/",
+        "destination": "/marcas/sd-biosensor/",
+        "type": 301
+      },
+      {
+        "source": "/sd-biosensor/",
+        "destination": "/marcas/sd-biosensor/",
+        "type": 301
+      },
+      {
+        "source": "/marca/diapro/",
+        "destination": "/marcas/diapro/",
+        "type": 301
+      },
+      {
+        "source": "/diapro/",
+        "destination": "/marcas/diapro/",
+        "type": 301
+      },
+      {
+        "source": "/marca/binding-site/",
+        "destination": "/marcas/binding-site/",
+        "type": 301
+      },
+      {
+        "source": "/binding-site/",
+        "destination": "/marcas/binding-site/",
+        "type": 301
+      },
+      {
+        "source": "/marca/gold-standard/",
+        "destination": "/marcas/gold-standard/",
+        "type": 301
+      },
+      {
+        "source": "/gold-standard/",
+        "destination": "/marcas/gold-standard/",
+        "type": 301
+      },
+      {
+        "source": "/marca/elitechgroup/",
+        "destination": "/marcas/elitechgroup/",
+        "type": 301
+      },
+      {
+        "source": "/elitech-group/",
+        "destination": "/marcas/elitechgroup/",
+        "type": 301
+      },
+      {
+        "source": "/marca/genmark/",
+        "destination": "/marcas/genmark/",
+        "type": 301
+      },
+      {
+        "source": "/genmark/",
+        "destination": "/marcas/genmark/",
+        "type": 301
+      },
+      {
+        "source": "/marca/meridian-bioscience/",
+        "destination": "/marcas/meridian-bioscience/",
+        "type": 301
+      },
+      {
+        "source": "/meridian-bioscience/",
+        "destination": "/marcas/meridian-bioscience/",
+        "type": 301
+      },
+      {
+        "source": "/marca/thermo-fisher/",
+        "destination": "/marcas/thermo-fisher/",
+        "type": 301
+      },
+      {
+        "source": "/thermo-fisher/",
+        "destination": "/marcas/thermo-fisher/",
+        "type": 301
+      },
+      {
+        "source": "/marca/ningbo-hls-medical/",
+        "destination": "/marcas/ningbo-hls-medical/",
+        "type": 301
+      },
+      {
+        "source": "/ningbo-hls-medical/",
+        "destination": "/marcas/ningbo-hls-medical/",
+        "type": 301
+      },
+      {
+        "source": "/marca/genolution/",
+        "destination": "/marcas/genolution/",
+        "type": 301
+      },
+      {
+        "source": "/genolution/",
+        "destination": "/marcas/genolution/",
+        "type": 301
+      },
+      {
+        "source": "/marca/mp-biomedicals/",
+        "destination": "/marcas/mp-biomedicals/",
+        "type": 301
+      },
+      {
+        "source": "/mp-biomedicals/",
+        "destination": "/marcas/mp-biomedicals/",
+        "type": 301
+      },
+      {
+        "source": "/marca/macherey-nagel/",
+        "destination": "/marcas/macherey-nagel/",
+        "type": 301
+      },
+      {
+        "source": "/macherey-nagel/",
+        "destination": "/marcas/macherey-nagel/",
+        "type": 301
+      },
+      {
+        "source": "/marca/abclonal/",
+        "destination": "/marcas/abclonal/",
+        "type": 301
+      },
+      {
+        "source": "/abclonal/",
+        "destination": "/marcas/abclonal/",
+        "type": 301
+      },
+      {
+        "source": "/marca/abm/",
+        "destination": "/marcas/abm/",
+        "type": 301
+      },
+      {
+        "source": "/abm/",
+        "destination": "/marcas/abm/",
+        "type": 301
+      },
+      {
+        "source": "/marca/diasorin/",
+        "destination": "/marcas/diasorin/",
+        "type": 301
+      },
+      {
+        "source": "/diasorin/",
+        "destination": "/marcas/diasorin/",
+        "type": 301
+      },
+      {
+        "source": "/marca/amplyus/",
+        "destination": "/marcas/amplyus/",
+        "type": 301
+      },
+      {
+        "source": "/amplyus/",
+        "destination": "/marcas/amplyus/",
+        "type": 301
+      },
+      {
+        "source": "/marca/stratec/",
+        "destination": "/marcas/stratec/",
+        "type": 301
+      },
+      {
+        "source": "/stratec/",
+        "destination": "/marcas/stratec/",
+        "type": 301
+      },
+      {
+        "source": "/marca/celltrazone/",
+        "destination": "/marcas/celltrazone/",
+        "type": 301
+      },
+      {
+        "source": "/celltrazone/",
+        "destination": "/marcas/celltrazone/",
+        "type": 301
+      },
+      {
+        "source": "/marca/college-of-american-pathologist/",
+        "destination": "/marcas/college-of-american-pathologist/",
+        "type": 301
+      },
+      {
+        "source": "/college-of-american-pathologist/",
+        "destination": "/marcas/college-of-american-pathologist/",
+        "type": 301
+      },
+      {
+        "source": "/marca/fujirebio/",
+        "destination": "/marcas/fujirebio/",
+        "type": 301
+      },
+      {
+        "source": "/fujirebio/",
+        "destination": "/marcas/fujirebio/",
+        "type": 301
+      },
+      {
+        "source": "/marca/gemini/",
+        "destination": "/marcas/gemini/",
+        "type": 301
+      },
+      {
+        "source": "/gemini/",
+        "destination": "/marcas/gemini/",
+        "type": 301
+      },
+      {
+        "source": "/marca/genosolution/",
+        "destination": "/marcas/genosolution/",
+        "type": 301
+      },
+      {
+        "source": "/genosolution/",
+        "destination": "/marcas/genosolution/",
+        "type": 301
+      },
+      {
+        "source": "/marca/quidel/",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/quidel/",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/marca/tianlong/",
+        "destination": "/marcas/tianlong/",
+        "type": 301
+      },
+      {
+        "source": "/tianlong/",
+        "destination": "/marcas/tianlong/",
+        "type": 301
+      },
+      {
+        "source": "/euformatics/",
+        "destination": "/marcas/",
+        "type": 301
+      },
+      {
+        "source": "/dia-mundial-de-la-tuberculosis-estrategia-end-tb-2/",
+        "destination": "/blog/dia-mundial-de-la-tuberculosis-estrategia-end-tb-2/",
+        "type": 301
+      },
+      {
+        "source": "/conoce-la-actualizacion-de-los-criterios-clasificacion-del-sindrome-antifosfolipido-acr-eular2023/",
+        "destination": "/blog/conoce-la-actualizacion-de-los-criterios-clasificacion-del-sindrome-antifosfolipido-acr-eular2023/",
+        "type": 301
+      },
+      {
+        "source": "/te-gustaria-diagnosticar-micobacterias-no-tuberculosas-por-biologia-molecular/",
+        "destination": "/blog/te-gustaria-diagnosticar-micobacterias-no-tuberculosas-por-biologia-molecular/",
+        "type": 301
+      },
+      {
+        "source": "/conoce-la-plataforma-premium-post-analisis-de-resultados-de-seegene/",
+        "destination": "/blog/conoce-la-plataforma-premium-post-analisis-de-resultados-de-seegene/",
+        "type": 301
+      },
+      {
+        "source": "/diagnostico-de-la-translocacion-t-9-22-bcr-abl-o-cromosoma-filadelfia/",
+        "destination": "/blog/diagnostico-de-la-translocacion-t-9-22-bcr-abl-o-cromosoma-filadelfia/",
+        "type": 301
+      },
+      {
+        "source": "/ok-tengo-vph-y-ahora-que/",
+        "destination": "/blog/ok-tengo-vph-y-ahora-que/",
+        "type": 301
+      },
+      {
+        "source": "/uff-que-bien-no-tengo-vph/",
+        "destination": "/blog/uff-que-bien-no-tengo-vph/",
+        "type": 301
+      },
+      {
+        "source": "/ok-tengo-vph-y-ahora-que-2/",
+        "destination": "/blog/ok-tengo-vph-y-ahora-que-2/",
+        "type": 301
+      },
+      {
+        "source": "/sabes-si-te-encuentras-en-riesgo-de-padecer-de-cancer-de-cuello-uterino/",
+        "destination": "/blog/sabes-si-te-encuentras-en-riesgo-de-padecer-de-cancer-de-cuello-uterino/",
+        "type": 301
+      },
+      {
+        "source": "/recomendaciones-realizadas-por-expertos-de-eflm-easi-e-icap-para-la-deteccion-de-los-anticuerpos-antinucleares-ana/",
+        "destination": "/blog/recomendaciones-realizadas-por-expertos-de-eflm-easi-e-icap-para-la-deteccion-de-los-anticuerpos-antinucleares-ana/",
+        "type": 301
+      },
+      {
+        "source": "/pruebas-de-laboratorio-para-enfermedades-vacunables/",
+        "destination": "/blog/pruebas-de-laboratorio-para-enfermedades-vacunables/",
+        "type": 301
+      },
+      {
+        "source": "/sobre-la-tuberculosis-en-colombia-al-2020/",
+        "destination": "/blog/sobre-la-tuberculosis-en-colombia-al-2020/",
+        "type": 301
+      },
+      {
+        "source": "/resolucion-227-de-2020-del-ministerio-de-salud-y-proteccion-social/",
+        "destination": "/blog/resolucion-227-de-2020-del-ministerio-de-salud-y-proteccion-social/",
+        "type": 301
+      },
+      {
+        "source": "/kits-para-ngs-next-generation-sequencing-preparacion-de-librerias/",
+        "destination": "/blog/kits-para-ngs-next-generation-sequencing-preparacion-de-librerias/",
+        "type": 301
+      },
+      {
+        "source": "/enfermedades-renales-autoinmunes/",
+        "destination": "/blog/enfermedades-renales-autoinmunes/",
+        "type": 301
+      },
+      {
+        "source": "/cups-2023-en-quimiolab/",
+        "destination": "/blog/cups-2023-en-quimiolab/",
+        "type": 301
+      },
+      {
+        "source": "/diagnostico-de-aspergilosis-invasiva-ai-el-resultado-confiable-justo-cuando-lo-necesita/",
+        "destination": "/blog/diagnostico-de-aspergilosis-invasiva-ai-el-resultado-confiable-justo-cuando-lo-necesita/",
+        "type": 301
+      },
+      {
+        "source": "/sobre-la-tuberculosis/",
+        "destination": "/blog/sobre-la-tuberculosis/",
+        "type": 301
+      },
+      {
+        "source": "/lo-que-debes-saber-sobre-vph/",
+        "destination": "/blog/lo-que-debes-saber-sobre-vph/",
+        "type": 301
+      },
+      {
+        "source": "/servicios-y-productos-ofrecidos-de-la-marca-abm-applied-biomedical-materials-inc-canada-2/",
+        "destination": "/blog/servicios-y-productos-ofrecidos-de-la-marca-abm-applied-biomedical-materials-inc-canada-2/",
+        "type": 301
+      },
+      {
+        "source": "/servicios-y-productos-ofrecidos-de-la-marca-abm-applied-biomedical-materials-inc-canada/",
+        "destination": "/blog/servicios-y-productos-ofrecidos-de-la-marca-abm-applied-biomedical-materials-inc-canada/",
+        "type": 301
+      },
+      {
+        "source": "/vih-como-problema-de-salud-publica/",
+        "destination": "/blog/vih-como-problema-de-salud-publica/",
+        "type": 301
+      },
+      {
+        "source": "/cargas-virales/",
+        "destination": "/blog/cargas-virales/",
+        "type": 301
+      },
+      {
+        "source": "/12-de-octubre-dia-mundial-contra-la-artritis/",
+        "destination": "/blog/12-de-octubre-dia-mundial-contra-la-artritis/",
+        "type": 301
+      },
+      {
+        "source": "/sabias-que-la-causa-mas-frecuente-de-trombosis-adquirida-es-el-sindrome-antifosfolipido-o-sindrome-de-anticuerpos-antifosfolipido/",
+        "destination": "/blog/sabias-que-la-causa-mas-frecuente-de-trombosis-adquirida-es-el-sindrome-antifosfolipido-o-sindrome-de-anticuerpos-antifosfolipido/",
+        "type": 301
+      },
+      {
+        "source": "/sabias-que-en-colombia-6-357-adultos-atendidos-en-el-marco-del-sistema-de-seguridad-social-del-pais-tienen-algun-tipo-de-leucemia-1/",
+        "destination": "/blog/sabias-que-en-colombia-6-357-adultos-atendidos-en-el-marco-del-sistema-de-seguridad-social-del-pais-tienen-algun-tipo-de-leucemia-1/",
+        "type": 301
+      },
+      {
+        "source": "/participacion-evento-organizado-por-agrosavia/",
+        "destination": "/blog/participacion-evento-organizado-por-agrosavia/",
+        "type": 301
+      },
+      {
+        "source": "/dengue-una-mirada-introspectiva/",
+        "destination": "/blog/dengue-una-mirada-introspectiva/",
+        "type": 301
+      },
+      {
+        "source": "/sabias-que-monkey-pox/",
+        "destination": "/blog/sabias-que-monkey-pox/",
+        "type": 301
+      },
+      {
+        "source": "/descentralizando-el-diagnostico-molecular-de-enfermedades-infecciosas/",
+        "destination": "/blog/descentralizando-el-diagnostico-molecular-de-enfermedades-infecciosas/",
+        "type": 301
+      },
+      {
+        "source": "/dia-mundial-de-la-alergia-julio-8/",
+        "destination": "/blog/dia-mundial-de-la-alergia-julio-8/",
+        "type": 301
+      },
+      {
+        "source": "/dia-internacional-de-accion-por-la-salud-de-las-mujeres/",
+        "destination": "/blog/dia-internacional-de-accion-por-la-salud-de-las-mujeres/",
+        "type": 301
+      },
+      {
+        "source": "/17-de-mayo-dia-mundial-de-la-hipertension-arterial/",
+        "destination": "/blog/17-de-mayo-dia-mundial-de-la-hipertension-arterial/",
+        "type": 301
+      },
+      {
+        "source": "/hemofilia-estamos-listos-para-la-terapia-genica/",
+        "destination": "/blog/hemofilia-estamos-listos-para-la-terapia-genica/",
+        "type": 301
+      },
+      {
+        "source": "/sobre-los-algoritmos-de-la-resolucion-227-de-2020-lineamientos-tecnicos-y-operativos-del-programa-nacional-de-prevencion-y-control-de-la-tuberculosis/",
+        "destination": "/blog/sobre-los-algoritmos-de-la-resolucion-227-de-2020-lineamientos-tecnicos-y-operativos-del-programa-nacional-de-prevencion-y-control-de-la-tuberculosis/",
+        "type": 301
+      },
+      {
+        "source": "/enfermedades-huerfanas-en-colombia-raras-pero-no-invisibles/",
+        "destination": "/blog/enfermedades-huerfanas-en-colombia-raras-pero-no-invisibles/",
+        "type": 301
+      },
+      {
+        "source": "/entrevista-a-la-doctora-maria-fernanda-rios/",
+        "destination": "/blog/entrevista-a-la-doctora-maria-fernanda-rios/",
+        "type": 301
+      },
+      {
+        "source": "/una-mirada-al-cancer-infantil-en-colombia/",
+        "destination": "/blog/una-mirada-al-cancer-infantil-en-colombia/",
+        "type": 301
+      },
+      {
+        "source": "/covid-19-y-mascotas-puede-ocurrir-la-transmision/",
+        "destination": "/blog/covid-19-y-mascotas-puede-ocurrir-la-transmision/",
+        "type": 301
+      },
+      {
+        "source": "/cancer-en-colombia-como-vamos/",
+        "destination": "/blog/cancer-en-colombia-como-vamos/",
+        "type": 301
+      },
+      {
+        "source": "/deteccion-de-autoanticuerpos-en-la-hepatitis-autoinmune-mediante-ifi-una-aproximacion-a-su-interpretacion-y-utilidad-clinica/",
+        "destination": "/blog/deteccion-de-autoanticuerpos-en-la-hepatitis-autoinmune-mediante-ifi-una-aproximacion-a-su-interpretacion-y-utilidad-clinica/",
+        "type": 301
+      },
+      {
+        "source": "/diagnostico-molecular-la-necesidad-de-su-descentralizacion-y-democratizacion-en-colombia/",
+        "destination": "/blog/diagnostico-molecular-la-necesidad-de-su-descentralizacion-y-democratizacion-en-colombia/",
+        "type": 301
+      },
+      {
+        "source": "/que-hay-de-nuevo-con-la-nomenclatura-y-clasificacion-icap-para-anticuerpos-antinucleares/",
+        "destination": "/blog/que-hay-de-nuevo-con-la-nomenclatura-y-clasificacion-icap-para-anticuerpos-antinucleares/",
+        "type": 301
+      },
+      {
+        "source": "/presente-y-futuro-de-la-secuenciacion-de-nueva-generacion-en-trastornos-del-espectro-autista/",
+        "destination": "/blog/presente-y-futuro-de-la-secuenciacion-de-nueva-generacion-en-trastornos-del-espectro-autista/",
+        "type": 301
+      },
+      {
+        "source": "/euformatics-continua-la-expansion-de-su-red-comercial-a-traves-de-acuerdo-de-distribucion-con-quimiolab/",
+        "destination": "/blog/euformatics-continua-la-expansion-de-su-red-comercial-a-traves-de-acuerdo-de-distribucion-con-quimiolab/",
+        "type": 301
+      },
+      {
+        "source": "/efectividad-de-las-vacunas-contra-las-variantes-de-preocupacion-del-sars-cov-2/",
+        "destination": "/blog/efectividad-de-las-vacunas-contra-las-variantes-de-preocupacion-del-sars-cov-2/",
+        "type": 301
+      },
+      {
+        "source": "/dia-internacional-de-la-lucha-contra-el-uso-indebido-de-drogas/",
+        "destination": "/blog/dia-internacional-de-la-lucha-contra-el-uso-indebido-de-drogas/",
+        "type": 301
+      },
+      {
+        "source": "/dia-mundial-del-donante-de-sangre/",
+        "destination": "/blog/dia-mundial-del-donante-de-sangre/",
+        "type": 301
+      },
+      {
+        "source": "/dia-mundial-de-la-esclerosis-multiple/",
+        "destination": "/blog/dia-mundial-de-la-esclerosis-multiple/",
+        "type": 301
+      },
+      {
+        "source": "/dia-mundial-del-lupus/",
+        "destination": "/blog/dia-mundial-del-lupus/",
+        "type": 301
+      },
+      {
+        "source": "/feliz-dia-a-los-profesionales-en-bacteriologia-28-abril/",
+        "destination": "/blog/feliz-dia-a-los-profesionales-en-bacteriologia-28-abril/",
+        "type": 301
+      },
+      {
+        "source": "/dengue-y-chikungunya/",
+        "destination": "/blog/dengue-y-chikungunya/",
+        "type": 301
+      },
+      {
+        "source": "/dia-mundial-contra-la-tuberculosis-situacion-actual-en-colombia-y-normatividad-vigente/",
+        "destination": "/blog/dia-mundial-contra-la-tuberculosis-situacion-actual-en-colombia-y-normatividad-vigente/",
+        "type": 301
+      },
+      {
+        "source": "/covid-19-sars-cov-2-herramientas-diagnosticas-recomendaciones-de-toma-de-muestra/",
+        "destination": "/blog/covid-19-sars-cov-2-herramientas-diagnosticas-recomendaciones-de-toma-de-muestra/",
+        "type": 301
+      },
+      {
+        "source": "/quimiolab-qpcr-e-interpretacion-de-resultados/",
+        "destination": "/blog/quimiolab-qpcr-e-interpretacion-de-resultados/",
+        "type": 301
+      },
+      {
+        "source": "/operatividac-nextractor-de-genolution/",
+        "destination": "/blog/operatividac-nextractor-de-genolution/",
+        "type": 301
+      },
+      {
+        "source": "/entrenamiento-nextractor-genolution-quimiolab/",
+        "destination": "/blog/entrenamiento-nextractor-genolution-quimiolab/",
+        "type": 301
+      },
+      {
+        "source": "/linea-diagnostico/",
+        "destination": "/soluciones/diagnostico/",
+        "type": 301
+      },
+      {
+        "source": "/productos-linea-diagnostico/",
+        "destination": "/soluciones/diagnostico/productos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos-linea-diagnostico/",
+        "destination": "/soluciones/diagnostico/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/linea-diagnostico-molecular/",
+        "destination": "/soluciones/diagnostico-molecular/",
+        "type": 301
+      },
+      {
+        "source": "/productos-linea-diagnostico-molecular/",
+        "destination": "/soluciones/diagnostico-molecular/productos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos-linea-diagnostico-molecular/",
+        "destination": "/soluciones/diagnostico-molecular/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/linea-investigacion/",
+        "destination": "/soluciones/investigacion/",
+        "type": 301
+      },
+      {
+        "source": "/productos-linea-investigacion/",
+        "destination": "/soluciones/investigacion/productos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos-linea-investigacion/",
+        "destination": "/soluciones/investigacion/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/linea-point-of-care/",
+        "destination": "/soluciones/point-of-care/",
+        "type": 301
+      },
+      {
+        "source": "/productos-linea-point-of-care/",
+        "destination": "/soluciones/point-of-care/productos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos-linea-point-of-care/",
+        "destination": "/soluciones/point-of-care/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/categoria-producto/diagnostico/",
+        "destination": "/soluciones/diagnostico/",
+        "type": 301
+      },
+      {
+        "source": "/categoria-producto/diagnostico-molecular/",
+        "destination": "/soluciones/diagnostico-molecular/",
+        "type": 301
+      },
+      {
+        "source": "/categoria-producto/investigacion/",
+        "destination": "/soluciones/investigacion/",
+        "type": 301
+      },
+      {
+        "source": "/categoria-producto/point-of-care/",
+        "destination": "/soluciones/point-of-care/",
+        "type": 301
+      },
+      {
+        "source": "/sample-page/",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/offerings/",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/tienda/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/carrito/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/finalizar-compra/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/mi-cuenta/",
+        "destination": "/contactenos/",
+        "type": 301
+      },
+      {
+        "source": "/home/",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/etiqueta-producto/producto/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/etiqueta-producto/producto-sd/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/etiqueta-producto/equipo/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/etiqueta-producto/standard-f/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/etiqueta-producto/standard-q/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/etiqueta-producto/standard-m/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/etiqueta-producto/standard-e/",
+        "destination": "/productos/",
+        "type": 301
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/form",
+        "function": {
+          "functionId": "formulario",
+          "region": "us-central1"
+        }
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|css|woff2|png|jpg|jpeg|webp|svg|avif)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=()"
+          }
+        ]
+      }
+    ]
+  }
+}

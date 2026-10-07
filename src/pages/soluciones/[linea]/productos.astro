@@ -1,0 +1,13 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Listado from '../../../components/Listado.astro';
+import { lineas, productosDeLinea } from '../../../lib/data';
+import { migas } from '../../../lib/seo';
+export async function getStaticPaths() { return lineas.map((l) => ({ params: { linea: l.slug }, props: { linea: l } })); }
+const { linea } = Astro.props;
+const items = productosDeLinea(linea.slug);
+const ruta = [{ nombre: 'Soluciones', url: '/soluciones/' }, { nombre: linea.nombre, url: linea.url }, { nombre: 'Productos', url: `${linea.url}productos/` }];
+---
+<Base title={`Productos de ${linea.nombre.toLowerCase()}`} description={`${items.length} productos de ${linea.nombre.toLowerCase()} distribuidos en Colombia por Quimiolab.`} jsonld={[migas(ruta)]}>
+  <Listado tipo="productos" titulo={`Productos · ${linea.nombre}`} eyebrow={`${items.length} referencias`} lead={linea.descripcion} items={items} pagina={1} total={1} base={`${linea.url}productos/`} migas={ruta} filtroLinea={true} />
+</Base>

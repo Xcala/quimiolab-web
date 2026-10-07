@@ -1,0 +1,24 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Editor in situ: la misma lista de correos que src/editor/config.ts (ADMINS)
+    function esAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() in [
+          'nicolas@braindy.co',
+          'leidy.carrillo@quimiolab.com',
+          'daniela.pava@quimiolab.com',
+          'liliana.ramirez@quimiolab.com',
+          'danilo.cabrera@quimiolab.com',
+          'felipe.na@sdbiosensor.com'
+        ];
+    }
+    match /page_contents/{id} {
+      allow read: if true;
+      allow write: if esAdmin()
+        && request.resource.data.keys().hasOnly(['content', 'href', 'alt', 'pos', 'sections', 'page', 'updatedAt', 'updatedBy']);
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

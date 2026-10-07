@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Buscar en el catálogo" description="Busca productos, equipos, marcas y artículos de Quimiolab." noindex>
+  <section class="seccion"><div class="wrap">
+    <span class="eyebrow">Búsqueda</span><h1>¿Qué estás buscando?</h1>
+    <p class="lead muted">Productos, equipos, marcas y artículos. Prueba con una referencia, una prueba o un analito: <em>VirClia</em>, <em>Freelite</em>, <em>anti-dsDNA</em>.</p>
+    <div id="pagefind" class="pagefind"></div>
+    <noscript><div class="alerta alerta-info"><Icon name="info" /><span>La búsqueda necesita JavaScript. Puedes navegar el catálogo por <a href="/marcas/">marcas</a> o por <a href="/soluciones/">soluciones</a>.</span></div></noscript>
+  </div></section>
+</Base>
+<style>
+  h1 { font-size: var(--t-3xl); margin-bottom: var(--s-3); }
+  .lead { font-size: var(--t-lg); max-width: 60ch; margin-bottom: var(--s-6); }
+  .pagefind { --pagefind-ui-scale: 1; --pagefind-ui-primary: var(--action); --pagefind-ui-text: var(--ink); --pagefind-ui-background: var(--card); --pagefind-ui-border: var(--linea-fuerte); --pagefind-ui-tag: var(--chip); --pagefind-ui-border-width: 1px; --pagefind-ui-border-radius: 0.5rem; --pagefind-ui-image-border-radius: 0.5rem; --pagefind-ui-image-box-ratio: 1; --pagefind-ui-font: var(--f-body); }
+</style>
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (!window.PagefindUI) return;
+    const q = new URLSearchParams(location.search).get('q') || '';
+    new PagefindUI({ element: '#pagefind', showImages: true, showSubResults: false, resetStyles: false, translations: { placeholder: 'Buscar producto, equipo, marca o artículo', clear_search: 'Limpiar', load_more: 'Cargar más resultados', search_label: 'Buscar', zero_results: 'Sin resultados para [SEARCH_TERM]. Revisa la ortografía o navega por marcas.', many_results: '[COUNT] resultados para [SEARCH_TERM]', one_result: '[COUNT] resultado para [SEARCH_TERM]', searching: 'Buscando [SEARCH_TERM]…' } });
+    if (q) { const i = document.querySelector('#pagefind input'); if (i) { i.value = q; i.dispatchEvent(new Event('input', { bubbles: true })); } }
+  });
+</script>
