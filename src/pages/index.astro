@@ -47,7 +47,7 @@ const confianza = [
   <!-- 1. Hero: una promesa, el buscador como acción principal y el equipo protagonista -->
   <section class="hero" data-ed-sec="hero" data-ed-label="Portada">
     <div class="fondo"><EdImg id="home_hero_fondo" src="/img/hero.jpg" alt="Científica trabajando en un laboratorio clínico" width="1920" height="1080" loading="eager" decoding="async" fetchpriority="low" data-ed-fondo /></div>
-    <div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span><span class="patron patron-panel patron-oscuro"></span>
+    <div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span><canvas class="red-hero" aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="endoso hero-endoso" aria-label="Una empresa de SD Biosensor"><small>Una empresa de</small><LogoSDBiosensor label="SD Biosensor" /></div>
       <div class="texto">
@@ -209,6 +209,10 @@ const confianza = [
   </section>
 </Base>
 
+<script>
+  import '../scripts/red-hero';
+</script>
+
 <style>
   /* ---- Hero ---- */
   .hero { position: relative; overflow: hidden; background: var(--grad-navy); color: #fff; isolation: isolate; }
@@ -218,7 +222,7 @@ const confianza = [
   .hero .orbe { z-index: 0; }
   .hero .o1 { width: 42rem; height: 42rem; right: -12rem; top: -14rem; background: radial-gradient(circle, rgba(0,151,214,.55) 0%, rgba(0,151,214,0) 68%); }
   .hero .o2 { width: 30rem; height: 30rem; left: 30%; bottom: -16rem; }
-  .hero .patron { z-index: 0; --patron-op: .1; }
+  .red-hero { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; } /* red de nodos animada (src/scripts/red-hero.ts) */
   .hero-endoso { position: absolute; right: var(--gutter); top: 1.75rem; z-index: 2; }
   @media (max-width: 900px) { .hero-endoso { position: static; margin-bottom: var(--s-4); } }
   .hero .wrap { position: relative; padding-block: clamp(4rem, 9vw, 7rem) clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: var(--s-7); align-items: center; }

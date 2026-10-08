@@ -177,6 +177,13 @@ Nicolas preguntó si este era el mejor UX para editar. Diagnóstico: el enfoque 
 - **Videos** `public/video/guia-editor.mp4` (1:16) y `guia-panel.mp4` (0:40), con póster `.jpg`: grabados del editor y el panel reales en modo demo, con cursor visible, subtítulos y tarjetas de título. Se regeneran con `node scripts/video_guia.mjs [guia-editor|guia-panel]` (servidor `dev-editor-demo` encendido; usa el Chrome del equipo vía `playwright-core` + screencast de DevTools y el ffmpeg del sistema, sin descargar navegadores).
 - Correos de Quimiolab confirmados como editores: Lady Carrillo = **leidy.carrillo@quimiolab.com** (se resuelve la duda de «Lady») y daniela.pava@quimiolab.com.
 
+### 2026-10-08 — Ingreso con enlace al correo (Outlook) y red animada en el hero
+
+- Los correos de Quimiolab son de **Outlook/Microsoft**, no de Google: se agregó ingreso **con enlace al correo** (sin contraseña) en el editor y el panel (`src/editor/ingreso.ts`): se escribe el correo autorizado → llega un enlace de `noreply@quimiolab-web.firebaseapp.com` → al abrirlo queda dentro (si se abre en otro equipo pide confirmar el correo). «Entrar con Google» queda como alternativa. Solo los correos de `ADMINS` pueden pedir el enlace. **Requiere en Firebase → Authentication → Método de acceso: «Correo electrónico/contraseña» con «Vínculo del correo electrónico (acceso sin contraseña)» activado.**
+- Guía, recorridos y videos actualizados (ya no dicen «cuenta de Google»); problemas frecuentes: no llega el correo (no deseado / «Otros» en Outlook), enlace vencido, abierto en otro equipo.
+- **Hero del home**: red de nodos animada en `canvas` (`src/scripts/red-hero.ts`) que reemplaza el patrón estático del hero; los nodos flotan y se enlazan, y los cercanos al puntero lo siguen y se conectan con él (Azul Brillante). Densidad según el área (menos en móvil), pausa fuera de pantalla o con la pestaña oculta, quieta con «reducir movimiento». Solo en el hero, como prueba.
+- Correo de entrega a Leidy Carrillo y Daniela Pava como borrador en Gmail de Nicolas, programado para el 2026-10-08 a las 7:00 a. m. (Colombia) con la tarea `enviar-correo-quimiolab-editores`.
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.
