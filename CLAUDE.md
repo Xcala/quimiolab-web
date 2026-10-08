@@ -43,7 +43,7 @@ Home, Nosotros y Contáctenos. Entrada con `?edit` → Google Sign-In → correo
 - Marcar bloques: `<Ed id="pagina_seccion_elemento" as="h2">…</Ed>`, `<EdImg id=… src=… alt=… />`, `<EdLink id=… href=…><Ed id=…>texto</Ed></EdLink>`, secciones `data-ed-sec="clave" data-ed-label="Nombre"`, página `<Base editable="clave">`.
 - **Los ids nunca se renombran** (el cliente perdería ese contenido). El valor por defecto es siempre lo que está en el código.
 - Probar la interfaz sin Firebase: `npx cross-env PUBLIC_ED_DEMO=1 npm run build` + `npm run preview` → `/?edit`.
-- Estado: Firebase Auth/Firestore/app web aún por configurar en la consola (ver README "Editor in situ"). Confirmar si "Lady" es leidy.carrillo@ o ladylaura.garcia@.
+- Estado: app web configurada (`apiKey`/`appId` en `config.ts`) y reglas de Firestore desplegadas (2026-10-08). Falta verificar en la consola Google en Authentication + dominios autorizados. Confirmar si "Lady" es leidy.carrillo@ o ladylaura.garcia@.
 
 ## Seguridad y datos
 - Nunca guardes contraseñas, tokens ni credenciales en el repo ni en archivos de memoria. Secretos (SMTP, etc.) van a Secret Manager en la Fase F.
@@ -51,7 +51,7 @@ Home, Nosotros y Contáctenos. Entrada con `?edit` → Google Sign-In → correo
 - `firebase.json` se genera con `npm run firebase:json`; el rewrite a `/api/form` solo aparece cuando exista `functions/`.
 
 ## Pendientes principales
-1. Configurar Firebase para el editor (Auth Google + dominios, Firestore, app web → `apiKey`/`appId` en `src/editor/config.ts`, `firebase deploy --only firestore:rules`).
+1. Firebase del editor: verificar Auth Google + dominios autorizados en la consola y probar `/?edit` en la vista previa (app web y reglas ya listas).
 2. Fase F: Cloud Function `formulario` (honeypot, límite por IP, validación país/idioma, aviso a contactenos@) + Secret Manager. Hoy el formulario falla al enviar.
 3. Páginas faltantes: `/trabaja-con-nosotros/`, `/linea-de-transparencia/`, `/vinculacion/`, `/eventos/`, `/politica-de-datos/` (contenido en el consolidado del Webflow viejo).
 4. Datos de relleno a reemplazar con el cliente: WhatsApp `573000000000`, horario, sello ISO/ICONTEC, año de fundación (1996 vs 1992), logos de clientes para prueba social, PDF del catálogo 2026.

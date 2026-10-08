@@ -712,15 +712,7 @@
         "type": 301
       }
     ],
-    "rewrites": [
-      {
-        "source": "/api/form",
-        "function": {
-          "functionId": "formulario",
-          "region": "us-central1"
-        }
-      }
-    ],
+    "rewrites": [],
     "headers": [
       {
         "source": "**/*.@(js|css|woff2|png|jpg|jpeg|webp|svg|avif)",
@@ -762,5 +754,9 @@
         ]
       }
     ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

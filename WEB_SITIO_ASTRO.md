@@ -124,6 +124,13 @@ Nueva estructura del home, en este orden: hero → franja de confianza → franj
   - Verificado con Playwright: sin `?edit` el HTML es idéntico; con `?edit` (modo demo `PUBLIC_ED_DEMO=1`) chips, barras, paneles y contador funcionan en 1366 y 390 px; sin errores de consola.
   - **Pendiente de Nicolas en la consola de Firebase** (pasos en `README.md`): habilitar Google en Authentication + dominios autorizados, crear la base de Firestore, crear la app web y pegar `apiKey`/`appId` en `src/editor/config.ts`, `firebase deploy --only firestore:rules`, `npm install` (nueva dependencia `firebase`) y `npm run deploy:preview`. Hasta entonces `?edit` muestra «Falta configurar Firebase» y el sitio público no cambia.
 
+### 2026-10-08 — Paso a Claude Code, repositorio en GitHub y Firebase del editor
+
+- Proyecto en `C:\quimiolab-web` con git; repositorio privado **https://github.com/Xcala/quimiolab-web** (rama `main`). `linea-base/` (leads con datos personales) y `desktop.ini` quedan fuera de git (`.gitignore`).
+- `src/editor/config.ts` con `apiKey` y `appId` de la app web (valores públicos; la protección real son las reglas). `firebase.json` regenerado (ahora incluye `firestore`) y `firebase deploy --only firestore:rules` publicado.
+- Vista previa actualizada con `npm run deploy:preview` (`check_build: OK`; vence el 2026-11-05).
+- Falta en la consola: Google habilitado en Authentication + dominios autorizados (vista previa, `localhost`, luego `www.quimiolab.com.co`); opcional restringir la `apiKey` por referente en Google Cloud.
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.

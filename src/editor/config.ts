@@ -7,10 +7,10 @@
  *    (allí es donde realmente se protege la escritura); cambiar ambas cuando se agregue a alguien.
  */
 export const firebaseConfig = {
-  apiKey: '',
+  apiKey: 'AIzaSyBVW5nTHCiek6wUBseas1QGatqe444eL5M',
   authDomain: 'quimiolab-web.firebaseapp.com',
   projectId: 'quimiolab-web',
-  appId: '',
+  appId: '1:915746799946:web:c9c503149e1eeba0ea81b3',
 };
 
 export const ADMINS = [
