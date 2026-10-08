@@ -11,7 +11,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signO
 import { getFirestore, writeBatch, doc, serverTimestamp } from 'firebase/firestore';
 import './editor.css';
 import { firebaseConfig, ADMINS, COLECCION, PAGINAS, WHATSAPP, FOTO_ANCHO_MAX, FOTO_BYTES_MAX } from './config';
-import { pedirPagina, aplicar, aplicarSecciones, aplicarEnlace, reconciliar, limpiarCache, guardarCache, type Contenido, type Seccion } from './contenido';
+import { pedirPagina, aplicar, aplicarSecciones, aplicarEnlace, reconciliar, keysCodigo, limpiarCache, guardarCache, type Contenido, type Seccion } from './contenido';
+import { FONDOS, PATRONES, PLANTILLAS, admiteFondo, htmlPlantilla, nuevaKey } from './secciones.mjs';
 
 type Campo = 'content' | 'href' | 'alt' | 'pos' | 'sections';
 const h = (tag: string, cls = '', html = '') => { const e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e; };
@@ -23,6 +24,9 @@ const svg = {
   abajo: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
   ojo: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>',
   ojoNo: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.5 10.5 0 0 1 12 19c-6.5 0-10-7-10-7a18 18 0 0 1 5.1-5.9"/><path d="M9.9 4.2A10 10 0 0 1 12 4c6.5 0 10 7 10 7a18 18 0 0 1-2.2 3.2"/><path d="m2 2 20 20"/><path d="M14.1 14.1a3 3 0 1 1-4.2-4.2"/></svg>',
+  pincel: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20 2 2 0 0 0 1.7-3c-.4-.6-.2-1.5.6-1.8.3-.1.6-.2 1-.2H17a5 5 0 0 0 5-5c0-5.5-4.5-10-10-10Z"/></svg>',
+  mas: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  basura: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>',
   check: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>',
   x: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
   google: '<svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1C3.3 21.3 7.3 24 12 24z"/><path fill="#FBBC05" d="M5.3 14.3c-.5-1.5-.5-3.1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9z"/></svg>',
@@ -61,23 +65,25 @@ export async function iniciar(main: HTMLElement, pagina: string) {
     /* ---------- estado ---------- */
     const pendientes = new Map<string, string>();
     const set = (id: string, campo: Campo, valor: string) => { pendientes.set(`${id}#${campo}`, valor); refrescarBarra(); };
-    const keys = () => Array.from(main.querySelectorAll<HTMLElement>('[data-ed-sec]')).map((s) => s.dataset.edSec!);
-    let secciones: Seccion[] = reconciliar(safeJSON(publicado[`layout__${pagina}`]?.sections), keys());
+    let secciones: Seccion[] = reconciliar(safeJSON(publicado[`layout__${pagina}`]?.sections), keysCodigo(main));
 
     /* ---------- textos ---------- */
-    main.querySelectorAll<HTMLElement>('[data-ed]').forEach((el) => {
+    const activarTextos = (root: ParentNode) => root.querySelectorAll<HTMLElement>('[data-ed]').forEach((el) => {
       el.contentEditable = 'true'; el.spellcheck = true; el.classList.add('ql-ed-txt');
       el.setAttribute('aria-label', 'Texto editable');
       el.addEventListener('input', () => set(el.dataset.ed!, 'content', el.innerHTML.trim()));
       el.addEventListener('keydown', (e) => {
         const bloque = /^(P|DIV|LI|BLOCKQUOTE)$/.test(el.tagName);
         if (e.key === 'Enter') { if (!bloque || e.shiftKey) { e.preventDefault(); if (bloque) document.execCommand('insertLineBreak'); } }
+        if (e.key === ' ' && el.tagName === 'SUMMARY') { e.preventDefault(); document.execCommand('insertText', false, ' '); } // no plegar la pregunta al escribir
         if (e.key === 'Escape') el.blur();
       });
       el.addEventListener('paste', (e) => { e.preventDefault(); document.execCommand('insertText', false, e.clipboardData?.getData('text/plain') || ''); });
     });
-    // En modo edición los enlaces no navegan: tocar un botón es para editarlo
-    main.addEventListener('click', (e) => { const a = (e.target as HTMLElement).closest('a'); if (a) e.preventDefault(); const f = (e.target as HTMLElement).closest('form'); if (f) e.preventDefault(); }, true);
+    const abrirDesplegables = (root: ParentNode) => root.querySelectorAll('details').forEach((d) => (d.open = true));
+    activarTextos(main); abrirDesplegables(main);
+    // En modo edición los enlaces no navegan ni las preguntas se pliegan: tocar es para editar
+    main.addEventListener('click', (e) => { const t = e.target as HTMLElement; if (t.closest('a') || t.closest('form') || t.closest('summary')) e.preventDefault(); }, true);
     main.addEventListener('submit', (e) => e.preventDefault(), true);
 
     /* ---------- capa de chips (fotos, destinos, secciones) ---------- */
@@ -85,40 +91,106 @@ export async function iniciar(main: HTMLElement, pagina: string) {
     type Chip = { el: HTMLElement; ancla: HTMLElement; pos: 'foto' | 'enlace' | 'seccion' };
     const chips: Chip[] = [];
 
-    main.querySelectorAll<HTMLImageElement>('[data-ed-img]').forEach((img) => {
-      const c = h('button', 'ql-ed-chip', `${svg.foto}<span>Cambiar foto</span>`); c.type = 'button';
-      c.addEventListener('click', () => panelFoto(img));
-      capa.append(c); chips.push({ el: c, ancla: img, pos: 'foto' });
-    });
-    main.querySelectorAll<HTMLAnchorElement>('[data-ed-link]').forEach((a) => {
-      const c = h('button', 'ql-ed-chip ql-ed-chip-enlace', `${svg.enlace}<span>Destino</span>`); c.type = 'button';
-      c.addEventListener('click', () => panelEnlace(a));
-      capa.append(c); chips.push({ el: c, ancla: a, pos: 'enlace' });
-    });
+    const activarChips = (root: ParentNode) => {
+      root.querySelectorAll<HTMLImageElement>('[data-ed-img]').forEach((img) => {
+        const c = h('button', 'ql-ed-chip', `${svg.foto}<span>${img.dataset.edFondo !== undefined ? 'Cambiar foto de fondo' : 'Cambiar foto'}</span>`); c.type = 'button';
+        c.addEventListener('click', () => panelFoto(img));
+        capa.append(c); chips.push({ el: c, ancla: img, pos: 'foto' });
+      });
+      root.querySelectorAll<HTMLAnchorElement>('[data-ed-link]').forEach((a) => {
+        const c = h('button', 'ql-ed-chip ql-ed-chip-enlace', `${svg.enlace}<span>Destino</span>`); c.type = 'button';
+        c.addEventListener('click', () => panelEnlace(a));
+        capa.append(c); chips.push({ el: c, ancla: a, pos: 'enlace' });
+      });
+    };
+    activarChips(main);
     const barrasSeccion = () => {
       chips.filter((c) => c.pos === 'seccion').forEach((c) => { c.el.remove(); chips.splice(chips.indexOf(c), 1); });
-      const total = secciones.length; if (total < 2) return;
+      const total = secciones.length;
       secciones.forEach((s, i) => {
         const sec = main.querySelector<HTMLElement>(`[data-ed-sec="${s.key}"]`); if (!sec) return;
         const b = h('div', 'ql-ed-seccion');
         b.innerHTML = `<b>${sec.dataset.edLabel || s.key}</b>`;
         const mk = (ic: string, tit: string, fn: () => void, off = false) => { const x = h('button', 'ql-ed-ib', ic); x.type = 'button'; x.title = tit; x.setAttribute('aria-label', tit); x.disabled = off; x.addEventListener('click', fn); b.append(x); };
-        mk(svg.arriba, 'Subir sección', () => mover(i, -1), i === 0);
-        mk(svg.abajo, 'Bajar sección', () => mover(i, 1), i === total - 1);
+        if (total > 1) {
+          mk(svg.arriba, 'Subir sección', () => mover(i, -1), i === 0);
+          mk(svg.abajo, 'Bajar sección', () => mover(i, 1), i === total - 1);
+        }
         mk(s.hidden ? svg.ojo : svg.ojoNo, s.hidden ? 'Mostrar sección' : 'Ocultar sección', () => { s.hidden = !s.hidden; guardarLayout(); });
+        const base = sec.dataset.edTpl ? ['seccion'] : (sec.dataset.edOrigClases ?? sec.className).split(/\s+/);
+        if (admiteFondo(base)) mk(svg.pincel, 'Fondo de la sección', () => panelFondo(s, sec));
+        mk(svg.mas, 'Agregar una sección debajo', () => panelAgregar(i));
+        if (s.tpl) mk(svg.basura, 'Borrar esta sección', () => borrar(i));
         if (s.hidden) b.append(h('i', '', 'Oculta'));
         capa.append(b); chips.push({ el: b, ancla: sec, pos: 'seccion' });
       });
       ubicar();
     };
     const mover = (i: number, d: number) => { const j = i + d; if (j < 0 || j >= secciones.length) return; [secciones[i], secciones[j]] = [secciones[j], secciones[i]]; guardarLayout(); };
-    const guardarLayout = () => { aplicarSecciones(main, secciones, true); set(`layout__${pagina}`, 'sections', JSON.stringify(secciones)); barrasSeccion(); };
+    const guardarLayout = () => { aplicarSecciones(main, secciones, true, pagina); set(`layout__${pagina}`, 'sections', JSON.stringify(secciones)); barrasSeccion(); };
+
+    /* ---------- secciones: fondo, agregar, borrar ---------- */
+    function panelFondo(s: Seccion, sec: HTMLElement) {
+      const cuerpo = h('div', 'ql-ed-cuerpo');
+      const pinta = () => {
+        cuerpo.innerHTML = '';
+        const t1 = h('p', 'ql-ed-campo', '<span>Color de fondo</span>');
+        const fondos = h('div', 'ql-ed-fondos');
+        const opcion = (id: string | undefined, nombre: string, muestra: string, activo: boolean, fn: () => void) => { const b = h('button', 'ql-ed-fondo' + (activo ? ' activa' : ''), `<i style="background:${muestra}"></i><span>${nombre}</span>`); b.type = 'button'; b.addEventListener('click', () => { fn(); guardarLayout(); pinta(); }); return b; };
+        if (!s.tpl) fondos.append(opcion(undefined, 'Como el diseño', 'repeating-linear-gradient(45deg,#e5ecf5 0 6px,#fff 6px 12px)', !s.bg, () => delete s.bg));
+        FONDOS.forEach((f) => fondos.append(opcion(f.id, f.nombre, f.muestra, s.bg === f.id || (!!s.tpl && !s.bg && f.id === 'blanco'), () => (s.bg = f.id))));
+        const t2 = h('p', 'ql-ed-campo', '<span>Patrón (uno por sección; se ve suave sobre el fondo)</span>');
+        const pats = h('div', 'ql-ed-fila ql-ed-chips');
+        const pat = (id: string | undefined, nombre: string, activo: boolean) => { const b = h('button', 'ql-ed-btn' + (activo ? ' ql-ed-btn-p' : ''), nombre); b.type = 'button'; b.addEventListener('click', () => { if (id) s.patron = id; else delete s.patron; guardarLayout(); pinta(); }); pats.append(b); };
+        if (!s.tpl) pat(undefined, 'Como el diseño', !s.patron);
+        PATRONES.forEach((p) => pat(p.id, p.nombre, s.patron === p.id || (!!s.tpl && !s.patron && p.id === 'ninguno')));
+        cuerpo.append(t1, fondos, t2, pats, h('p', 'ql-ed-nota', 'Solo colores y patrones del manual de marca, para que el sitio no pierda coherencia.'));
+      };
+      pinta();
+      abrir(`Fondo · ${sec.dataset.edLabel || s.key}`, cuerpo);
+    }
+
+    function panelAgregar(i: number) {
+      const cuerpo = h('div', 'ql-ed-cuerpo');
+      cuerpo.append(h('p', 'ql-ed-nota', 'Elige el tipo de sección. Aparece debajo con textos de ejemplo que luego cambias como cualquier otro.'));
+      const lista = h('div', 'ql-ed-plantillas');
+      PLANTILLAS.forEach((t) => {
+        const b = h('button', 'ql-ed-plantilla', `<b>${t.nombre}</b><span>${t.descripcion}</span>`); b.type = 'button';
+        b.addEventListener('click', () => {
+          const s: Seccion = { key: nuevaKey(), tpl: t.id, ...(t.bg ? { bg: t.bg } : {}) };
+          const tmp = document.createElement('template'); tmp.innerHTML = htmlPlantilla(pagina, s);
+          const nodo = tmp.content.firstElementChild as HTMLElement;
+          const ref = main.querySelector<HTMLElement>(`[data-ed-sec="${secciones[i].key}"]`);
+          (ref ?? main.lastElementChild!).after(nodo);
+          secciones.splice(i + 1, 0, s);
+          activarTextos(nodo); abrirDesplegables(nodo); activarChips(nodo);
+          // los textos de ejemplo se guardan para que la sección quede igual al publicar
+          nodo.querySelectorAll<HTMLElement>('[data-ed]').forEach((el) => set(el.dataset.ed!, 'content', el.innerHTML.trim()));
+          guardarLayout(); panel.hidden = true;
+          nodo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          toast(`Sección «${t.nombre}» agregada. Cambia sus textos y publica.`);
+        });
+        lista.append(b);
+      });
+      cuerpo.append(lista);
+      abrir('Agregar sección', cuerpo);
+    }
+
+    function borrar(i: number) {
+      const s = secciones[i];
+      const sec = main.querySelector<HTMLElement>(`[data-ed-sec="${s.key}"]`);
+      if (!confirm(`¿Borrar la sección «${sec?.dataset.edLabel || 'agregada'}»? Se quita del sitio al publicar.`)) return;
+      secciones.splice(i, 1);
+      for (const k of [...pendientes.keys()]) if (k.startsWith(`${pagina}_${s.key}_`)) pendientes.delete(k);
+      guardarLayout(); panel.hidden = true; toast('Sección borrada. Publica para que se quite del sitio.');
+    }
 
     const ubicar = () => {
       const vh = innerHeight, cabecera = 96;
-      for (const c of chips) {
+      for (const c of [...chips]) {
+        if (!c.ancla.isConnected) { c.el.remove(); chips.splice(chips.indexOf(c), 1); continue; }
         const r = c.ancla.getBoundingClientRect();
-        const visible = r.bottom > 40 && r.top < vh - 60 && r.width > 0;
+        const visible = r.bottom > 40 && r.top < vh - 60 && r.width > 0 && !c.ancla.closest('[aria-hidden="true"]');
         c.el.style.display = visible ? '' : 'none'; if (!visible) continue;
         if (c.pos === 'foto') { c.el.style.left = `${r.left + 8}px`; c.el.style.top = `${Math.min(r.bottom - 40, vh - 48)}px`; }
         else if (c.pos === 'enlace') { c.el.style.left = `${Math.max(8, r.right - c.el.offsetWidth)}px`; c.el.style.top = `${r.top - 30}px`; }
@@ -216,7 +288,8 @@ export async function iniciar(main: HTMLElement, pagina: string) {
         <li><b>Textos:</b> toca cualquier texto con borde punteado y escribe. Enter solo hace salto de línea en párrafos.</li>
         <li><b>Fotos:</b> botón «Cambiar foto» → sube una desde tu equipo o celular, pega un enlace, elige el encuadre y escribe la descripción. «Original» la devuelve.</li>
         <li><b>Botones:</b> «Destino» → elige a qué página, WhatsApp, web o correo lleva.</li>
-        <li><b>Secciones:</b> la barra de cada bloque las sube, baja u oculta. Nada se borra: lo oculto se puede volver a mostrar.</li>
+        <li><b>Secciones:</b> la barra de cada bloque las sube, baja u oculta (lo oculto se puede volver a mostrar). El pincel cambia el <b>fondo y el patrón</b> con los colores de la marca.</li>
+        <li><b>Agregar:</b> el «+» de una sección inserta debajo una nueva (texto + foto, cifras, tarjetas, testimonio, preguntas…). Las secciones agregadas se pueden <b>borrar</b> con la papelera; las del diseño original solo se ocultan.</li>
         <li><b>Publicar</b> guarda todo de una vez. Hasta entonces nadie ve tus cambios. <b>Descartar</b> vuelve a lo publicado.</li>
         <li>Otros visitantes ven lo nuevo en máximo 10 minutos. Google lo indexa con la siguiente actualización del sitio.</li>
       </ol>`)));

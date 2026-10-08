@@ -23,11 +23,11 @@ const equiposDestacados = destacados.map((s) => equipos.find((e) => e.slug === s
 const [postDestacado, ...otrosPosts] = posts.slice(0, 4);
 // Slider del hero: los 5 equipos principales (uno por aliado), packshots locales del Portafolio 2026
 const heroEquipos = [
-  { slug: 'helios-convencional', img: '/img/equipos/helios.webp', w: 257, h: 348, tagline: 'Inmunofluorescencia automatizada · autoinmunidad', color: '#98B830' },
-  { slug: 'optilite', img: '/img/equipos/optilite.webp', w: 748, h: 355, tagline: 'Proteínas especiales y cadenas ligeras libres', color: '#FCEA19' },
-  { slug: 'virclia-lotus', img: '/img/equipos/virclia-lotus.webp', w: 630, h: 426, tagline: 'Quimioluminiscencia en monotest para infecciosas', color: '#009673' },
-  { slug: 'elite-ingenius', img: '/img/equipos/elite-ingenius.webp', w: 544, h: 463, tagline: 'PCR en tiempo real, de la muestra al resultado', color: '#74C043' },
-  { slug: 'b·r·a·h·m·s-kryptor-compact-plus', img: '/img/equipos/kryptor-compact-plus.webp', w: 505, h: 458, tagline: 'Inmunoensayo TRACE® para biomarcadores críticos', color: '#EF4135' },
+  { slug: 'helios-convencional', k: 'helios', img: '/img/equipos/helios.webp', w: 257, h: 348, tagline: 'Inmunofluorescencia automatizada · autoinmunidad', color: '#98B830' },
+  { slug: 'optilite', k: 'optilite', img: '/img/equipos/optilite.webp', w: 748, h: 355, tagline: 'Proteínas especiales y cadenas ligeras libres', color: '#FCEA19' },
+  { slug: 'virclia-lotus', k: 'virclia', img: '/img/equipos/virclia-lotus.webp', w: 630, h: 426, tagline: 'Quimioluminiscencia en monotest para infecciosas', color: '#009673' },
+  { slug: 'elite-ingenius', k: 'elite', img: '/img/equipos/elite-ingenius.webp', w: 544, h: 463, tagline: 'PCR en tiempo real, de la muestra al resultado', color: '#74C043' },
+  { slug: 'b·r·a·h·m·s-kryptor-compact-plus', k: 'kryptor', img: '/img/equipos/kryptor-compact-plus.webp', w: 505, h: 458, tagline: 'Inmunoensayo TRACE® para biomarcadores críticos', color: '#EF4135' },
 ];
 const slides = heroEquipos.map((h) => { const e = equipos.find((x) => x.slug === h.slug); const m = e ? marcaPorSlug(e.marca) : undefined; return { ...h, nombre: e?.nombre ?? h.slug, url: e?.url ?? '/equipos/', marca: m?.nombre ?? '', logo: e ? logoMarca(e.marca) : '', color: m?.color ?? h.color }; });
 const testimonios = [
@@ -46,7 +46,7 @@ const confianza = [
 <Base title="Quimiolab · Equipos y reactivos de diagnóstico con soporte científico en Colombia" description={sitio.descripcion} imagen="/og-quimiolab.jpg" gsap editable="home">
   <!-- 1. Hero: una promesa, el buscador como acción principal y el equipo protagonista -->
   <section class="hero" data-ed-sec="hero" data-ed-label="Portada">
-    <div class="fondo" role="img" aria-label="Científica trabajando en un laboratorio clínico"></div>
+    <div class="fondo"><EdImg id="home_hero_fondo" src="/img/hero.jpg" alt="Científica trabajando en un laboratorio clínico" width="1920" height="1080" loading="eager" decoding="async" fetchpriority="low" data-ed-fondo /></div>
     <div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span><span class="patron patron-panel patron-oscuro"></span>
     <div class="wrap">
       <div class="endoso hero-endoso" aria-label="Una empresa de SD Biosensor"><small>Una empresa de</small><LogoSDBiosensor label="SD Biosensor" /></div>
@@ -68,7 +68,7 @@ const confianza = [
         <span class="brillo"></span>
         {slides.map((sl, i) => (
           <a class={`slide${i === 0 ? ' activa' : ''}`} href={sl.url} aria-label={`${sl.nombre}: ${sl.tagline}. Ver ficha`} data-slide={i} style={`--aliado:${sl.color};--i:${i}`} aria-hidden={i === 0 ? undefined : 'true'} tabindex={i === 0 ? undefined : -1}>
-            <img class="equipo" src={sl.img} alt="" width={sl.w} height={sl.h} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
+            <EdImg id={`home_slide_${sl.k}_foto`} class="equipo" src={sl.img} alt="" width={sl.w} height={sl.h} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
             <span class="placa placa-hero"><img src={sl.logo} alt={sl.marca} width="160" height="48" loading={i === 0 ? 'eager' : 'lazy'} /></span>
             <span class="glass ficha-mini"><b>{sl.nombre}</b><span>{sl.tagline}</span><i>Ver ficha <Icon name="flecha" size={14} /></i></span>
           </a>
@@ -191,7 +191,7 @@ const confianza = [
 
   <!-- 8. Contacto -->
   <section class="seccion contacto" id="contacto" data-ed-sec="contacto" data-ed-label="Contacto">
-    <div class="fondo"></div><div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span>
+    <div class="fondo"><EdImg id="home_contacto_fondo" src="/img/dna.jpg" alt="" width="1920" height="1080" loading="lazy" decoding="async" data-ed-fondo /></div><div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span>
     <div class="wrap">
       <div>
         <Ed id="home_contacto_eyebrow" class="eyebrow">Contáctenos</Ed>
@@ -212,7 +212,8 @@ const confianza = [
 <style>
   /* ---- Hero ---- */
   .hero { position: relative; overflow: hidden; background: var(--grad-navy); color: #fff; isolation: isolate; }
-  .hero .fondo { position: absolute; inset: 0; background: url(/img/hero.jpg) center/cover no-repeat; opacity: .5; filter: blur(6px); transform: scale(1.03); }
+  .hero .fondo { position: absolute; inset: 0; opacity: .5; filter: blur(6px); transform: scale(1.03); }
+  .hero .fondo :global(img), .contacto .fondo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
   .hero .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,26,77,.95) 0%, rgba(0,36,104,.82) 45%, rgba(0,48,135,.35) 100%), linear-gradient(0deg, rgba(0,26,77,.9) 0%, rgba(0,26,77,0) 40%); }
   .hero .orbe { z-index: 0; }
   .hero .o1 { width: 42rem; height: 42rem; right: -12rem; top: -14rem; background: radial-gradient(circle, rgba(0,151,214,.55) 0%, rgba(0,151,214,0) 68%); }
@@ -247,9 +248,9 @@ const confianza = [
   .escena:not(.js) .slide { animation: desfile calc(var(--n) * 5s) infinite; animation-delay: calc(var(--i) * 5s - 0.75s); }
   .escena:not(.js) .slide.activa { opacity: 0; visibility: hidden; }
   @media (prefers-reduced-motion: reduce) { .escena:not(.js) .slide { animation: none; } .escena:not(.js) .slide.activa { opacity: 1; visibility: visible; } }
-  .slide .equipo { position: absolute; left: 50%; top: 50%; max-width: 72%; max-height: 62%; width: auto; height: auto; transform: translate(-50%, -48%) scale(.96); filter: drop-shadow(0 30px 40px rgba(0,10,40,.45)); transition: transform var(--dur-4) var(--ease-out); }
-  .slide.activa .equipo { transform: translate(-50%, -48%) scale(1); }
-  .slide:hover .equipo { transform: translate(-50%, -50%) scale(1.03); }
+  .slide :global(.equipo) { position: absolute; left: 50%; top: 50%; max-width: 72%; max-height: 62%; width: auto; height: auto; transform: translate(-50%, -48%) scale(.96); filter: drop-shadow(0 30px 40px rgba(0,10,40,.45)); transition: transform var(--dur-4) var(--ease-out); }
+  .slide.activa :global(.equipo) { transform: translate(-50%, -48%) scale(1); }
+  .slide:hover :global(.equipo) { transform: translate(-50%, -50%) scale(1.03); }
   .placa-hero { position: absolute; right: 0; top: 1rem; padding: .625rem .875rem; }
   .placa-hero img { height: 2.25rem; width: auto; max-width: 11rem; object-fit: contain; display: block; }
   .ficha-mini { position: absolute; left: 0; bottom: .5rem; display: grid; gap: .125rem; padding: .875rem 1rem; max-width: 18rem; }
@@ -401,7 +402,7 @@ const confianza = [
 
   /* ---- Contacto ---- */
   .contacto { position: relative; overflow: hidden; background: var(--grad-navy-v); color: #fff; isolation: isolate; }
-  .contacto .fondo { position: absolute; inset: 0; background: url(/img/dna.jpg) center/cover; opacity: .45; filter: blur(7px); transform: scale(1.04); }
+  .contacto .fondo { position: absolute; inset: 0; opacity: .45; filter: blur(7px); transform: scale(1.04); }
   .contacto .scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,26,77,.95), rgba(0,36,104,.7)); }
   .contacto .o1 { width: 36rem; height: 36rem; right: -10rem; top: -12rem; background: radial-gradient(circle, rgba(0,151,214,.55) 0%, rgba(0,151,214,0) 68%); z-index: 0; }
   .contacto .o2 { width: 24rem; height: 24rem; left: -8rem; bottom: -10rem; z-index: 0; }

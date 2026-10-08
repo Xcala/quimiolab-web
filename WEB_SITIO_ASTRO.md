@@ -131,6 +131,17 @@ Nueva estructura del home, en este orden: hero → franja de confianza → franj
 - Vista previa actualizada con `npm run deploy:preview` (`check_build: OK`; vence el 2026-11-05).
 - Falta en la consola: Google habilitado en Authentication + dominios autorizados (vista previa, `localhost`, luego `www.quimiolab.com.co`); opcional restringir la `apiKey` por referente en Google Cloud.
 
+### 2026-10-08 — Editor in situ, fase 2: fondos, secciones nuevas y más fotos
+
+Nicolas probó el editor en la vista previa (entra con Google y edita textos) y pidió: cambiar fotos, fondos, agregar y quitar secciones, y un CMS para el contenido dinámico. Plan acordado en 4 fases: (1) editor de páginas, (2) fotos en Firebase Storage, (3) panel `/admin/` para blog, productos/equipos, marcas y líneas sobre Firestore, (4) build + deploy automático al publicar. **Fase 1 hecha:**
+- `src/editor/secciones.mjs` (JS plano, compartido por editor, script de visitantes y `scripts/aplicar_layout.mjs`): fondos de la marca (blanco, gris, nube, tinte, navy), patrones (uno por sección) y 8 plantillas (texto + foto, foto + texto, llamado a la acción, cifras, tres tarjetas, testimonio, solo texto, preguntas frecuentes). Estilos `.pl-*` en `global.css`.
+- `layout__<página>.sections` ahora guarda `{ key, hidden?, bg?, patron?, tpl? }`. Las secciones agregadas usan `key = x<aleatorio>` y sus bloques son documentos normales `<página>_<key>_<campo>`. Se borran con la papelera; las del diseño original solo se ocultan.
+- Barra de cada sección: subir/bajar, ocultar, **fondo** (solo secciones `.seccion` de contenido; «Como el diseño» vuelve al original guardado en `data-ed-orig-clases`/`data-ed-orig-patron`), **+ agregar debajo**, **borrar** (agregadas).
+- Fotos nuevas editables en home: fondo del hero (`home_hero_fondo`), 5 packshots del slider (`home_slide_<k>_foto`), fondo de contacto (`home_contacto_fondo`). Contáctenos tiene sección `principal` para poder agregar secciones.
+- Reordenar mueve cada sección con lo que la sigue hasta la próxima (la franja de marcas va pegada a «Garantías»); antes, en el navegador, la franja se iba al final.
+- Build: `aplicar_layout.mjs` hornea orden, ocultas, fondos/patrones y secciones agregadas con lo publicado. Verificado con contenido simulado, en el editor demo (1366 y 390, claro y oscuro, sin scroll horizontal) y en la vista de visitante con caché.
+- Probar sin Firebase: configuración `dev-editor-demo` en `.claude/launch.json` (`PUBLIC_ED_DEMO=1`, puerto 4322) → `/?edit`.
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.

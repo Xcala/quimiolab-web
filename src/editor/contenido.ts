@@ -7,10 +7,11 @@
  * lo publicado después, para que el cliente vea sus cambios sin esperar un deploy.
  */
 import { firebaseConfig, COLECCION, CACHE_MIN } from './config';
+import { reconciliar as reconciliarSecciones, admiteFondo, clasesSeccion, htmlPatron, htmlPlantilla } from './secciones.mjs';
 
 export type Doc = { content?: string | null; href?: string | null; alt?: string | null; pos?: string | null; sections?: string | null; page?: string };
 export type Contenido = Record<string, Doc>;
-export type Seccion = { key: string; hidden?: boolean };
+export type Seccion = { key: string; hidden?: boolean; bg?: string; patron?: string; tpl?: string };
 
 const LS = 'ql_pc_v2:';
 
@@ -93,39 +94,68 @@ export function aplicarEnlace(a: HTMLAnchorElement, href: string) {
   if (esExterno(href)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; } else { a.removeAttribute('target'); }
 }
 
-/** Orden y visibilidad de secciones: reconcilia lo guardado con lo que hay en el código. */
-export function reconciliar(guardado: Seccion[] | null, keys: string[]): Seccion[] {
-  if (!guardado) return keys.map((key) => ({ key }));
-  const validas = guardado.filter((s) => keys.includes(s.key));
-  keys.forEach((k, i) => { if (!validas.some((s) => s.key === k)) validas.splice(Math.min(i, validas.length), 0, { key: k }); });
-  return validas;
+/** Orden, visibilidad, fondos y secciones agregadas: reconcilia lo guardado con lo que hay en el código. */
+export const reconciliar = (guardado: Seccion[] | null, keys: string[]): Seccion[] => reconciliarSecciones(guardado, keys);
+
+/** Claves de las secciones que vienen del código (las agregadas llevan data-ed-tpl). */
+export const keysCodigo = (main: HTMLElement) => Array.from(main.querySelectorAll<HTMLElement>('[data-ed-sec]:not([data-ed-tpl])')).map((s) => s.dataset.edSec!);
+
+/** Fondo y patrón elegidos; el original del código se recuerda en data-ed-orig-* (el build también lo escribe). */
+export function aplicarFondo(n: HTMLElement, s: Seccion) {
+  const base = n.dataset.edTpl ? ['seccion', 'pl'] : (n.dataset.edOrigClases ??= n.className).split(/\s+/).filter(Boolean);
+  if (!admiteFondo(base)) return;
+  const patrones = () => Array.from(n.children).filter((c) => c.classList.contains('patron'));
+  if (!n.dataset.edTpl && n.dataset.edOrigPatron === undefined) n.dataset.edOrigPatron = patrones().map((p) => p.outerHTML).join('');
+  const extra = Array.from(n.classList).filter((c) => c.startsWith('ql-ed-'));
+  n.className = [...clasesSeccion(base, s), ...extra].join(' ');
+  patrones().forEach((p) => p.remove());
+  const html = s.patron ? htmlPatron(s.patron) : n.dataset.edTpl ? '' : n.dataset.edOrigPatron || '';
+  if (html) n.insertAdjacentHTML('afterbegin', html);
 }
-export function aplicarSecciones(main: HTMLElement, secciones: Seccion[], modoEdicion = false) {
+
+/** Bloque que se mueve con cada sección: la sección y lo que la sigue hasta la próxima (p. ej. la franja de marcas). */
+function grupo(n: HTMLElement): Element[] {
+  const out: Element[] = [n]; let x = n.nextElementSibling;
+  while (x && !(x as HTMLElement).dataset?.edSec) { out.push(x); x = x.nextElementSibling; }
+  return x ? out : [n]; // lo que va después de la última sección se queda al final
+}
+
+export function aplicarSecciones(main: HTMLElement, secciones: Seccion[], modoEdicion = false, pagina = main.dataset.edPage || '', docs: Contenido = {}) {
   const nodos = new Map<string, HTMLElement>();
   main.querySelectorAll<HTMLElement>('[data-ed-sec]').forEach((s) => nodos.set(s.dataset.edSec!, s));
-  let anterior: HTMLElement | null = null;
+  const enDom = Array.from(nodos.values());
+  if (!enDom.length) return;
+  // secciones agregadas borradas → fuera; agregadas que aún no están en el HTML → se crean
+  for (const [k, n] of nodos) if (n.dataset.edTpl && !secciones.some((s) => s.key === k)) { n.remove(); nodos.delete(k); }
+  for (const s of secciones) {
+    if (!s.tpl || nodos.has(s.key)) continue;
+    const t = document.createElement('template'); t.innerHTML = htmlPlantilla(pagina, s, docs);
+    const n = t.content.firstElementChild as HTMLElement | null; if (n) nodos.set(s.key, n);
+  }
+  const primero = enDom.find((n) => n.isConnected)!;
+  const ancla = document.createComment('ed'); primero.before(ancla);
+  const grupos = secciones.map((s) => nodos.get(s.key)).filter(Boolean).map((n) => (n!.isConnected ? grupo(n!) : [n!]));
+  let ultimo: ChildNode = ancla;
+  for (const g of grupos) for (const el of g) { if (ultimo.nextSibling !== el) ultimo.after(el); ultimo = el; }
+  ancla.remove();
   for (const s of secciones) {
     const n = nodos.get(s.key); if (!n) continue;
+    if (s.bg || s.patron || n.dataset.edOrigClases !== undefined || n.dataset.edTpl) aplicarFondo(n, s);
     if (modoEdicion) { n.hidden = false; n.classList.toggle('ql-ed-oculta', !!s.hidden); } else n.hidden = !!s.hidden;
-    const esperado = anterior ? anterior.nextElementSibling : main.firstElementChild;
-    // la sección debe ir justo después de la anterior (saltando nodos que no son secciones editables)
-    if (anterior) { if (anterior.nextElementSibling !== n) anterior.after(n); }
-    else if (esperado !== n && n.previousElementSibling && nodos.has((n.previousElementSibling as HTMLElement).dataset.edSec || '')) main.prepend(n);
-    anterior = n;
   }
 }
 
 /** Aplica un conjunto de documentos a la página actual. */
 export function aplicar(main: HTMLElement, pagina: string, docs: Contenido, modoEdicion = false) {
+  // primero las secciones (crea las agregadas), luego los bloques, que también llenan las nuevas
+  const layout = docs[`layout__${pagina}`];
+  if (layout?.sections) {
+    try { aplicarSecciones(main, reconciliar(JSON.parse(layout.sections), keysCodigo(main)), modoEdicion, pagina, docs); } catch { /* JSON roto: se ignora */ }
+  }
   for (const [id, d] of Object.entries(docs)) {
     if (id.startsWith('layout__')) continue;
     main.querySelectorAll<HTMLElement>(`[data-ed="${id}"]`).forEach((el) => { if (typeof d.content === 'string' && d.content) aplicarTexto(el, d.content); });
     main.querySelectorAll<HTMLImageElement>(`[data-ed-img="${id}"]`).forEach((img) => aplicarImagen(img, d));
     main.querySelectorAll<HTMLAnchorElement>(`[data-ed-link="${id}"]`).forEach((a) => { if (d.href) aplicarEnlace(a, d.href); });
-  }
-  const layout = docs[`layout__${pagina}`];
-  const keys = Array.from(main.querySelectorAll<HTMLElement>('[data-ed-sec]')).map((s) => s.dataset.edSec!);
-  if (layout?.sections && keys.length) {
-    try { aplicarSecciones(main, reconciliar(JSON.parse(layout.sections), keys), modoEdicion); } catch { /* JSON roto: se ignora */ }
   }
 }

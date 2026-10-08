@@ -42,7 +42,9 @@ Migración de www.quimiolab.com.co (WordPress) a un sitio estático en **Astro 7
 Home, Nosotros y Contáctenos. Entrada con `?edit` → Google Sign-In → correos de `ADMINS` en `src/editor/config.ts` (misma lista en `firestore.rules`). Datos en Firestore `page_contents` (un documento por bloque + `layout__<página>`). Los visitantes reciben lo publicado por un script de 8 KB (REST + caché 10 min) y cada build lo hornea en el HTML.
 - Marcar bloques: `<Ed id="pagina_seccion_elemento" as="h2">…</Ed>`, `<EdImg id=… src=… alt=… />`, `<EdLink id=… href=…><Ed id=…>texto</Ed></EdLink>`, secciones `data-ed-sec="clave" data-ed-label="Nombre"`, página `<Base editable="clave">`.
 - **Los ids nunca se renombran** (el cliente perdería ese contenido). El valor por defecto es siempre lo que está en el código.
-- Probar la interfaz sin Firebase: `npx cross-env PUBLIC_ED_DEMO=1 npm run build` + `npm run preview` → `/?edit`.
+- Fondos, patrones y plantillas de secciones nuevas viven en `src/editor/secciones.mjs` (compartido con el build); el layout guarda `{ key, hidden?, bg?, patron?, tpl? }`. Nunca cambies los `id` de las plantillas ni sus nombres de campo (el cliente perdería esas secciones).
+- Probar la interfaz sin Firebase: servidor `dev-editor-demo` de `.claude/launch.json` (puerto 4322) → `/?edit`.
+- Hoja de ruta acordada (2026-10-08): fase 2 fotos en Firebase Storage, fase 3 panel `/admin/` (blog, productos/equipos, marcas, líneas) sobre Firestore, fase 4 build + deploy automático al publicar.
 - Estado: app web configurada (`apiKey`/`appId` en `config.ts`) y reglas de Firestore desplegadas (2026-10-08). Falta verificar en la consola Google en Authentication + dominios autorizados. Confirmar si "Lady" es leidy.carrillo@ o ladylaura.garcia@.
 
 ## Seguridad y datos

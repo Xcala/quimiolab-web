@@ -77,3 +77,16 @@ html.ql-edit .wa, html.ql-edit .ir-arriba, html.ql-edit .aviso-cookies { display
 .ql-ed-toast { padding: .7rem 1rem; border-radius: 999px; background: #0E8C5A; color: #fff; font-size: .85rem; font-weight: 700; box-shadow: var(--ed-sombra); opacity: 0; transform: translateY(-.5rem); transition: .25s; }
 .ql-ed-toast.error { background: #B42318; }
 .ql-ed-toast.ver { opacity: 1; transform: none; }
+
+/* Fondo de sección y plantillas para agregar */
+p.ql-ed-campo { margin: 0; }
+.ql-ed-fondos { display: grid; grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr)); gap: .5rem; }
+.ql-ed-fondo { display: grid; gap: .35rem; padding: .4rem; border: 1px solid var(--ed-linea); border-radius: .6rem; background: #fff; color: var(--ed-ink); font: 600 .78rem/1.2 var(--ed-font); text-align: left; cursor: pointer; }
+.ql-ed-fondo i { display: block; height: 2.25rem; border-radius: .4rem; border: 1px solid var(--ed-linea); }
+.ql-ed-fondo.activa { border-color: var(--ed-azul); box-shadow: 0 0 0 2px var(--ed-azul) inset; }
+.ql-ed-chips .ql-ed-btn { min-height: 2.25rem; padding: .35rem .8rem; font-size: .78rem; }
+.ql-ed-plantillas { display: grid; gap: .5rem; }
+.ql-ed-plantilla { display: grid; gap: .2rem; padding: .75rem .9rem; border: 1px solid var(--ed-linea); border-radius: .6rem; background: #fff; color: var(--ed-ink); font: 400 .82rem/1.4 var(--ed-font); text-align: left; cursor: pointer; }
+.ql-ed-plantilla b { font-size: .92rem; }
+.ql-ed-plantilla span { color: var(--ed-muted); }
+.ql-ed-plantilla:hover, .ql-ed-plantilla:focus-visible { border-color: var(--ed-azul); background: #EEF6FC; }

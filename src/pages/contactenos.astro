@@ -11,7 +11,7 @@ const ruta = [{ nombre: 'Contáctenos', url: '/contactenos/' }];
 const ld = [migas(ruta), { '@context': 'https://schema.org', '@type': 'ContactPage', url: `${sitio.url}/contactenos/`, mainEntity: { '@id': `${sitio.url}/#organizacion` } }];
 ---
 <Base title="Contáctenos" description="Cotizaciones, demostraciones de equipos, soporte técnico y capacitación. Escríbenos o llámanos: un asesor comercial y científico te responde el mismo día hábil." jsonld={ld} editable="contactenos">
-  <section class="seccion"><div class="wrap contacto">
+  <section class="seccion" data-ed-sec="principal" data-ed-label="Contacto"><div class="wrap contacto">
     <div>
       <Miga items={ruta} /><Ed id="contacto_eyebrow" class="eyebrow">Contáctenos</Ed><Ed id="contacto_titulo" as="h1">Hablemos de lo que necesita tu laboratorio</Ed>
       <Ed id="contacto_lead" as="p" class="lead">Un asesor comercial y científico te responde en el mismo día hábil. Cotizaciones, demostraciones de equipos, soporte técnico y capacitación.</Ed>

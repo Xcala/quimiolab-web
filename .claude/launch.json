@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "dev", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 4321 },
+    { "name": "dev-editor-demo", "runtimeExecutable": "npx", "runtimeArgs": ["cross-env", "PUBLIC_ED_DEMO=1", "astro", "dev", "--port", "4322"], "port": 4322 }
+  ]
+}
