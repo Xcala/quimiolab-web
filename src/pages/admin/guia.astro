@@ -1,0 +1,107 @@
+---
+/**
+ * Guía para quien edita el sitio: cómo entrar, qué se edita dónde y el paso a paso.
+ * La enlazan las pantallas de ingreso y el final de cada recorrido guiado (src/tour/recorridos.ts).
+ */
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Cómo entrar y editar el sitio" description="Guía para el equipo de Quimiolab: cómo entrar con Google y editar las páginas, el blog, los productos, las marcas y las líneas." noindex>
+  <section class="seccion guia">
+    <div class="wrap">
+      <span class="eyebrow">Guía para el equipo de Quimiolab</span>
+      <h1>Cómo entrar y editar el sitio</h1>
+      <p class="lead">Hay <strong>dos lugares</strong> para editar. Los dos usan tu cuenta de Google y guardan todo solo como borrador: <strong>nada sale al sitio hasta que pulses Publicar</strong>.</p>
+
+      <div class="dos">
+        <article class="caja">
+          <span class="chip">Páginas</span>
+          <h2>Editor sobre la página</h2>
+          <p>Para el <strong>inicio, Nosotros y Contáctenos</strong>: textos, fotos, botones y secciones, viendo el sitio tal cual.</p>
+          <p class="url">quimiolab.com.co<b>/?edit</b></p>
+          <a class="btn btn-primario" href="/?edit&tour=1">Abrir el editor con el recorrido</a>
+        </article>
+        <article class="caja">
+          <span class="chip">Contenido</span>
+          <h2>Panel de contenido</h2>
+          <p>Para el <strong>blog, los productos y equipos, las marcas y las líneas</strong>: listas, búsqueda y formularios.</p>
+          <p class="url">quimiolab.com.co<b>/admin/</b></p>
+          <a class="btn btn-primario" href="/admin/?tour=1">Abrir el panel con el recorrido</a>
+        </article>
+      </div>
+
+      <h2 id="entrar">1. Cómo entrar</h2>
+      <ol class="pasos">
+        <li><b>Usa tu cuenta de Google autorizada.</b> Es tu correo de Quimiolab (o el que Braindy registró). Si no estás en la lista, verás «Esta cuenta no puede editar»: pide a Braindy que te agregue.</li>
+        <li><b>Abre la dirección</b> del lugar que vas a editar: <code>quimiolab.com.co/?edit</code> para las páginas (también funciona en <code>/nosotros/?edit</code> y <code>/contactenos/?edit</code>) o <code>quimiolab.com.co/admin/</code> para el contenido.</li>
+        <li><b>Pulsa «Entrar con Google»</b> y elige tu cuenta en la ventana que se abre. Si no aparece ninguna ventana, tu navegador bloqueó la ventana emergente: permítela para este sitio (ícono a la derecha de la barra de direcciones) y vuelve a intentar.</li>
+        <li><b>La primera vez</b> se abre un recorrido que te muestra cada parte de la pantalla. Puedes repetirlo cuando quieras con el botón <b class="ico">?</b>.</li>
+        <li><b>Para salir</b>, usa la <b class="ico">×</b> del editor o «Salir» en el panel. Tu borrador queda guardado.</li>
+      </ol>
+      <p class="nota">Recomendado: computador con Chrome, Edge o Safari actualizados. En el celular también funciona, pero es más cómodo para revisar que para escribir.</p>
+
+      <h2 id="paginas">2. Editar el inicio, Nosotros o Contáctenos</h2>
+      <ol class="pasos">
+        <li><b>Pasa el mouse</b> sobre la página: se marca con un borde lo que puedes cambiar. El botón «Resaltar» de la barra inferior lo muestra todo a la vez.</li>
+        <li><b>Textos:</b> haz clic y escribe. Al seleccionar palabras aparece una barra para <strong>negrita</strong> (2 o 3 palabras clave por párrafo), destacado y enlaces.</li>
+        <li><b>Fotos:</b> tócalas y sube una desde tu equipo. Horizontales, de al menos 1.600 px, propias o con permiso. Escribe qué muestra en la descripción.</li>
+        <li><b>Botones:</b> el chip «Destino» elige a dónde llevan (página, WhatsApp, web, correo o teléfono).</li>
+        <li><b>Secciones:</b> su barra las sube, baja u oculta; el pincel cambia el fondo con los colores de la marca; el <b class="ico">+</b> agrega una sección nueva (texto + foto, cifras, tarjetas, testimonio, preguntas frecuentes…).</li>
+        <li><b>Revisa con «Vista previa»</b> en escritorio y celular, y pulsa <b>Publicar</b>. Los visitantes ven los cambios en máximo 10 minutos.</li>
+      </ol>
+
+      <h2 id="contenido">3. Editar el blog, un producto, una marca o una línea</h2>
+      <ol class="pasos">
+        <li><b>Elige la pestaña</b> (Blog, Productos y equipos, Marcas o Líneas) y <b>busca</b> por nombre o marca.</li>
+        <li><b>Toca la fila</b> para abrir el formulario, o «Nuevo» para crear uno. Lo obligatorio lleva <b>*</b>.</li>
+        <li><b>Escribe</b> con ayuda de la vista previa de la derecha: así se verá en el sitio. Puedes pegar desde Word o Google Docs.</li>
+        <li><b>Sube la foto:</b> productos con fondo blanco y cuadrada; blog, horizontal.</li>
+        <li><b>Publica.</b> Hoy lo publicado aparece en el sitio con la siguiente actualización, que hace Braindy; pronto será automática, en pocos minutos.</li>
+      </ol>
+
+      <h2 id="buenas">4. Para que se lea bien (y Google lo encuentre)</h2>
+      <ul class="tips">
+        <li><b>Títulos</b> claros, con la palabra que buscaría un cliente: de 40 a 70 caracteres. <span class="ej">Mejor «Prueba de Freelite para cadenas ligeras libres» que «Novedades»</span>.</li>
+        <li><b>Resúmenes</b> de una o dos frases (máx. 300 caracteres): es lo que Google muestra debajo del título.</li>
+        <li><b>Párrafos cortos</b>, de 2 a 4 frases, y un subtítulo cada 3 a 5 párrafos.</li>
+        <li><b>Negrita</b> solo en 2 o 3 palabras clave por párrafo, nunca en frases enteras.</li>
+        <li><b>Fotos</b> propias o con permiso de la marca, y logos de aliados siempre en su versión oficial.</li>
+      </ul>
+
+      <h2 id="problemas">5. Si algo sale mal</h2>
+      <dl class="faq">
+        <dt>«Esta cuenta no puede editar»</dt><dd>Tu correo no está autorizado. Pide a Braindy que lo agregue.</dd>
+        <dt>No se abre la ventana de Google</dt><dd>Permite las ventanas emergentes para quimiolab.com.co y vuelve a pulsar «Entrar con Google».</dd>
+        <dt>Me equivoqué</dt><dd>En el editor: <b>Ctrl+Z</b> o la flecha de deshacer. Antes de publicar, «Descartar» vuelve a lo publicado. Después de publicar, el <b>Historial</b> carga una versión anterior.</dd>
+        <dt>Cerré la pestaña sin publicar</dt><dd>Vuelve a entrar: tu borrador se recupera solo (en el editor, desde el mismo equipo; en el panel, desde cualquiera).</dd>
+        <dt>No veo mis cambios en el sitio</dt><dd>Páginas: espera hasta 10 minutos y recarga. Blog, productos, marcas y líneas: aparecen con la siguiente actualización del sitio.</dd>
+      </dl>
+      <p class="nota">¿Otra duda? Escribe a Braindy: nicolas@braindy.co.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .guia .wrap { max-width: 52rem; }
+  .guia h1 { font-size: var(--t-3xl); margin-bottom: var(--s-4); }
+  .guia h2 { font-size: var(--t-2xl); margin: var(--s-8) 0 var(--s-4); scroll-margin-top: 6rem; }
+  .guia .lead { font-size: var(--t-lg); color: var(--ink-2); }
+  .dos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); margin-top: var(--s-6); }
+  .caja { display: grid; gap: var(--s-3); align-content: start; padding: var(--s-5); border: 1px solid var(--linea); border-radius: var(--r-bento); background: var(--card); box-shadow: var(--sombra-bento); }
+  .caja h2 { margin: 0; font-size: var(--t-xl); }
+  .caja p { margin: 0; color: var(--ink-2); }
+  .caja .chip { justify-self: start; }
+  .caja .btn { justify-self: start; margin-top: var(--s-2); }
+  .url { font-family: ui-monospace, monospace; font-size: var(--t-sm); }
+  .url b { color: var(--marca); }
+  .pasos { display: grid; gap: var(--s-3); padding-left: 1.25rem; line-height: 1.6; }
+  .pasos b, .tips b, .faq b { color: var(--marca); }
+  .tips { display: grid; gap: var(--s-3); padding-left: 1.25rem; line-height: 1.6; }
+  .ej { display: block; font-size: var(--t-sm); color: var(--ink-2); }
+  .faq { display: grid; gap: var(--s-2); }
+  .faq dt { font-weight: 700; font-family: var(--f-display); color: var(--marca); margin-top: var(--s-3); }
+  .faq dd { margin: 0; color: var(--ink-2); line-height: 1.6; }
+  .ico { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border: 1.5px solid var(--linea-fuerte); border-radius: 50%; font-size: .85rem; line-height: 1; vertical-align: -2px; }
+  .nota { font-size: var(--t-sm); color: var(--ink-2); }
+  code { font-size: .9em; background: var(--canvas-2); padding: .1em .35em; border-radius: .3em; }
+  @media (max-width: 760px) { .dos { grid-template-columns: 1fr; } }
+</style>

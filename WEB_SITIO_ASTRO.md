@@ -162,6 +162,15 @@ Nicolas preguntó si este era el mejor UX para editar. Diagnóstico: el enfoque 
 - Los campos enriquecidos solo se reescriben si se tocan (no se «limpia» el HTML del WordPress al editar otro campo).
 - **Pendiente (fase 4)**: lo publicado en el panel aparece en el sitio con el siguiente `npm run deploy:preview`/`deploy`. Falta el build + deploy automático al publicar.
 
+### 2026-10-08 — Recorridos guiados y guía «Cómo entrar y editar» (skill recorrido-guiado)
+
+- Motor del skill copiado a `src/tour/` (`tour.js`, `tour.css` con tokens de Quimiolab) y pasos en `src/tour/recorridos.ts`. Tres recorridos, cada uno se abre solo la primera vez (localStorage `tg-tour-<id>`), con `?tour=1` (se consume una vez) y con el botón **?**:
+  - `editor` (`?edit`, 11 pasos): textos y negritas, fotos, botones/destino, barra de secciones, resaltar, deshacer y borrador, vista previa, historial, publicar. Marca los elementos de cada página al abrirse (primer texto, primera foto visible, primer botón, primera barra con pincel) y activa «Resaltar» mientras dura.
+  - `panel` (lista de `/admin/`, 8 pasos) y `ficha` (formulario, hasta 11 pasos). Los pasos sin elemento en la pantalla se omiten y la numeración se recalcula (marcas y líneas no tienen foto).
+- **Guía `/admin/guia/`** (noindex): dos lugares para editar con botones «Abrir con el recorrido», cómo entrar paso a paso (cuenta autorizada, ventana emergente de Google, salir), páginas, contenido, buenas prácticas con criterios (títulos 40–70 caracteres, resúmenes ≤ 300, negrita 2–3 palabras por párrafo) y problemas frecuentes. Enlazada desde ambas pantallas de ingreso y el final de cada recorrido. El antiguo panel de ayuda del editor se reemplazó por el recorrido.
+- Ajustes al motor del skill (vale la pena llevarlos al skill): el oscurecido ahora es un velo con hueco (`clip-path`), porque Chrome no pintaba la sombra de `200vmax`; en móvil, si el elemento está en la mitad inferior (barra fija), la tarjeta va arriba.
+- De paso: los chips del editor ignoran fotos con `visibility: hidden` / `aria-hidden=""` (slides inactivos del hero); la cabecera del panel deja de ser fija en pantallas angostas (tapaba la barra de formato); barra de herramientas de Astro desactivada en desarrollo.
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.

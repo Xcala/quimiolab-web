@@ -1,8 +1,8 @@
 {
  "layout__home": {
-  "sections": "[{\"key\":\"hero\"},{\"key\":\"confianza\"},{\"key\":\"equipos\"},{\"key\":\"soluciones\"},{\"key\":\"nosotros\"},{\"key\":\"siguiente-paso\",\"patron\":\"ninguno\"},{\"key\":\"contenidos\",\"patron\":\"red\"},{\"key\":\"contacto\"}]",
-  "updatedBy": "nicolas@braindy.co",
   "page": "home",
-  "updatedAt": "2026-10-08T08:55:01.639Z"
+  "updatedBy": "nicolas@braindy.co",
+  "updatedAt": "2026-10-08T08:55:01.639Z",
+  "sections": "[{\"key\":\"hero\"},{\"key\":\"confianza\"},{\"key\":\"equipos\"},{\"key\":\"soluciones\"},{\"key\":\"nosotros\"},{\"key\":\"siguiente-paso\",\"patron\":\"ninguno\"},{\"key\":\"contenidos\",\"patron\":\"red\"},{\"key\":\"contacto\"}]"
  }
 }

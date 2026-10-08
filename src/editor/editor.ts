@@ -18,6 +18,7 @@ import './editor.css';
 import { firebaseConfig, ADMINS, COLECCION, PAGINAS, WHATSAPP, FOTO_ANCHO_MAX, FOTO_BYTES_MAX } from './config';
 import { pedirPagina, aplicar, aplicarSecciones, aplicarEnlace, reconciliar, keysCodigo, limpiarCache, guardarCache, leerBorrador, guardarBorrador, borrarBorrador, conCambios, type Contenido, type Seccion } from './contenido';
 import { FONDOS, PATRONES, PLANTILLAS, admiteFondo, htmlPlantilla, nuevaKey } from './secciones.mjs';
+import { abrirRecorrido, tocaRecorrido, pasosEditor, GUIA } from '../tour/recorridos';
 
 const VERSIONES = 'page_versions';
 type Campo = 'content' | 'href' | 'alt' | 'pos' | 'sections';
@@ -221,7 +222,7 @@ async function arrancar(user: User, db: Firestore, demo: boolean, toast: (m: str
     for (const c of [...chips]) {
       if (!c.ancla.isConnected) { c.el.remove(); chips.splice(chips.indexOf(c), 1); continue; }
       const r = c.ancla.getBoundingClientRect();
-      const enPantalla = r.bottom > 40 && r.top < vh - 60 && r.width > 0 && !c.ancla.closest('[aria-hidden="true"]');
+      const enPantalla = r.bottom > 40 && r.top < vh - 60 && r.width > 0 && !c.ancla.closest('[aria-hidden]:not([aria-hidden="false"])') && getComputedStyle(c.ancla).visibility !== 'hidden';
       const fondo = c.pos === 'foto' && c.ancla.dataset.edFondo !== undefined;
       const cerca = c.pos === 'seccion' ? c.ancla === secActiva : fondo ? !!secActiva?.contains(c.ancla) : contiene(r, 12);
       const visible = !vista && enPantalla && (guia || cerca || enPanel === c.ancla);
@@ -497,11 +498,12 @@ async function arrancar(user: User, db: Firestore, demo: boolean, toast: (m: str
   const bResaltar = boton('ql-ed-ib', svg.resaltar, 'Resaltar todo lo editable');
   const bHistorial = boton('ql-ed-ib', svg.reloj, 'Historial de versiones');
   const bVista = boton('ql-ed-btn ql-ed-btn-vista', `${svg.vista}<span>Vista previa</span>`, 'Vista previa en escritorio y celular');
-  const ayuda = boton('ql-ed-ib', '<b>?</b>', 'Cómo funciona');
+  const ayuda = boton('ql-ed-ib', '<b>?</b>', 'Ver el recorrido: cómo editar');
   const descartar = boton('ql-ed-btn ql-ed-btn-sec', 'Descartar');
   const publicar = boton('ql-ed-btn ql-ed-btn-p', `${svg.check}<span>Publicar</span>`);
   const salir = boton('ql-ed-ib', svg.x, 'Salir del modo edición');
   const sep = () => h('span', 'ql-ed-sep');
+  bDeshacer.dataset.tour = 'deshacer'; bResaltar.dataset.tour = 'resaltar'; bHistorial.dataset.tour = 'historial'; bVista.dataset.tour = 'vista'; publicar.dataset.tour = 'publicar';
   acciones.append(bDeshacer, bRehacer, sep(), bResaltar, bHistorial, ayuda, sep(), bVista, descartar, publicar, salir); barra.append(acciones); document.body.append(barra);
   let guardadoEn = 0;
   const refrescarBarra = (recienGuardado = false) => {
@@ -516,17 +518,7 @@ async function arrancar(user: User, db: Firestore, demo: boolean, toast: (m: str
   bResaltar.addEventListener('click', () => { const on = document.documentElement.classList.toggle('ql-ed-guia'); bResaltar.classList.toggle('activo', on); bResaltar.setAttribute('aria-pressed', String(on)); ubicar(); });
   bHistorial.addEventListener('click', () => { panelHistorial(); });
   bVista.addEventListener('click', vistaPrevia);
-  ayuda.addEventListener('click', () => abrir('Cómo editar', h('div', 'ql-ed-cuerpo', `
-    <ol class="ql-ed-ayuda">
-      <li><b>Pasa el mouse</b> (o toca) sobre la página: se marca lo que puedes cambiar. El botón <b>Resaltar</b> muestra todo a la vez.</li>
-      <li><b>Textos:</b> haz clic y escribe. Al seleccionar palabras aparece una barra para <b>negrita</b> (palabras clave), destacado y enlaces.</li>
-      <li><b>Fotos:</b> tócalas → sube una desde tu equipo o celular, elige el encuadre y escribe la descripción. «Original» la devuelve.</li>
-      <li><b>Botones:</b> «Destino» → a qué página, WhatsApp, web o correo lleva.</li>
-      <li><b>Secciones:</b> su barra las sube, baja u oculta; el pincel cambia <b>fondo y patrón</b>; el «+» agrega una nueva debajo; la papelera borra las agregadas.</li>
-      <li><b>Deshacer</b> (Ctrl+Z) y <b>rehacer</b> (Ctrl+Shift+Z) funcionan con todo. Tus cambios se guardan solos como <b>borrador en este equipo</b>, aunque cierres la pestaña.</li>
-      <li><b>Vista previa</b> muestra cómo quedará en escritorio y celular. <b>Publicar</b> lo pone en el sitio para todos (en máximo 10 minutos).</li>
-      <li>El <b>historial</b> guarda cada publicación: puedes cargar una versión anterior o volver al diseño original.</li>
-    </ol>`)));
+  ayuda.addEventListener('click', () => recorrido());
   descartar.addEventListener('click', () => {
     if (!confirm('¿Descartar todos los cambios sin publicar? (El borrador se borra.)')) return;
     borrarBorrador(pagina); pintarEstado({ p: [], s: seccionesPublicadas() }); registrar(); toast('Cambios descartados.');
@@ -587,7 +579,27 @@ async function arrancar(user: User, db: Firestore, demo: boolean, toast: (m: str
   registrar(); refrescarBarra();
   // al entrar se resaltan un momento los elementos editables, para que se entienda qué se puede tocar
   document.documentElement.classList.add('ql-ed-guia'); ubicar();
-  setTimeout(() => { if (!bResaltar.classList.contains('activo')) { document.documentElement.classList.remove('ql-ed-guia'); ubicar(); } }, 2200);
+  const quitarGuia = () => { if (!bResaltar.classList.contains('activo') && !document.querySelector('.tg-tour')) { document.documentElement.classList.remove('ql-ed-guia'); ubicar(); } };
+  setTimeout(quitarGuia, 2200);
+
+  /* recorrido guiado: se abre solo la primera vez (o con ?tour=1) y con el botón «?» */
+  function recorrido() {
+    cerrarPanel();
+    // marca los elementos de esta página que explica el recorrido
+    main.querySelectorAll('[data-tour]').forEach((x) => x.removeAttribute('data-tour'));
+    main.querySelector('[data-ed]')?.setAttribute('data-tour', 'texto');
+    Array.from(main.querySelectorAll('[data-ed-img]:not([data-ed-fondo])')).find((i) => getComputedStyle(i).visibility !== 'hidden')?.setAttribute('data-tour', 'foto');
+    main.querySelector('[data-ed-link]')?.setAttribute('data-tour', 'boton');
+    chips.forEach((c) => delete c.el.dataset.tour);
+    const barra = chips.find((c) => c.pos === 'seccion' && c.el.querySelector('[title="Fondo de la sección"]')) || chips.find((c) => c.pos === 'seccion');
+    if (barra) barra.el.dataset.tour = 'seccion';
+    const seccion = () => { if (!barra) return; barra.ancla.scrollIntoView({ block: 'start' }); scrollBy(0, -110); ubicar(); };
+    abrirRecorrido('editor', pasosEditor({ seccion }), {
+      antes: () => { document.documentElement.classList.add('ql-ed-guia'); ubicar(); }, // durante el recorrido se ve todo lo editable
+      alCerrar: () => { setTimeout(quitarGuia, 300); scrollTo({ top: 0 }); },
+    });
+  }
+  if (tocaRecorrido('editor')) setTimeout(recorrido, 900);
 }
 
 /* ---------- utilidades ---------- */
@@ -619,7 +631,7 @@ function tarjeta(titulo: string, html: string, botones: { texto: string; fn: () 
 }
 function quitarTarjeta() { document.querySelector('.ql-ed-velo')?.remove(); }
 function pedirIngreso(auth: ReturnType<typeof getAuth>) {
-  tarjeta('Editar esta página', '<p>Entra con tu cuenta de Google autorizada. Verás el sitio tal cual y podrás tocar lo que quieras cambiar.</p>', [{ texto: `${svg.google} Entrar con Google`, primario: true, fn: () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert('No se pudo iniciar sesión: ' + (e?.message || e))) }]);
+  tarjeta('Editar esta página', `<p>Entra con tu cuenta de Google autorizada. Verás el sitio tal cual y podrás tocar lo que quieras cambiar.</p><p class="ql-ed-nota">¿Primera vez? <a href="${GUIA}">Mira cómo entrar y editar, paso a paso</a>.</p>`, [{ texto: `${svg.google} Entrar con Google`, primario: true, fn: () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert('No se pudo iniciar sesión: ' + (e?.message || e))) }]);
 }
 
 /** Convierte una foto a WebP y la reduce hasta caber en un documento de Firestore. */

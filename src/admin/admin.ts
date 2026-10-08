@@ -14,6 +14,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signO
 import { getFirestore, doc, setDoc, deleteDoc, getDoc, getDocs, collection, query, where, serverTimestamp, type Firestore } from 'firebase/firestore';
 import './admin.css';
 import { firebaseConfig, ADMINS, FOTO_ANCHO_MAX, FOTO_BYTES_MAX } from '../editor/config';
+import { abrirRecorrido, tocaRecorrido, pasosPanel, pasosFicha, esMovil, GUIA } from '../tour/recorridos';
 
 /* ================= tipos de contenido ================= */
 type Valor = any;
@@ -164,7 +165,7 @@ export async function iniciar(el: HTMLElement) {
   alm = firestore(getFirestore(app));
   let listo = false;
   onAuthStateChanged(auth, async (user: User | null) => {
-    if (!user) { pantalla('Panel de contenido', 'Entra con tu cuenta de Google autorizada para editar el blog, los productos, las marcas y las líneas.', [{ texto: 'Entrar con Google', primario: true, fn: () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert('No se pudo iniciar sesión: ' + (e?.message || e))) }]); return; }
+    if (!user) { pantalla('Panel de contenido', `Entra con tu cuenta de Google autorizada para editar el blog, los productos, las marcas y las líneas.</p><p class="adm-ayuda">¿Primera vez? <a href="${GUIA}">Mira cómo entrar y editar, paso a paso</a>.`, [{ texto: 'Entrar con Google', primario: true, fn: () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert('No se pudo iniciar sesión: ' + (e?.message || e))) }]); return; }
     const correo = (user.email || '').toLowerCase();
     if (!ADMINS.map((a) => a.toLowerCase()).includes(correo)) { pantalla('Esta cuenta no puede editar', `Entraste como <b>${esc(correo)}</b>, que no está en la lista de personas autorizadas. Pide a Braindy que la agregue.`, [{ texto: 'Salir', fn: () => signOut(auth) }]); return; }
     if (listo) return; listo = true; usuario = correo;
@@ -199,13 +200,14 @@ function montar() {
   const app = h('div', 'adm');
   const cab = h('header', 'adm-cab');
   cab.innerHTML = `<a class="adm-logo" href="#/catalogo"><b>Quimiolab</b><span>Panel de contenido</span></a>`;
-  const nav = h('nav', 'adm-nav'); nav.setAttribute('aria-label', 'Secciones');
+  const nav = h('nav', 'adm-nav'); nav.setAttribute('aria-label', 'Secciones'); nav.dataset.tour = 'pestanas';
   (Object.values(TIPOS)).forEach((t) => { const a = h('a', '', t.nombre); a.setAttribute('href', `#/${t.id}`); a.dataset.tipo = t.id; nav.append(a); });
   const der = h('div', 'adm-der');
-  const paginas = h('a', 'adm-btn adm-btn-claro', `${I.lapiz}<span>Editar páginas</span>`); paginas.setAttribute('href', '/?edit'); paginas.title = 'Inicio, Nosotros y Contáctenos se editan sobre la página';
+  const paginas = h('a', 'adm-btn adm-btn-claro', `${I.lapiz}<span>Editar páginas</span>`); paginas.setAttribute('href', '/?edit'); paginas.title = 'Inicio, Nosotros y Contáctenos se editan sobre la página'; paginas.dataset.tour = 'paginas';
+  const ayuda = boton('adm-btn adm-btn-claro adm-btn-ic', '<b>?</b>', 'Ver el recorrido de esta pantalla'); ayuda.addEventListener('click', () => recorridoActual?.());
   const quien = h('span', 'adm-quien', esc(usuario));
   const salir = boton('adm-btn adm-btn-claro', 'Salir'); salir.addEventListener('click', () => (window as any).__salirAdmin?.() ?? (location.href = '/'));
-  der.append(paginas, quien, salir);
+  der.append(ayuda, paginas, quien, salir);
   cab.append(nav, der);
   const aviso = h('div', 'adm-aviso', '<b>Cómo se publica:</b> lo que publiques aquí queda guardado al instante y aparece en el sitio con la siguiente actualización (la hace Braindy; pronto será automática).');
   cuerpo = h('main', 'adm-cuerpo');
@@ -214,6 +216,7 @@ function montar() {
 }
 
 let salirConCambios: (() => boolean) | null = null;
+let recorridoActual: (() => void) | null = null;
 function ruta() {
   if (salirConCambios && !salirConCambios()) return;
   salirConCambios = null;
@@ -250,12 +253,12 @@ function lista(t: TipoId) {
   const tipo = TIPOS[t];
   cuerpo.innerHTML = '';
   const cab = h('div', 'adm-titulo', `<h1>${tipo.nombre}</h1>`);
-  if (tipo.crear) { const nuevo = boton('adm-btn adm-btn-p', `${I.mas}<span>Nuevo ${tipo.singular}</span>`); nuevo.addEventListener('click', () => (location.hash = `#/${t}/nuevo`)); cab.append(nuevo); }
+  if (tipo.crear) { const nuevo = boton('adm-btn adm-btn-p', `${I.mas}<span>Nuevo ${tipo.singular}</span>`); nuevo.dataset.tour = 'nuevo'; nuevo.addEventListener('click', () => (location.hash = `#/${t}/nuevo`)); cab.append(nuevo); }
   const filtros = h('div', 'adm-filtros');
-  const busca = h('label', 'adm-busca', I.buscar); const q = h('input') as HTMLInputElement; q.type = 'search'; q.placeholder = `Buscar ${tipo.nombre.toLowerCase()}…`; q.setAttribute('aria-label', 'Buscar'); busca.append(q);
+  const busca = h('label', 'adm-busca', I.buscar); busca.dataset.tour = 'buscar'; const q = h('input') as HTMLInputElement; q.type = 'search'; q.placeholder = `Buscar ${tipo.nombre.toLowerCase()}…`; q.setAttribute('aria-label', 'Buscar'); busca.append(q);
   const estado = h('select', 'adm-select') as HTMLSelectElement; estado.setAttribute('aria-label', 'Filtrar por estado');
   [['', 'Todos'], ['borrador', 'Con borrador sin publicar'], ['editado', 'Editados en el panel'], ['nuevo', 'Creados en el panel'], ['oculto', 'Ocultos']].forEach(([v, n]) => estado.append(new Option(n, v)));
-  filtros.append(busca, estado);
+  filtros.append(busca, estado); estado.dataset.tour = 'filtros';
   let marca: HTMLSelectElement | null = null, clase: HTMLSelectElement | null = null;
   if (t === 'catalogo') {
     clase = h('select', 'adm-select') as HTMLSelectElement; clase.setAttribute('aria-label', 'Productos o equipos');
@@ -292,11 +295,14 @@ function lista(t: TipoId) {
       li.append(a); ul.append(li);
     }
     mas.hidden = items.length <= limite;
+    ul.querySelector('a')?.setAttribute('data-tour', 'lista');
   };
   [q, estado, marca, clase].forEach((x) => x?.addEventListener('input', () => { limite = 60; pintar(); }));
   mas.addEventListener('click', () => { limite += 120; pintar(); });
   cuerpo.append(cab, filtros, conteo, ul, mas);
   pintar(); q.focus();
+  recorridoActual = () => abrirRecorrido('panel', pasosPanel());
+  if (tocaRecorrido('panel')) setTimeout(recorridoActual, 700);
 }
 
 /* ---------- edición ---------- */
@@ -316,11 +322,11 @@ async function editar(t: TipoId, slugRuta: string) {
   const volver = h('a', 'adm-btn adm-btn-ic', I.atras); volver.setAttribute('href', `#/${t}`); volver.setAttribute('aria-label', `Volver a ${tipo.nombre}`);
   const tit = h('div', 'adm-barra-tit', `<span>${tipo.nombre}</span><b></b>`);
   const estadoTxt = h('em', 'adm-estado');
-  const bHist = boton('adm-btn adm-btn-ic', I.reloj, 'Historial de publicaciones');
+  const bHist = boton('adm-btn adm-btn-ic', I.reloj, 'Historial de publicaciones'); bHist.dataset.tour = 'historial';
   const bVer = h('a', 'adm-btn adm-btn-ic', I.externo); bVer.setAttribute('target', '_blank'); bVer.setAttribute('rel', 'noopener'); bVer.title = 'Ver la página publicada';
   const bPrev = boton('adm-btn adm-btn-ic adm-solo-movil', I.ojo, 'Vista previa');
   const bDesc = boton('adm-btn', 'Descartar borrador');
-  const bPub = boton('adm-btn adm-btn-p', `${I.check}<span>Publicar</span>`);
+  const bPub = boton('adm-btn adm-btn-p', `${I.check}<span>Publicar</span>`); bPub.dataset.tour = 'publicar'; estadoTxt.dataset.tour = 'estado';
   barra.append(volver, tit, estadoTxt, bHist, bVer, bPrev, bDesc, bPub);
 
   const grid = h('div', 'adm-editor');
@@ -372,6 +378,9 @@ async function editar(t: TipoId, slugRuta: string) {
       control = campoRico(String(v ?? ''), marcarCambio, (fn) => (lectores[c.k] = fn), id);
     }
     campo.append(etiqueta); if (ayuda) campo.append(ayuda); campo.append(control); form.append(campo);
+    if (!form.querySelector('[data-tour="campos"]')) campo.dataset.tour = 'campos';
+    if (c.t === 'rico' && !form.querySelector('[data-tour="rico"]')) (control.querySelector<HTMLElement>('.adm-rico-barra') ?? control).dataset.tour = 'rico';
+    if (c.t === 'imagen') control.dataset.tour = 'foto';
   }
   // slug (dirección): solo editable mientras el elemento nunca se ha publicado
   const campoSlug = h('div', 'adm-campo');
@@ -379,7 +388,7 @@ async function editar(t: TipoId, slugRuta: string) {
   campoSlug.innerHTML = `<label for="f-slug">Dirección de la página</label>`;
   const pre = h('div', 'adm-slug', `<span>quimiolab.com.co${esc(tipo.url('').replace(/\/$/, ''))}/</span>`); pre.append(slugIn, h('span', '', '/'));
   const slugAyuda = h('p', 'adm-ayuda');
-  campoSlug.append(pre, slugAyuda); form.append(campoSlug);
+  campoSlug.append(pre, slugAyuda); form.append(campoSlug); campoSlug.dataset.tour = 'direccion';
   const refrescarSlug = () => {
     const fijo = yaPublicado() || !nuevoDeAqui();
     slugIn.readOnly = fijo;
@@ -392,7 +401,7 @@ async function editar(t: TipoId, slugRuta: string) {
   // visible / oculto
   let oculto = !!valores._oculto;
   if (tipo.ocultar) {
-    const campoVis = h('div', 'adm-campo adm-visible');
+    const campoVis = h('div', 'adm-campo adm-visible'); campoVis.dataset.tour = 'visible';
     const lab = h('label', 'adm-check'); const inp = h('input') as HTMLInputElement; inp.type = 'checkbox'; inp.checked = !oculto; lab.append(inp, document.createTextNode(` Visible en el sitio`));
     inp.addEventListener('change', () => { oculto = !inp.checked; marcarCambio(); });
     campoVis.append(lab, h('p', 'adm-ayuda', 'Si lo ocultas, su página deja de existir al publicar (puedes volver a mostrarlo cuando quieras).'));
@@ -506,6 +515,8 @@ async function editar(t: TipoId, slugRuta: string) {
     refrescar();
   }
   pintarPrev();
+  recorridoActual = () => { (esMovil() ? bPrev : prev).dataset.tour = 'vista'; abrirRecorrido('ficha', pasosFicha()); };
+  if (tocaRecorrido('ficha')) setTimeout(recorridoActual, 700);
 }
 
 /* ---------- campo: foto ---------- */

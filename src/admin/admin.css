@@ -118,6 +118,7 @@ html.adm-on, html.adm-on body { background: var(--a-fondo); }
   .adm-barra { top: 0; position: relative; }
   .adm-rico-barra { top: 0; }
   .adm-quien { display: none; }
+  .adm-cab { position: relative; } /* en pantallas angostas ocupa varias filas: no se queda fija tapando la barra de formato */
 }
 @media (max-width: 640px) { .adm-cuerpo { padding-inline: .75rem; } .adm-cab { gap: .5rem; } .adm-der .adm-btn span { display: none; } .adm-estado { width: 100%; order: 9; } .adm-slug > span:first-child { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; } }
 
