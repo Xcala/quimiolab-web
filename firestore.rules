@@ -19,6 +19,13 @@ service cloud.firestore {
       allow write: if esAdmin()
         && request.resource.data.keys().hasOnly(['content', 'href', 'alt', 'pos', 'sections', 'page', 'updatedAt', 'updatedBy']);
     }
+    // Historial del editor: una versión completa de la página por cada publicación. No se edita ni se borra.
+    match /page_versions/{id} {
+      allow read: if esAdmin();
+      allow create: if esAdmin()
+        && request.resource.data.keys().hasOnly(['page', 'at', 'by', 'cambios', 'docs'])
+        && request.resource.data.docs is string && request.resource.data.docs.size() < 1000000;
+    }
     match /{document=**} { allow read, write: if false; }
   }
 }

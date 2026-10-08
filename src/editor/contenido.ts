@@ -39,6 +39,30 @@ export function limpiarCache() {
   try { Object.keys(localStorage).filter((k) => k.startsWith(LS)).forEach((k) => localStorage.removeItem(k)); } catch { /* nada */ }
 }
 
+/* ---------- borrador (cambios sin publicar, guardados en este equipo) ---------- */
+export type Borrador = { t: number; p: [string, string][]; s: Seccion[] };
+const LS_BORRADOR = 'ql_ed_borrador_v1:';
+export function leerBorrador(pagina: string): Borrador | null {
+  try { const b = JSON.parse(localStorage.getItem(LS_BORRADOR + pagina) || 'null'); return b && Array.isArray(b.p) && Array.isArray(b.s) ? b : null; } catch { return null; }
+}
+/** Devuelve false si no cupo completo (fotos muy pesadas): se guarda sin ellas. */
+export function guardarBorrador(pagina: string, b: Borrador): boolean {
+  try { localStorage.setItem(LS_BORRADOR + pagina, JSON.stringify(b)); return true; }
+  catch {
+    try { localStorage.setItem(LS_BORRADOR + pagina, JSON.stringify({ ...b, p: b.p.filter(([, v]) => !v.startsWith('data:')) })); } catch { /* bloqueado */ }
+    return false;
+  }
+}
+export function borrarBorrador(pagina: string) { try { localStorage.removeItem(LS_BORRADOR + pagina); } catch { /* nada */ } }
+/** Lo publicado + los cambios pendientes (id#campo → valor; '' = volver al original). */
+export function conCambios(publicado: Contenido, cambios: Iterable<[string, string]>, secciones?: Seccion[], pagina?: string): Contenido {
+  const d: Contenido = {};
+  for (const [id, v] of Object.entries(publicado)) d[id] = { ...v };
+  for (const [k, v] of cambios) { const [id, campo] = k.split('#'); (d[id] ||= {} as Doc)[campo as keyof Doc] = (v === '' ? null : v) as any; }
+  if (secciones && pagina) d[`layout__${pagina}`] = { ...(d[`layout__${pagina}`] || {}), sections: JSON.stringify(secciones) };
+  return d;
+}
+
 /* ---------- lectura REST (lectura pública en las reglas) ---------- */
 const base = () => `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents`;
 const key = () => (firebaseConfig.apiKey ? `?key=${firebaseConfig.apiKey}` : '');
@@ -84,8 +108,9 @@ const esExterno = (h: string) => /^(https?:)?\/\//.test(h) && !h.startsWith(loca
 
 export function aplicarTexto(el: HTMLElement, html: string) { if (el.innerHTML !== html) el.innerHTML = html; }
 export function aplicarImagen(img: HTMLImageElement, d: Doc) {
-  if (d.content && img.getAttribute('src') !== d.content) { img.removeAttribute('srcset'); img.src = d.content; }
-  if (typeof d.alt === 'string') img.alt = d.alt;
+  const src = d.content || (d.content === null ? img.dataset.edOrig : undefined);
+  if (src && img.getAttribute('src') !== src) { img.removeAttribute('srcset'); img.src = src; }
+  if (typeof d.alt === 'string') img.alt = d.alt; else if (d.alt === null) img.alt = img.dataset.edOrigAlt ?? img.alt;
   if (d.pos) img.style.objectPosition = d.pos; else if (d.pos === null) img.style.objectPosition = '';
 }
 export function aplicarEnlace(a: HTMLAnchorElement, href: string) {
@@ -154,7 +179,10 @@ export function aplicar(main: HTMLElement, pagina: string, docs: Contenido, modo
   }
   for (const [id, d] of Object.entries(docs)) {
     if (id.startsWith('layout__')) continue;
-    main.querySelectorAll<HTMLElement>(`[data-ed="${id}"]`).forEach((el) => { if (typeof d.content === 'string' && d.content) aplicarTexto(el, d.content); });
+    main.querySelectorAll<HTMLElement>(`[data-ed="${id}"]`).forEach((el) => {
+      if (typeof d.content === 'string' && d.content) aplicarTexto(el, d.content);
+      else if (d.content === null && el.dataset.edDef !== undefined) aplicarTexto(el, el.dataset.edDef); // volvió al original
+    });
     main.querySelectorAll<HTMLImageElement>(`[data-ed-img="${id}"]`).forEach((img) => aplicarImagen(img, d));
     main.querySelectorAll<HTMLAnchorElement>(`[data-ed-link="${id}"]`).forEach((a) => { if (d.href) aplicarEnlace(a, d.href); });
   }

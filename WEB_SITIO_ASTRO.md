@@ -142,6 +142,17 @@ Nicolas probó el editor en la vista previa (entra con Google y edita textos) y 
 - Build: `aplicar_layout.mjs` hornea orden, ocultas, fondos/patrones y secciones agregadas con lo publicado. Verificado con contenido simulado, en el editor demo (1366 y 390, claro y oscuro, sin scroll horizontal) y en la vista de visitante con caché.
 - Probar sin Firebase: configuración `dev-editor-demo` en `.claude/launch.json` (`PUBLIC_ED_DEMO=1`, puerto 4322) → `/?edit`.
 
+### 2026-10-08 — Editor in situ: pulido de UX (antes del panel /admin/)
+
+Nicolas preguntó si este era el mejor UX para editar. Diagnóstico: el enfoque (edición sobre la página para lo de marketing + formularios para el catálogo) es el correcto, pero faltaban red de seguridad y menos ruido. Hecho:
+- **Borrador automático** en el equipo (`ql_ed_borrador_v1:<página>` en localStorage) y recuperación al volver, con aviso. «Salir» ya no pregunta: el borrador queda guardado.
+- **Deshacer/rehacer** (botones y Ctrl+Z / Ctrl+Shift+Z / Ctrl+Y) para todo: textos (agrupados por pausa de escritura), fotos, destinos, secciones, fondos. Estado = cambios pendientes + secciones; `pintarEstado` repinta cualquier estado.
+- **Historial de versiones**: cada «Publicar» guarda la página completa en `page_versions` (reglas: solo admins leen/crean; no se edita ni borra). Panel «Historial» → «Cargar» una versión o «Volver al diseño original» como borrador. `Ed` guarda el texto del código en `data-ed-def` cuando hay algo publicado, para poder volver al original.
+- **Vista previa** en marco (escritorio o celular de 390 px reales) con `?borrador=1`: el script de visitantes aplica lo publicado + el borrador, sin controles.
+- **Menos ruido**: contornos, chips y barras de sección solo al pasar el mouse o tocar (prueba de posición, funciona bajo capas como el scrim del hero); botón «Resaltar» para verlo todo; al entrar se resalta 2 s. Tocar una foto abre su panel.
+- **Barra de formato** al seleccionar texto: negrita (`<strong>`), destacado (`<em>`), enlace (no dentro de botones), quitar formato. El HTML se limpia al guardar (b→strong, i→em, sin span/style/class ni atributos `data-astro-*`).
+- Corregido: el aviso de cookies tapaba el editor (selector `#aviso-cookies`). HTML del sitio ahora con `Cache-Control: max-age=0, must-revalidate` (antes Firebase servía las páginas con 1 h de caché y Nicolas veía la versión vieja tras un deploy).
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.

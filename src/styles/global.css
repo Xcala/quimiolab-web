@@ -442,3 +442,5 @@ p strong, li strong, .lead strong { font-weight: 700; color: var(--marca); }
   .pl-invertido .pl-foto { order: 2; }
   .pl-cifras, .pl-tarjetas { grid-template-columns: 1fr; }
 }
+/* vista previa del borrador del editor (?borrador, dentro de un marco): sin aviso de cookies */
+html.ql-borrador #aviso-cookies { display: none !important; }

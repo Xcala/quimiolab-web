@@ -18,7 +18,8 @@ const hosting = {
   ],
   headers: [
     { source: '**/*.@(js|css|woff2|png|jpg|jpeg|webp|svg|avif)', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
-    { source: '**/*.html', headers: [{ key: 'Cache-Control', value: 'public, max-age=300' }] },
+    // páginas (/ruta/ y .html): siempre la versión recién publicada; el CDN de Firebase las sirve igual de rápido
+    { regex: '^(.*/|.*\\.html)$', headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }] },
     { source: '**', headers: [{ key: 'X-Content-Type-Options', value: 'nosniff' }, { key: 'X-Frame-Options', value: 'SAMEORIGIN' }, { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' }, { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' }] },
   ],
 };
