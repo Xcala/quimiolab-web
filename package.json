@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/fetch_content.mjs",
+    "prebuild": "node scripts/fetch_content.mjs && node scripts/fetch_cms.mjs",
     "build": "astro build && node scripts/aplicar_layout.mjs && pagefind --site dist && node scripts/check_build.mjs",
     "build:preview": "cross-env PUBLIC_NOINDEX=1 npm run build",
     "preview": "astro preview",

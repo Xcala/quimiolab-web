@@ -9,7 +9,7 @@ const errores = [];
 const aviso = [];
 
 const criticas = ['/', '/contactenos/', '/nosotros/', '/marcas/', '/marcas/aesku/', '/marcas/sd-biosensor/', '/marcas/binding-site/', '/marcas/vircell/', '/equipos/', '/productos/', '/productos/pagina/2/', '/soluciones/', '/soluciones/diagnostico/', '/soluciones/diagnostico/productos/', '/blog/', '/producto/helios-convencional/', '/producto/virclia-lotus/', '/producto/optilite/', '/politica-de-denuncias-y-no-retaliacion/', '/registro-sanitario-no-invima2025dm-0031196-serial-m05p41pab8706/', '/buscar/', '/sistema/', '/404.html', '/sitemap-index.xml', '/sitemap-productos.xml', '/blog/rss.xml', '/llms.txt', '/robots.txt'];
-const noindex = ['/buscar/', '/sistema/', '/404.html', '/registro-sanitario-no-invima2025dm-0031196-serial-m05p41pab8706/'];
+const noindex = ['/buscar/', '/sistema/', '/admin/', '/404.html', '/registro-sanitario-no-invima2025dm-0031196-serial-m05p41pab8706/'];
 const archivo = (ruta) => (ruta.endsWith('/') ? join(dist, ruta, 'index.html') : join(dist, ruta));
 
 for (const ruta of criticas) {

@@ -444,3 +444,6 @@ p strong, li strong, .lead strong { font-weight: 700; color: var(--marca); }
 }
 /* vista previa del borrador del editor (?borrador, dentro de un marco): sin aviso de cookies */
 html.ql-borrador #aviso-cookies { display: none !important; }
+/* panel /admin/: es una aplicación a pantalla completa, sin el encabezado ni el pie del sitio */
+body.admin .barra-superior, body.admin .cabecera-sitio, body.admin .pie, body.admin .wa, body.admin .ir-arriba, body.admin #aviso-cookies { display: none !important; }
+body.admin .adm-arranque { padding: 4rem 1.5rem; text-align: center; }

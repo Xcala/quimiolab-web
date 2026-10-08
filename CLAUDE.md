@@ -25,7 +25,8 @@ Migración de www.quimiolab.com.co (WordPress) a un sitio estático en **Astro 7
 - `src/components/` — `Ed/EdImg/EdLink` (editor in situ), `Imagen`, `FormularioContacto`, `Header`, `Footer`, logos (SVG reales con `fill="currentColor"`).
 - `src/styles/global.css` — sistema de diseño (tokens, tema oscuro, escalado fluido, patrones, glass, bento); `motion.css` + `src/scripts/motion.ts` + `gsap-hero.ts` — movimiento en 3 capas.
 - `src/editor/` — editor in situ (`config.ts` es lo único que se configura por marca).
-- `src/data/*.json` — contenido del CMS exportado (no editar a mano; viene de `scripts/prep_data.py` o `npm run data`).
+- `src/admin/` + `src/pages/admin/` — panel de contenido `/admin/` (blog, productos/equipos, marcas, líneas) sobre Firestore (`cms`, `cms_borradores`, `cms_versiones`, `cms_media`).
+- `src/data/*.json` — contenido exportado del WordPress (no editar a mano; viene de `scripts/prep_data.py` o `npm run data`). Es la **base**: `src/lib/data.ts` le aplica `src/data/cms.json` (lo publicado en el panel, lo baja `scripts/fetch_cms.mjs` en el prebuild). Nunca importes los JSON directamente en páginas: usa `lib/data.ts`.
 - `public/media/` (fotos WP en WebP), `public/marcas/` (logos aliados), `public/patrones/` (patrones del manual), `public/img/`.
 - `scripts/` — build y utilidades; `firestore.rules`; `redirects.csv` → `firebase.json` (generado, no editar a mano).
 - `/sistema/` (noindex) documenta el sistema de diseño en vivo.
@@ -44,7 +45,7 @@ Home, Nosotros y Contáctenos. Entrada con `?edit` → Google Sign-In → correo
 - **Los ids nunca se renombran** (el cliente perdería ese contenido). El valor por defecto es siempre lo que está en el código.
 - Fondos, patrones y plantillas de secciones nuevas viven en `src/editor/secciones.mjs` (compartido con el build); el layout guarda `{ key, hidden?, bg?, patron?, tpl? }`. Nunca cambies los `id` de las plantillas ni sus nombres de campo (el cliente perdería esas secciones).
 - Probar la interfaz sin Firebase: servidor `dev-editor-demo` de `.claude/launch.json` (puerto 4322) → `/?edit`.
-- Hoja de ruta acordada (2026-10-08): fase 2 fotos en Firebase Storage, fase 3 panel `/admin/` (blog, productos/equipos, marcas, líneas) sobre Firestore, fase 4 build + deploy automático al publicar.
+- Hoja de ruta (2026-10-08): fases 1 (editor), pulido de UX y 3 (panel `/admin/`) hechas; las fotos del panel van en Firestore (`cms_media`) y el build las vuelve archivos, sin Storage. Falta la fase 4: build + deploy automático al publicar (hoy lo publicado aparece con el siguiente deploy).
 - Estado: app web configurada (`apiKey`/`appId` en `config.ts`) y reglas de Firestore desplegadas (2026-10-08). Falta verificar en la consola Google en Authentication + dominios autorizados. Confirmar si "Lady" es leidy.carrillo@ o ladylaura.garcia@.
 
 ## Seguridad y datos

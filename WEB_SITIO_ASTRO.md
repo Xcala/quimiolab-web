@@ -153,6 +153,15 @@ Nicolas preguntó si este era el mejor UX para editar. Diagnóstico: el enfoque 
 - **Barra de formato** al seleccionar texto: negrita (`<strong>`), destacado (`<em>`), enlace (no dentro de botones), quitar formato. El HTML se limpia al guardar (b→strong, i→em, sin span/style/class ni atributos `data-astro-*`).
 - Corregido: el aviso de cookies tapaba el editor (selector `#aviso-cookies`). HTML del sitio ahora con `Cache-Control: max-age=0, must-revalidate` (antes Firebase servía las páginas con 1 h de caché y Nicolas veía la versión vieja tras un deploy).
 
+### 2026-10-08 — Panel de contenido `/admin/` (fase 3)
+
+- **`/admin/`** (noindex, fuera de robots y de Pagefind): mismo ingreso con Google y misma lista `ADMINS`. Pestañas Blog, Productos y equipos, Marcas, Líneas. Lista con búsqueda (sin tildes), filtros por estado (borrador, editado, nuevo, oculto), por tipo y por marca, e insignias. Ficha con formulario por tipo, editor enriquecido (párrafo/título/subtítulo/cita, negrita, cursiva, listas, enlace, quitar formato; lo pegado de Word se limpia), fotos, dirección (slug fijo una vez publicada), «Visible en el sitio», vista previa con los estilos reales del sitio, historial por elemento («Restaurar» como borrador, incluido el original). Botón «Editar páginas» lleva al editor in situ.
+- **Modelo de datos**: la base sigue siendo el export (`src/data/*.json`, servido al panel como `/admin/datos.json`). Firestore guarda solo diferencias: `cms/{tipo__slug}` = `{ tipo, slug, datos }` (campos distintos a la base + `_nuevo` / `_oculto`), lectura pública; `cms_borradores` (autoguardado cada 1,2 s, compartido entre equipos), `cms_versiones` y `cms_media` (fotos WebP ≤ 750 KB como data URL), solo admins salvo `cms_media` que es pública. Reglas desplegadas.
+- **Fotos sin Storage**: `scripts/fetch_cms.mjs` (prebuild) baja `cms` a `src/data/cms.json` y convierte cada `cms:<id>` en `public/media/cms/<id>.webp`. Si luego se activa Storage, se puede migrar sin cambiar el panel.
+- **Build**: `src/lib/data.ts` combina base + `cms.json` (cambios, nuevos, ocultos; productos↔equipos según `es_equipo`; conteos de marcas recalculados). Todas las páginas, listados, sitemaps, búsqueda y `llms.txt` salen de ahí. Verificado: producto renombrado, artículo nuevo (página, listado, sitemap) y marca oculta (sin página ni enlace).
+- Los campos enriquecidos solo se reescriben si se tocan (no se «limpia» el HTML del WordPress al editar otro campo).
+- **Pendiente (fase 4)**: lo publicado en el panel aparece en el sitio con el siguiente `npm run deploy:preview`/`deploy`. Falta el build + deploy automático al publicar.
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.

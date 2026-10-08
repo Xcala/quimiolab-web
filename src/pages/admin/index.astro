@@ -1,0 +1,18 @@
+---
+/**
+ * Panel de contenido: blog, productos y equipos, marcas y líneas (src/admin/admin.ts).
+ * Mismo ingreso con Google y misma lista de personas autorizadas que el editor in situ.
+ */
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Panel de contenido" description="Panel de contenido de Quimiolab." noindex claseBody="admin">
+  <section class="adm-arranque" data-pagefind-ignore="all">
+    <h1>Panel de contenido</h1>
+    <p>Cargando…</p>
+    <noscript><p>El panel necesita JavaScript.</p></noscript>
+  </section>
+  <div id="adm" data-pagefind-ignore="all"></div>
+</Base>
+<script>
+  import('../../admin/admin').then((m) => m.iniciar(document.getElementById('adm')!)).catch((e) => { console.error(e); document.querySelector('.adm-arranque p')!.textContent = 'No se pudo cargar el panel.'; });
+</script>

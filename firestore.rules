@@ -26,6 +26,30 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['page', 'at', 'by', 'cambios', 'docs'])
         && request.resource.data.docs is string && request.resource.data.docs.size() < 1000000;
     }
+    // Panel /admin/: lo publicado es público (el build lo lee); borradores, historial y escritura solo para admins
+    function tipoValido(t) { return t in ['posts', 'catalogo', 'marcas', 'lineas']; }
+    match /cms/{id} {
+      allow read: if true;
+      allow create, update: if esAdmin() && tipoValido(request.resource.data.tipo)
+        && request.resource.data.keys().hasOnly(['tipo', 'slug', 'datos', 'by', 'at']) && request.resource.data.datos is map;
+      allow delete: if esAdmin();
+    }
+    match /cms_borradores/{id} {
+      allow read, delete: if esAdmin();
+      allow create, update: if esAdmin() && tipoValido(request.resource.data.tipo)
+        && request.resource.data.keys().hasOnly(['tipo', 'slug', 'datos', 'by', 'at']);
+    }
+    match /cms_versiones/{id} {
+      allow read: if esAdmin();
+      allow create: if esAdmin() && request.resource.data.keys().hasOnly(['tipo', 'slug', 'datos', 'by', 'at']) && request.resource.data.datos is string;
+    }
+    // Fotos del panel (WebP como data URL, una por documento). Públicas: el build las convierte en archivos.
+    match /cms_media/{id} {
+      allow read: if true;
+      allow create: if esAdmin() && request.resource.data.keys().hasOnly(['data', 'w', 'h', 'by', 'at'])
+        && request.resource.data.data is string && request.resource.data.data.size() < 1040000;
+      allow delete: if esAdmin();
+    }
     match /{document=**} { allow read, write: if false; }
   }
 }
