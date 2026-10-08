@@ -12,7 +12,8 @@
  *   el «Historial» permite cargar una versión (o el diseño original) como borrador.
  */
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, type User } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, type User } from 'firebase/auth';
+import { completarEnlace, formularioIngreso } from './ingreso';
 import { getFirestore, writeBatch, doc, setDoc, getDocs, collection, query, where, serverTimestamp, type Firestore } from 'firebase/firestore';
 import './editor.css';
 import { firebaseConfig, ADMINS, COLECCION, PAGINAS, WHATSAPP, FOTO_ANCHO_MAX, FOTO_BYTES_MAX } from './config';
@@ -48,7 +49,6 @@ const svg = {
   negrita: ic('<path d="M7 5h6a3.5 3.5 0 0 1 0 7H7zM7 12h7a3.5 3.5 0 0 1 0 7H7z"/>', 2.4),
   cursiva: ic('<path d="M19 4h-9M14 20H5M15 4 9 20"/>', 2.2),
   limpiar: ic('<path d="M4 7V4h16v3M9 20h6M12 4v16"/><path d="m3 3 18 18"/>'),
-  google: '<svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1C3.3 21.3 7.3 24 12 24z"/><path fill="#FBBC05" d="M5.3 14.3c-.5-1.5-.5-3.1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9z"/></svg>',
 };
 
 export async function iniciar(main: HTMLElement, pagina: string) {
@@ -63,8 +63,9 @@ export async function iniciar(main: HTMLElement, pagina: string) {
   let arrancado = false;
   if (demo) { arrancar({ email: 'demo@braindy.co', uid: 'demo' } as User, db, true, toast, main, pagina).catch(console.error); return; }
 
+  const errorIngreso = await completarEnlace(auth); // si se abrió desde el enlace del correo
   onAuthStateChanged(auth, (user) => {
-    if (!user) { pedirIngreso(auth); return; }
+    if (!user) { pedirIngreso(auth, errorIngreso); return; }
     const correo = (user.email || '').toLowerCase();
     if (!ADMINS.map((a) => a.toLowerCase()).includes(correo)) {
       tarjeta('Esta cuenta no puede editar', `<p>Entraste como <b>${correo}</b>, que no está en la lista de personas autorizadas. Pide a Braindy que la agregue.</p>`, [{ texto: 'Salir', fn: () => signOut(auth).then(() => location.href = location.pathname) }]);
@@ -628,10 +629,13 @@ function tarjeta(titulo: string, html: string, botones: { texto: string; fn: () 
   botones.forEach((b) => { const x = boton('ql-ed-btn' + (b.primario ? ' ql-ed-btn-p' : ''), b.texto); x.addEventListener('click', b.fn); fila.append(x); });
   const volver = h('a', 'ql-ed-btn', 'Ver el sitio'); volver.setAttribute('href', location.pathname); fila.append(volver);
   t.append(fila); fondo.append(t); document.body.append(fondo);
+  return { tarjeta: t, fila };
 }
 function quitarTarjeta() { document.querySelector('.ql-ed-velo')?.remove(); }
-function pedirIngreso(auth: ReturnType<typeof getAuth>) {
-  tarjeta('Editar esta página', `<p>Entra con tu cuenta de Google autorizada. Verás el sitio tal cual y podrás tocar lo que quieras cambiar.</p><p class="ql-ed-nota">¿Primera vez? <a href="${GUIA}">Mira cómo entrar y editar, paso a paso</a>.</p>`, [{ texto: `${svg.google} Entrar con Google`, primario: true, fn: () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert('No se pudo iniciar sesión: ' + (e?.message || e))) }]);
+function pedirIngreso(auth: ReturnType<typeof getAuth>, error: string | null) {
+  const { tarjeta: t, fila } = tarjeta('Editar esta página', '<p>Entra con tu correo de Quimiolab autorizado. Verás el sitio tal cual y podrás tocar lo que quieras cambiar.</p>');
+  t.insertBefore(formularioIngreso(auth, { btn: 'ql-ed-btn', primario: 'ql-ed-btn-p', campo: 'ql-ed-campo', nota: 'ql-ed-nota' }, error), fila);
+  fila.insertAdjacentHTML('beforebegin', `<p class="ql-ed-nota">¿Primera vez? <a href="${GUIA}">Mira cómo entrar y editar, paso a paso</a>.</p>`);
 }
 
 /** Convierte una foto a WebP y la reduce hasta caber en un documento de Firestore. */

@@ -14,14 +14,14 @@ const indice = [
   { id: 'problemas', n: '5', t: 'Si algo sale mal' },
 ];
 ---
-<Base title="Cómo entrar y editar el sitio" description="Guía para el equipo de Quimiolab: cómo entrar con Google y editar las páginas, el blog, los productos, las marcas y las líneas." noindex>
+<Base title="Cómo entrar y editar el sitio" description="Guía para el equipo de Quimiolab: cómo entrar con el correo de Quimiolab y editar las páginas, el blog, los productos, las marcas y las líneas." noindex>
   <!-- Portada: los dos lugares para editar -->
   <section class="seccion-navy g-hero">
     <span class="patron patron-red" style="--patron-op:.08;--patron-size:28rem"></span>
     <div class="wrap">
       <span class="eyebrow">Guía para el equipo de Quimiolab</span>
       <h1>Cómo entrar y editar el sitio</h1>
-      <p class="lead">Hay <strong>dos lugares</strong> para editar. Los dos usan tu cuenta de Google y guardan todo solo como borrador: <strong>nada sale al sitio hasta que pulses Publicar</strong>.</p>
+      <p class="lead">Hay <strong>dos lugares</strong> para editar. Se entra a los dos con tu <strong>correo de Quimiolab</strong> (Outlook sirve, no necesitas cuenta de Google ni contraseña) y todo se guarda solo como borrador: <strong>nada sale al sitio hasta que pulses Publicar</strong>.</p>
       <div class="g-accesos">
         <article class="g-acceso glass">
           <span class="g-ic" style="--acento:var(--teal)"><Icon name="documento" size={24} /></span>
@@ -64,13 +64,14 @@ const indice = [
       <section id="entrar" class="g-sec">
         <h2><span class="g-num">1</span>Cómo entrar</h2>
         <ol class="g-pasos">
-          <li><div><h3>Usa tu cuenta de Google autorizada</h3><p>Es tu correo de Quimiolab (o el que Braindy registró). Si no estás en la lista, verás <span class="ui ui-aviso">Esta cuenta no puede editar</span>: pide a Braindy que te agregue.</p></div></li>
+          <li><div><h3>Ten a mano tu correo de Quimiolab</h3><p>Es tu correo de trabajo (Outlook sirve). <b>No necesitas cuenta de Google ni contraseña.</b> Solo pueden entrar los correos autorizados; si el tuyo no está, verás <span class="ui ui-aviso">no está autorizado para editar</span>: pide a Braindy que te agregue.</p></div></li>
           <li><div><h3>Abre la dirección del lugar que vas a editar</h3><p><code>quimiolab.com.co/?edit</code> para las páginas (también funciona en <code>/nosotros/?edit</code> y <code>/contactenos/?edit</code>) o <code>quimiolab.com.co/admin/</code> para el contenido.</p></div></li>
-          <li><div><h3>Pulsa <span class="ui ui-google"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1C3.3 21.3 7.3 24 12 24z"/><path fill="#FBBC05" d="M5.3 14.3c-.5-1.5-.5-3.1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9z"/></svg> Entrar con Google</span></h3><p>Elige tu cuenta en la ventana que se abre. Si no aparece ninguna ventana, tu navegador bloqueó la ventana emergente: permítela para este sitio (ícono a la derecha de la barra de direcciones) y vuelve a intentar.</p></div></li>
+          <li><div><h3>Escribe tu correo y pulsa <span class="ui ui-pub">Enviarme el enlace de acceso</span></h3><p>En 1 o 2 minutos te llega un correo de <code>noreply@quimiolab-web.firebaseapp.com</code>. Si no lo ves, revisa <b>Correo no deseado</b> (en Outlook, también la pestaña <b>Otros</b>).</p></div></li>
+          <li><div><h3>Abre el correo y pulsa el enlace</h3><p>Quedas adentro sin escribir contraseña. Ábrelo <b>en el mismo equipo y navegador</b> donde lo pediste; si lo abres en otro, te pedirá confirmar tu correo. Cada enlace sirve una sola vez: para volver a entrar otro día, pide uno nuevo.</p></div></li>
           <li><div><h3>La primera vez se abre un recorrido</h3><p>Te muestra cada parte de la pantalla. Puedes repetirlo cuando quieras con el botón <span class="ui ui-ico">?</span>.</p></div></li>
           <li><div><h3>Para salir</h3><p>Usa la <span class="ui ui-ico">×</span> del editor o <span class="ui">Salir</span> en el panel. Tu borrador queda guardado.</p></div></li>
         </ol>
-        <p class="g-nota"><Icon name="info" size={18} /> Recomendado: computador con Chrome, Edge o Safari actualizados. En el celular también funciona, pero es más cómodo para revisar que para escribir.</p>
+        <p class="g-nota"><Icon name="info" size={18} /> ¿Tu cuenta es de Google (Gmail o Google Workspace)? También puedes usar «Entrar con Google», debajo del formulario. Recomendado: computador con Chrome, Edge o Safari actualizados. En el celular también funciona, pero es más cómodo para revisar que para escribir.</p>
       </section>
 
       <!-- 2 -->
@@ -127,7 +128,9 @@ const indice = [
         <h2><span class="g-num">5</span>Si algo sale mal</h2>
         <div class="g-faq">
           <details><summary>«Esta cuenta no puede editar»</summary><p>Tu correo no está autorizado. Pide a Braindy que lo agregue.</p></details>
-          <details><summary>No se abre la ventana de Google</summary><p>Permite las ventanas emergentes para quimiolab.com.co y vuelve a pulsar «Entrar con Google».</p></details>
+          <details><summary>No me llega el correo con el enlace</summary><p>Espera 2 minutos y revisa <b>Correo no deseado</b> (y en Outlook la pestaña <b>Otros</b>). Busca el remitente noreply@quimiolab-web.firebaseapp.com y márcalo como «No es correo no deseado» para que los próximos lleguen a la bandeja. Si no aparece, pulsa de nuevo «Enviarme el enlace de acceso».</p></details>
+          <details><summary>«Ese enlace ya se usó o venció»</summary><p>Cada enlace sirve una vez y por poco tiempo. Vuelve a la página, escribe tu correo y pide uno nuevo.</p></details>
+          <details><summary>Abrí el enlace en otro equipo o en el celular</summary><p>Funciona igual: te pedirá escribir tu correo para confirmar que eres tú.</p></details>
           <details><summary>Me equivoqué</summary><p>En el editor: <b>Ctrl+Z</b> o la flecha de deshacer. Antes de publicar, «Descartar» vuelve a lo publicado. Después de publicar, el <b>Historial</b> carga una versión anterior.</p></details>
           <details><summary>Cerré la pestaña sin publicar</summary><p>Vuelve a entrar: tu borrador se recupera solo (en el editor, desde el mismo equipo; en el panel, desde cualquiera).</p></details>
           <details><summary>No veo mis cambios en el sitio</summary><p>Páginas: espera hasta 10 minutos y recarga. Blog, productos, marcas y líneas: aparecen con la siguiente actualización del sitio.</p></details>
@@ -192,8 +195,6 @@ const indice = [
   /* imitaciones de la interfaz real */
   .ui { display: inline-flex; align-items: center; gap: .3rem; padding: .1rem .55rem; border: 1px solid var(--linea-fuerte); border-radius: 999px; background: var(--card); color: var(--ink); font: 700 .8rem/1.5 var(--f-body); white-space: nowrap; vertical-align: 1px; }
   .ui-ico { width: 1.5rem; height: 1.5rem; padding: 0; justify-content: center; }
-  .ui-google { padding: .25rem .7rem; background: linear-gradient(90deg, #0075DA, #00C0E4); border-color: transparent; color: #fff; }
-  .ui-google svg { background: #fff; border-radius: 50%; padding: 1px; }
   .ui-pub { background: linear-gradient(90deg, #0075DA, #00C0E4); border-color: transparent; color: #fff; }
   .ui-chip { background: #0062B8; border-color: transparent; color: #fff; }
   .ui-aviso { background: #FDECEA; border-color: #F5C2BD; color: #8A1C12; }

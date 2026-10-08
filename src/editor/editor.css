@@ -134,3 +134,10 @@ html.ql-ed-previa .ql-ed-barra, html.ql-ed-previa .ql-ed-panel, html.ql-ed-previ
 .ql-ed-previa-marco iframe { width: 100%; height: 100%; border: 0; border-radius: .5rem; background: #fff; box-shadow: 0 20px 60px rgba(0, 0, 0, .4); }
 .ql-ed-previa-marco.celular iframe { width: 410px; max-width: 100%; box-sizing: border-box; height: min(844px, 100%); border: 10px solid #1B2440; border-radius: 2.25rem; }
 @media (max-width: 640px) { .ql-ed-previa-barra > span { display: none; } .ql-ed-previa-marco { padding: 0; } .ql-ed-previa-marco iframe { border-radius: 0; } .ql-ed-previa-marco.celular iframe { border: 0; border-radius: 0; height: 100%; } }
+
+/* ingreso (correo con enlace o Google) */
+.ingreso { display: grid; gap: .6rem; }
+.ingreso .ql-ed-btn { width: 100%; }
+.ingreso .ql-ed-campo input { width: 100%; }
+.ingreso-o { text-align: center; margin-top: .25rem; }
+.ql-ed-tarjeta .ingreso-google { border-color: var(--ed-linea); color: var(--ed-ink); }

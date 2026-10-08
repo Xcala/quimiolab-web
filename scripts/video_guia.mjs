@@ -106,7 +106,7 @@ if (!solo || solo === 'guia-editor') await grabar('guia-editor', async (v) => {
   await page.goto(`${BASE}/?edit`, { waitUntil: 'networkidle' });
   await page.waitForSelector('.ql-ed-barra'); await v.espera(2600); // pasa el resaltado inicial
   await v.tarjeta('Guía · Quimiolab', 'Cómo editar una página', 'Inicio, Nosotros y Contáctenos · en un minuto');
-  await v.cap('Entra a <b>quimiolab.com.co/?edit</b> con tu cuenta de Google', 3000);
+  await v.cap('Entra a <b>quimiolab.com.co/?edit</b> con tu correo de Quimiolab: te llega un enlace para entrar', 3400);
   await v.cap('Pasa el mouse: se marca lo que puedes cambiar');
   await v.ir('[data-ed="home_hero_titulo"]', { fx: 0.3 }); await v.espera(900);
   await v.ir('[data-ed="home_hero_lead"]', { fx: 0.4 }); await v.espera(1400);
@@ -172,7 +172,7 @@ if (!solo || solo === 'guia-panel') await grabar('guia-panel', async (v) => {
   await page.goto(`${BASE}/admin/#/catalogo`, { waitUntil: 'networkidle' });
   await page.waitForSelector('.adm-fila-item'); await v.espera(800);
   await v.tarjeta('Guía · Quimiolab', 'Panel de contenido', 'Blog, productos, marcas y líneas');
-  await v.cap('Entra a <b>quimiolab.com.co/admin/</b> con tu cuenta de Google', 2800);
+  await v.cap('Entra a <b>quimiolab.com.co/admin/</b> con tu correo de Quimiolab: te llega un enlace para entrar', 3200);
   await v.cap('Elige qué editar en las pestañas');
   await v.ir('.adm-nav a[data-tipo="posts"]'); await v.espera(700); await v.ir('.adm-nav a[data-tipo="catalogo"]'); await v.espera(900);
   await v.cap('<b>Busca</b> por nombre o marca, sin preocuparte por las tildes');

@@ -10,7 +10,8 @@
  * El sitio toma lo publicado en el siguiente build (scripts/fetch_cms.mjs + src/lib/data.ts).
  */
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, type User } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, type User } from 'firebase/auth';
+import { completarEnlace, formularioIngreso } from '../editor/ingreso';
 import { getFirestore, doc, setDoc, deleteDoc, getDoc, getDocs, collection, query, where, serverTimestamp, type Firestore } from 'firebase/firestore';
 import './admin.css';
 import { firebaseConfig, ADMINS, FOTO_ANCHO_MAX, FOTO_BYTES_MAX } from '../editor/config';
@@ -164,8 +165,14 @@ export async function iniciar(el: HTMLElement) {
   const auth = getAuth(app);
   alm = firestore(getFirestore(app));
   let listo = false;
+  const errorIngreso = await completarEnlace(auth); // si se abrió desde el enlace del correo
   onAuthStateChanged(auth, async (user: User | null) => {
-    if (!user) { pantalla('Panel de contenido', `Entra con tu cuenta de Google autorizada para editar el blog, los productos, las marcas y las líneas.</p><p class="adm-ayuda">¿Primera vez? <a href="${GUIA}">Mira cómo entrar y editar, paso a paso</a>.`, [{ texto: 'Entrar con Google', primario: true, fn: () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert('No se pudo iniciar sesión: ' + (e?.message || e))) }]); return; }
+    if (!user) {
+      const t = pantalla('Panel de contenido', 'Entra con tu correo de Quimiolab autorizado para editar el blog, los productos, las marcas y las líneas.');
+      t.querySelector('.adm-fila')!.before(formularioIngreso(auth, { btn: 'adm-btn', primario: 'adm-btn-p', campo: 'adm-campo', nota: 'adm-ayuda' }, errorIngreso));
+      t.querySelector('.adm-fila')!.insertAdjacentHTML('beforebegin', `<p class="adm-ayuda">¿Primera vez? <a href="${GUIA}">Mira cómo entrar y editar, paso a paso</a>.</p>`);
+      return;
+    }
     const correo = (user.email || '').toLowerCase();
     if (!ADMINS.map((a) => a.toLowerCase()).includes(correo)) { pantalla('Esta cuenta no puede editar', `Entraste como <b>${esc(correo)}</b>, que no está en la lista de personas autorizadas. Pide a Braindy que la agregue.`, [{ texto: 'Salir', fn: () => signOut(auth) }]); return; }
     if (listo) return; listo = true; usuario = correo;
@@ -181,6 +188,7 @@ function pantalla(titulo: string, html: string, botones: { texto: string; fn: ()
   const fila = h('div', 'adm-fila'); botones.forEach((b) => { const x = boton('adm-btn' + (b.primario ? ' adm-btn-p' : ''), b.texto); x.addEventListener('click', b.fn); fila.append(x); });
   const volver = h('a', 'adm-btn', 'Ver el sitio'); volver.setAttribute('href', '/'); fila.append(volver);
   t.querySelector('.adm-tarjeta')!.append(fila); raiz.append(t);
+  return t;
 }
 
 async function cargar() {

@@ -142,3 +142,12 @@ html.adm-on, html.adm-on body { background: var(--a-fondo); }
 .adm-toast { padding: .7rem 1.1rem; border-radius: 999px; background: #0E8C5A; color: #fff; font-size: .85rem; font-weight: 700; box-shadow: var(--a-sombra); opacity: 0; transform: translateY(.5rem); transition: .25s; }
 .adm-toast.error { background: #B42318; }
 .adm-toast.ver { opacity: 1; transform: none; }
+
+/* ingreso (correo con enlace o Google) */
+.ingreso { display: grid; gap: .6rem; }
+.ingreso .adm-btn { width: 100%; }
+.ingreso .adm-campo { display: grid; gap: .35rem; }
+.ingreso .adm-campo span { font-weight: 700; font-size: .9rem; }
+.ingreso .adm-campo input { min-height: 2.75rem; padding: .5rem .75rem; border: 1px solid var(--a-linea); border-radius: .55rem; font: 1rem var(--a-font); color: var(--a-ink); }
+.ingreso .adm-campo input:focus { outline: 2px solid var(--a-brillante); outline-offset: 1px; }
+.ingreso-o { text-align: center; margin-top: .25rem !important; }
