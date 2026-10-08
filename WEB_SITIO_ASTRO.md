@@ -171,6 +171,12 @@ Nicolas preguntó si este era el mejor UX para editar. Diagnóstico: el enfoque 
 - Ajustes al motor del skill (vale la pena llevarlos al skill): el oscurecido ahora es un velo con hueco (`clip-path`), porque Chrome no pintaba la sombra de `200vmax`; en móvil, si el elemento está en la mitad inferior (barra fija), la tarjeta va arriba.
 - De paso: los chips del editor ignoran fotos con `visibility: hidden` / `aria-hidden=""` (slides inactivos del hero); la cabecera del panel deja de ser fija en pantallas angostas (tapaba la barra de formato); barra de herramientas de Astro desactivada en desarrollo.
 
+### 2026-10-08 — Guía rediseñada y videos de ejemplo
+
+- `/admin/guia/` rediseñada con el mismo contenido: portada navy con las dos tarjetas de acceso (abrir con recorrido / ver video), índice lateral fijo que marca la sección (fichas horizontales en móvil), pasos en línea de tiempo con imitaciones de la interfaz (Entrar con Google, Destino, Publicar, «Esta cuenta no puede editar»), atajos de teclado, buenas prácticas en tarjetas «Mejor / Que» y problemas frecuentes desplegables.
+- **Videos** `public/video/guia-editor.mp4` (1:16) y `guia-panel.mp4` (0:40), con póster `.jpg`: grabados del editor y el panel reales en modo demo, con cursor visible, subtítulos y tarjetas de título. Se regeneran con `node scripts/video_guia.mjs [guia-editor|guia-panel]` (servidor `dev-editor-demo` encendido; usa el Chrome del equipo vía `playwright-core` + screencast de DevTools y el ffmpeg del sistema, sin descargar navegadores).
+- Correos de Quimiolab confirmados como editores: Lady Carrillo = **leidy.carrillo@quimiolab.com** (se resuelve la duda de «Lady») y daniela.pava@quimiolab.com.
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.

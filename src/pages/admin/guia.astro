@@ -1,107 +1,246 @@
 ---
 /**
- * Guía para quien edita el sitio: cómo entrar, qué se edita dónde y el paso a paso.
+ * Guía para quien edita el sitio: cómo entrar, qué se edita dónde y el paso a paso, con videos.
  * La enlazan las pantallas de ingreso y el final de cada recorrido guiado (src/tour/recorridos.ts).
+ * Videos: public/video/guia-*.mp4 (se regraban con `node scripts/video_guia.mjs`, servidor demo encendido).
  */
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+const indice = [
+  { id: 'entrar', n: '1', t: 'Cómo entrar' },
+  { id: 'paginas', n: '2', t: 'Editar una página' },
+  { id: 'contenido', n: '3', t: 'Blog y catálogo' },
+  { id: 'buenas', n: '4', t: 'Para que se lea bien' },
+  { id: 'problemas', n: '5', t: 'Si algo sale mal' },
+];
 ---
 <Base title="Cómo entrar y editar el sitio" description="Guía para el equipo de Quimiolab: cómo entrar con Google y editar las páginas, el blog, los productos, las marcas y las líneas." noindex>
-  <section class="seccion guia">
+  <!-- Portada: los dos lugares para editar -->
+  <section class="seccion-navy g-hero">
+    <span class="patron patron-red" style="--patron-op:.08;--patron-size:28rem"></span>
     <div class="wrap">
       <span class="eyebrow">Guía para el equipo de Quimiolab</span>
       <h1>Cómo entrar y editar el sitio</h1>
       <p class="lead">Hay <strong>dos lugares</strong> para editar. Los dos usan tu cuenta de Google y guardan todo solo como borrador: <strong>nada sale al sitio hasta que pulses Publicar</strong>.</p>
-
-      <div class="dos">
-        <article class="caja">
-          <span class="chip">Páginas</span>
-          <h2>Editor sobre la página</h2>
-          <p>Para el <strong>inicio, Nosotros y Contáctenos</strong>: textos, fotos, botones y secciones, viendo el sitio tal cual.</p>
-          <p class="url">quimiolab.com.co<b>/?edit</b></p>
-          <a class="btn btn-primario" href="/?edit&tour=1">Abrir el editor con el recorrido</a>
+      <div class="g-accesos">
+        <article class="g-acceso glass">
+          <span class="g-ic" style="--acento:var(--teal)"><Icon name="documento" size={24} /></span>
+          <div>
+            <span class="g-tag">Páginas</span>
+            <h2>Editor sobre la página</h2>
+            <p>Para el <strong>inicio, Nosotros y Contáctenos</strong>: textos, fotos, botones y secciones, viendo el sitio tal cual.</p>
+            <code class="g-url">quimiolab.com.co<b>/?edit</b></code>
+          </div>
+          <div class="g-acc">
+            <a class="btn btn-primario" href="/?edit&tour=1">Abrir con el recorrido</a>
+            <a class="btn btn-enlace" href="#video-editor">Ver el video <Icon name="flecha" size={16} /></a>
+          </div>
         </article>
-        <article class="caja">
-          <span class="chip">Contenido</span>
-          <h2>Panel de contenido</h2>
-          <p>Para el <strong>blog, los productos y equipos, las marcas y las líneas</strong>: listas, búsqueda y formularios.</p>
-          <p class="url">quimiolab.com.co<b>/admin/</b></p>
-          <a class="btn btn-primario" href="/admin/?tour=1">Abrir el panel con el recorrido</a>
+        <article class="g-acceso glass">
+          <span class="g-ic" style="--acento:var(--camp-naranja)"><Icon name="producto" size={24} /></span>
+          <div>
+            <span class="g-tag">Contenido</span>
+            <h2>Panel de contenido</h2>
+            <p>Para el <strong>blog, los productos y equipos, las marcas y las líneas</strong>: listas, búsqueda y formularios.</p>
+            <code class="g-url">quimiolab.com.co<b>/admin/</b></code>
+          </div>
+          <div class="g-acc">
+            <a class="btn btn-primario" href="/admin/?tour=1">Abrir con el recorrido</a>
+            <a class="btn btn-enlace" href="#video-panel">Ver el video <Icon name="flecha" size={16} /></a>
+          </div>
         </article>
       </div>
-
-      <h2 id="entrar">1. Cómo entrar</h2>
-      <ol class="pasos">
-        <li><b>Usa tu cuenta de Google autorizada.</b> Es tu correo de Quimiolab (o el que Braindy registró). Si no estás en la lista, verás «Esta cuenta no puede editar»: pide a Braindy que te agregue.</li>
-        <li><b>Abre la dirección</b> del lugar que vas a editar: <code>quimiolab.com.co/?edit</code> para las páginas (también funciona en <code>/nosotros/?edit</code> y <code>/contactenos/?edit</code>) o <code>quimiolab.com.co/admin/</code> para el contenido.</li>
-        <li><b>Pulsa «Entrar con Google»</b> y elige tu cuenta en la ventana que se abre. Si no aparece ninguna ventana, tu navegador bloqueó la ventana emergente: permítela para este sitio (ícono a la derecha de la barra de direcciones) y vuelve a intentar.</li>
-        <li><b>La primera vez</b> se abre un recorrido que te muestra cada parte de la pantalla. Puedes repetirlo cuando quieras con el botón <b class="ico">?</b>.</li>
-        <li><b>Para salir</b>, usa la <b class="ico">×</b> del editor o «Salir» en el panel. Tu borrador queda guardado.</li>
-      </ol>
-      <p class="nota">Recomendado: computador con Chrome, Edge o Safari actualizados. En el celular también funciona, pero es más cómodo para revisar que para escribir.</p>
-
-      <h2 id="paginas">2. Editar el inicio, Nosotros o Contáctenos</h2>
-      <ol class="pasos">
-        <li><b>Pasa el mouse</b> sobre la página: se marca con un borde lo que puedes cambiar. El botón «Resaltar» de la barra inferior lo muestra todo a la vez.</li>
-        <li><b>Textos:</b> haz clic y escribe. Al seleccionar palabras aparece una barra para <strong>negrita</strong> (2 o 3 palabras clave por párrafo), destacado y enlaces.</li>
-        <li><b>Fotos:</b> tócalas y sube una desde tu equipo. Horizontales, de al menos 1.600 px, propias o con permiso. Escribe qué muestra en la descripción.</li>
-        <li><b>Botones:</b> el chip «Destino» elige a dónde llevan (página, WhatsApp, web, correo o teléfono).</li>
-        <li><b>Secciones:</b> su barra las sube, baja u oculta; el pincel cambia el fondo con los colores de la marca; el <b class="ico">+</b> agrega una sección nueva (texto + foto, cifras, tarjetas, testimonio, preguntas frecuentes…).</li>
-        <li><b>Revisa con «Vista previa»</b> en escritorio y celular, y pulsa <b>Publicar</b>. Los visitantes ven los cambios en máximo 10 minutos.</li>
-      </ol>
-
-      <h2 id="contenido">3. Editar el blog, un producto, una marca o una línea</h2>
-      <ol class="pasos">
-        <li><b>Elige la pestaña</b> (Blog, Productos y equipos, Marcas o Líneas) y <b>busca</b> por nombre o marca.</li>
-        <li><b>Toca la fila</b> para abrir el formulario, o «Nuevo» para crear uno. Lo obligatorio lleva <b>*</b>.</li>
-        <li><b>Escribe</b> con ayuda de la vista previa de la derecha: así se verá en el sitio. Puedes pegar desde Word o Google Docs.</li>
-        <li><b>Sube la foto:</b> productos con fondo blanco y cuadrada; blog, horizontal.</li>
-        <li><b>Publica.</b> Hoy lo publicado aparece en el sitio con la siguiente actualización, que hace Braindy; pronto será automática, en pocos minutos.</li>
-      </ol>
-
-      <h2 id="buenas">4. Para que se lea bien (y Google lo encuentre)</h2>
-      <ul class="tips">
-        <li><b>Títulos</b> claros, con la palabra que buscaría un cliente: de 40 a 70 caracteres. <span class="ej">Mejor «Prueba de Freelite para cadenas ligeras libres» que «Novedades»</span>.</li>
-        <li><b>Resúmenes</b> de una o dos frases (máx. 300 caracteres): es lo que Google muestra debajo del título.</li>
-        <li><b>Párrafos cortos</b>, de 2 a 4 frases, y un subtítulo cada 3 a 5 párrafos.</li>
-        <li><b>Negrita</b> solo en 2 o 3 palabras clave por párrafo, nunca en frases enteras.</li>
-        <li><b>Fotos</b> propias o con permiso de la marca, y logos de aliados siempre en su versión oficial.</li>
-      </ul>
-
-      <h2 id="problemas">5. Si algo sale mal</h2>
-      <dl class="faq">
-        <dt>«Esta cuenta no puede editar»</dt><dd>Tu correo no está autorizado. Pide a Braindy que lo agregue.</dd>
-        <dt>No se abre la ventana de Google</dt><dd>Permite las ventanas emergentes para quimiolab.com.co y vuelve a pulsar «Entrar con Google».</dd>
-        <dt>Me equivoqué</dt><dd>En el editor: <b>Ctrl+Z</b> o la flecha de deshacer. Antes de publicar, «Descartar» vuelve a lo publicado. Después de publicar, el <b>Historial</b> carga una versión anterior.</dd>
-        <dt>Cerré la pestaña sin publicar</dt><dd>Vuelve a entrar: tu borrador se recupera solo (en el editor, desde el mismo equipo; en el panel, desde cualquiera).</dd>
-        <dt>No veo mis cambios en el sitio</dt><dd>Páginas: espera hasta 10 minutos y recarga. Blog, productos, marcas y líneas: aparecen con la siguiente actualización del sitio.</dd>
-      </dl>
-      <p class="nota">¿Otra duda? Escribe a Braindy: nicolas@braindy.co.</p>
     </div>
   </section>
+
+  <div class="wrap g-cuerpo">
+    <nav class="g-indice" aria-label="Contenido de la guía">
+      <p>En esta guía</p>
+      <ol>{indice.map((i) => <li><a href={`#${i.id}`} data-indice={i.id}><span>{i.n}</span>{i.t}</a></li>)}</ol>
+    </nav>
+
+    <div class="g-texto">
+      <!-- 1 -->
+      <section id="entrar" class="g-sec">
+        <h2><span class="g-num">1</span>Cómo entrar</h2>
+        <ol class="g-pasos">
+          <li><div><h3>Usa tu cuenta de Google autorizada</h3><p>Es tu correo de Quimiolab (o el que Braindy registró). Si no estás en la lista, verás <span class="ui ui-aviso">Esta cuenta no puede editar</span>: pide a Braindy que te agregue.</p></div></li>
+          <li><div><h3>Abre la dirección del lugar que vas a editar</h3><p><code>quimiolab.com.co/?edit</code> para las páginas (también funciona en <code>/nosotros/?edit</code> y <code>/contactenos/?edit</code>) o <code>quimiolab.com.co/admin/</code> para el contenido.</p></div></li>
+          <li><div><h3>Pulsa <span class="ui ui-google"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1C3.3 21.3 7.3 24 12 24z"/><path fill="#FBBC05" d="M5.3 14.3c-.5-1.5-.5-3.1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9z"/></svg> Entrar con Google</span></h3><p>Elige tu cuenta en la ventana que se abre. Si no aparece ninguna ventana, tu navegador bloqueó la ventana emergente: permítela para este sitio (ícono a la derecha de la barra de direcciones) y vuelve a intentar.</p></div></li>
+          <li><div><h3>La primera vez se abre un recorrido</h3><p>Te muestra cada parte de la pantalla. Puedes repetirlo cuando quieras con el botón <span class="ui ui-ico">?</span>.</p></div></li>
+          <li><div><h3>Para salir</h3><p>Usa la <span class="ui ui-ico">×</span> del editor o <span class="ui">Salir</span> en el panel. Tu borrador queda guardado.</p></div></li>
+        </ol>
+        <p class="g-nota"><Icon name="info" size={18} /> Recomendado: computador con Chrome, Edge o Safari actualizados. En el celular también funciona, pero es más cómodo para revisar que para escribir.</p>
+      </section>
+
+      <!-- 2 -->
+      <section id="paginas" class="g-sec">
+        <h2><span class="g-num">2</span>Editar el inicio, Nosotros o Contáctenos</h2>
+        <figure class="g-video" id="video-editor">
+          <video controls preload="none" playsinline poster="/video/guia-editor.jpg" width="1280" height="720" aria-describedby="t-editor"><source src="/video/guia-editor.mp4" type="video/mp4" /></video>
+          <figcaption><b>Video · 1 min 16 s</b> Cómo editar una página, de principio a fin.</figcaption>
+        </figure>
+        <ol class="g-pasos">
+          <li><div><h3>Pasa el mouse sobre la página</h3><p>Se marca con un borde lo que puedes cambiar. El botón <span class="ui">Resaltar</span> de la barra inferior lo muestra todo a la vez.</p></div></li>
+          <li><div><h3>Textos</h3><p>Haz clic y escribe. Al seleccionar palabras aparece una barra para <strong>negrita</strong> (2 o 3 palabras clave por párrafo), destacado y enlaces.</p></div></li>
+          <li><div><h3>Fotos</h3><p>Tócalas y sube una desde tu equipo. Horizontales, de al menos 1.600 px, propias o con permiso. Escribe qué muestra en la descripción.</p></div></li>
+          <li><div><h3>Botones</h3><p>El chip <span class="ui ui-chip">Destino</span> elige a dónde llevan: página, WhatsApp, web, correo o teléfono.</p></div></li>
+          <li><div><h3>Secciones</h3><p>Su barra las sube, baja u oculta; el pincel cambia el fondo con los colores de la marca; el <span class="ui ui-ico">+</span> agrega una sección nueva (texto + foto, cifras, tarjetas, testimonio, preguntas frecuentes…).</p></div></li>
+          <li><div><h3>Revisa y publica</h3><p>Mira la <span class="ui">Vista previa</span> en escritorio y celular, y pulsa <span class="ui ui-pub">Publicar</span>. Los visitantes ven los cambios en máximo 10 minutos.</p></div></li>
+        </ol>
+        <div class="g-atajos">
+          <p><b>Atajos</b></p>
+          <dl><div><dt><kbd>Ctrl</kbd> <kbd>Z</kbd></dt><dd>Deshacer</dd></div><div><dt><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>Z</kbd></dt><dd>Rehacer</dd></div><div><dt><kbd>Esc</kbd></dt><dd>Terminar de escribir</dd></div></dl>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section id="contenido" class="g-sec">
+        <h2><span class="g-num">3</span>Editar el blog, un producto, una marca o una línea</h2>
+        <figure class="g-video" id="video-panel">
+          <video controls preload="none" playsinline poster="/video/guia-panel.jpg" width="1280" height="720"><source src="/video/guia-panel.mp4" type="video/mp4" /></video>
+          <figcaption><b>Video · 40 s</b> Buscar, editar y publicar en el panel de contenido.</figcaption>
+        </figure>
+        <ol class="g-pasos">
+          <li><div><h3>Elige la pestaña y busca</h3><p>Blog, Productos y equipos, Marcas o Líneas. Busca por nombre o marca, sin preocuparte por las tildes.</p></div></li>
+          <li><div><h3>Abre o crea</h3><p>Toca la fila para abrir el formulario, o <span class="ui ui-pub">+ Nuevo</span> para crear uno. Lo obligatorio lleva <b class="rojo">*</b>.</p></div></li>
+          <li><div><h3>Escribe con la vista previa</h3><p>La columna de la derecha muestra cómo se verá en el sitio. Puedes pegar desde Word o Google Docs.</p></div></li>
+          <li><div><h3>Sube la foto</h3><p>Productos con fondo blanco y cuadrada; blog, horizontal.</p></div></li>
+          <li><div><h3>Publica</h3><p>Hoy lo publicado aparece en el sitio con la siguiente actualización, que hace Braindy; pronto será automática, en pocos minutos.</p></div></li>
+        </ol>
+      </section>
+
+      <!-- 4 -->
+      <section id="buenas" class="g-sec">
+        <h2><span class="g-num">4</span>Para que se lea bien (y Google lo encuentre)</h2>
+        <div class="g-tips">
+          <article><h3>Títulos</h3><p>Claros, con la palabra que buscaría un cliente: <b>de 40 a 70 caracteres</b>.</p><p class="g-ej"><span>Mejor</span> «Prueba de Freelite para cadenas ligeras libres»<br /><span>Que</span> «Novedades»</p></article>
+          <article><h3>Resúmenes</h3><p>Una o dos frases, <b>máximo 300 caracteres</b>: es lo que Google muestra debajo del título.</p></article>
+          <article><h3>Párrafos</h3><p>Cortos, de <b>2 a 4 frases</b>, y un subtítulo cada 3 a 5 párrafos.</p></article>
+          <article><h3>Negrita</h3><p>Solo en <b>2 o 3 palabras clave</b> por párrafo, nunca en frases enteras.</p><p class="g-ej"><span>Mejor</span> «Respuesta el <b>mismo día hábil</b>»<br /><span>Que</span> todo el párrafo en negrita</p></article>
+          <article><h3>Fotos</h3><p>Propias o con permiso de la marca, y <b>logos de aliados siempre en su versión oficial</b>.</p></article>
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section id="problemas" class="g-sec">
+        <h2><span class="g-num">5</span>Si algo sale mal</h2>
+        <div class="g-faq">
+          <details><summary>«Esta cuenta no puede editar»</summary><p>Tu correo no está autorizado. Pide a Braindy que lo agregue.</p></details>
+          <details><summary>No se abre la ventana de Google</summary><p>Permite las ventanas emergentes para quimiolab.com.co y vuelve a pulsar «Entrar con Google».</p></details>
+          <details><summary>Me equivoqué</summary><p>En el editor: <b>Ctrl+Z</b> o la flecha de deshacer. Antes de publicar, «Descartar» vuelve a lo publicado. Después de publicar, el <b>Historial</b> carga una versión anterior.</p></details>
+          <details><summary>Cerré la pestaña sin publicar</summary><p>Vuelve a entrar: tu borrador se recupera solo (en el editor, desde el mismo equipo; en el panel, desde cualquiera).</p></details>
+          <details><summary>No veo mis cambios en el sitio</summary><p>Páginas: espera hasta 10 minutos y recarga. Blog, productos, marcas y líneas: aparecen con la siguiente actualización del sitio.</p></details>
+        </div>
+        <p class="g-nota"><Icon name="correo" size={18} /> ¿Otra duda? Escribe a Braindy: <a href="mailto:nicolas@braindy.co">nicolas@braindy.co</a>.</p>
+      </section>
+    </div>
+  </div>
 </Base>
 
+<script>
+  // Índice: marca la sección que se está leyendo
+  const enlaces = new Map(Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-indice]')).map((a) => [a.dataset.indice!, a]));
+  const obs = new IntersectionObserver((entradas) => {
+    for (const e of entradas) if (e.isIntersecting) { enlaces.forEach((a) => a.removeAttribute('aria-current')); enlaces.get(e.target.id)?.setAttribute('aria-current', 'true'); }
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  document.querySelectorAll('.g-sec').forEach((s) => obs.observe(s));
+</script>
+
 <style>
-  .guia .wrap { max-width: 52rem; }
-  .guia h1 { font-size: var(--t-3xl); margin-bottom: var(--s-4); }
-  .guia h2 { font-size: var(--t-2xl); margin: var(--s-8) 0 var(--s-4); scroll-margin-top: 6rem; }
-  .guia .lead { font-size: var(--t-lg); color: var(--ink-2); }
-  .dos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); margin-top: var(--s-6); }
-  .caja { display: grid; gap: var(--s-3); align-content: start; padding: var(--s-5); border: 1px solid var(--linea); border-radius: var(--r-bento); background: var(--card); box-shadow: var(--sombra-bento); }
-  .caja h2 { margin: 0; font-size: var(--t-xl); }
-  .caja p { margin: 0; color: var(--ink-2); }
-  .caja .chip { justify-self: start; }
-  .caja .btn { justify-self: start; margin-top: var(--s-2); }
-  .url { font-family: ui-monospace, monospace; font-size: var(--t-sm); }
-  .url b { color: var(--marca); }
-  .pasos { display: grid; gap: var(--s-3); padding-left: 1.25rem; line-height: 1.6; }
-  .pasos b, .tips b, .faq b { color: var(--marca); }
-  .tips { display: grid; gap: var(--s-3); padding-left: 1.25rem; line-height: 1.6; }
-  .ej { display: block; font-size: var(--t-sm); color: var(--ink-2); }
-  .faq { display: grid; gap: var(--s-2); }
-  .faq dt { font-weight: 700; font-family: var(--f-display); color: var(--marca); margin-top: var(--s-3); }
-  .faq dd { margin: 0; color: var(--ink-2); line-height: 1.6; }
-  .ico { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border: 1.5px solid var(--linea-fuerte); border-radius: 50%; font-size: .85rem; line-height: 1; vertical-align: -2px; }
-  .nota { font-size: var(--t-sm); color: var(--ink-2); }
+  /* portada */
+  .g-hero .wrap { padding-block: clamp(3rem, 7vw, 5rem); }
+  .g-hero h1 { color: #fff; font-size: var(--t-4xl); max-width: 16ch; margin: 0 0 var(--s-4); }
+  .g-hero .lead { color: var(--azul-200); font-size: var(--t-lg); max-width: 56ch; margin: 0 0 var(--s-7); }
+  .g-accesos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter-bento); }
+  .g-acceso { display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; gap: var(--s-3) var(--s-4); padding: var(--s-5); }
+  .g-acceso h2 { margin: var(--s-1) 0 var(--s-2); font-size: var(--t-xl); color: var(--navy-800, #001A4D); }
+  .g-acceso p { margin: 0 0 var(--s-3); color: #33445F; }
+  .g-acceso p strong { color: #001A4D; }
+  .g-acc { grid-column: 1 / -1; display: flex; gap: var(--s-4); align-items: center; flex-wrap: wrap; }
+  .g-ic { width: 3rem; height: 3rem; border-radius: .75rem; display: grid; place-items: center; background: color-mix(in srgb, var(--acento) 14%, #fff); color: var(--acento); }
+  .g-tag { font: 700 var(--t-xs)/1 var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--action); }
+  .g-url { display: inline-block; font-size: var(--t-sm); padding: .3rem .6rem; border-radius: .5rem; background: rgba(0, 98, 184, .08); color: #33445F; }
+  .g-url b { color: var(--action); }
+
+  /* cuerpo con índice */
+  .g-cuerpo { display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: var(--s-8); align-items: start; padding-block: var(--s-8) var(--seccion); }
+  .g-indice { position: sticky; top: 6.5rem; }
+  .g-indice p { font: 700 var(--t-xs)/1 var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 var(--s-3); }
+  .g-indice ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .15rem; border-left: 2px solid var(--linea); }
+  .g-indice a { display: flex; gap: .6rem; align-items: center; padding: .55rem .75rem; margin-left: -2px; border-left: 2px solid transparent; color: var(--ink-2); font-size: var(--t-sm); text-decoration: none; }
+  .g-indice a span { width: 1.5rem; height: 1.5rem; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--canvas-2); font: 700 .75rem/1 var(--f-body); }
+  .g-indice a:hover { color: var(--marca); }
+  .g-indice a[aria-current] { border-left-color: var(--action); color: var(--marca); font-weight: 700; }
+  .g-indice a[aria-current] span { background: var(--action); color: #fff; }
+  .g-texto { max-width: 46rem; }
+  .g-sec { scroll-margin-top: 6rem; padding-bottom: var(--s-8); }
+  .g-sec + .g-sec { padding-top: var(--s-7); border-top: 1px solid var(--linea); }
+  .g-sec > h2 { display: flex; gap: var(--s-3); align-items: center; font-size: var(--t-2xl); margin: 0 0 var(--s-6); }
+  .g-num { width: 2.5rem; height: 2.5rem; flex: none; display: grid; place-items: center; border-radius: .75rem; background: var(--grad-navy); color: #fff; font-size: var(--t-lg); }
+
+  /* pasos en línea de tiempo */
+  .g-pasos { list-style: none; counter-reset: paso; margin: 0; padding: 0; display: grid; gap: 0; }
+  .g-pasos li { counter-increment: paso; position: relative; display: grid; grid-template-columns: 2.25rem 1fr; gap: var(--s-4); padding-bottom: var(--s-5); }
+  .g-pasos li::before { content: counter(paso); width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--action); color: var(--action); font: 700 var(--t-sm)/1 var(--f-display); background: var(--canvas); position: relative; z-index: 1; }
+  .g-pasos li:not(:last-child)::after { content: ""; position: absolute; left: calc(1.125rem - 1px); top: 2.25rem; bottom: 0; width: 2px; background: var(--linea); }
+  .g-pasos h3 { margin: .35rem 0 var(--s-1); font-size: var(--t-lg); display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+  .g-pasos p { margin: 0; color: var(--ink-2); line-height: 1.65; }
+  .g-pasos strong, .g-pasos b { color: var(--marca); }
+  .rojo { color: #B42318 !important; }
+
+  /* imitaciones de la interfaz real */
+  .ui { display: inline-flex; align-items: center; gap: .3rem; padding: .1rem .55rem; border: 1px solid var(--linea-fuerte); border-radius: 999px; background: var(--card); color: var(--ink); font: 700 .8rem/1.5 var(--f-body); white-space: nowrap; vertical-align: 1px; }
+  .ui-ico { width: 1.5rem; height: 1.5rem; padding: 0; justify-content: center; }
+  .ui-google { padding: .25rem .7rem; background: linear-gradient(90deg, #0075DA, #00C0E4); border-color: transparent; color: #fff; }
+  .ui-google svg { background: #fff; border-radius: 50%; padding: 1px; }
+  .ui-pub { background: linear-gradient(90deg, #0075DA, #00C0E4); border-color: transparent; color: #fff; }
+  .ui-chip { background: #0062B8; border-color: transparent; color: #fff; }
+  .ui-aviso { background: #FDECEA; border-color: #F5C2BD; color: #8A1C12; }
+
+  /* video */
+  .g-video { margin: 0 0 var(--s-6); border-radius: var(--r-bento); overflow: hidden; background: #0B1530; box-shadow: var(--sombra-2); scroll-margin-top: 6rem; }
+  .g-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #0B1530; }
+  .g-video figcaption { padding: .7rem 1rem; color: #C2D8EC; font-size: var(--t-sm); }
+  .g-video figcaption b { color: #fff; margin-right: .5rem; }
+
+  /* atajos, consejos, problemas */
+  .g-atajos { display: flex; gap: var(--s-5); align-items: center; flex-wrap: wrap; padding: var(--s-4) var(--s-5); border-radius: var(--r-bento); background: var(--canvas-2); }
+  .g-atajos p { margin: 0; }
+  .g-atajos dl { display: flex; gap: var(--s-5); flex-wrap: wrap; margin: 0; }
+  .g-atajos div { display: flex; gap: .5rem; align-items: center; }
+  .g-atajos dd { margin: 0; color: var(--ink-2); font-size: var(--t-sm); }
+  kbd { display: inline-block; min-width: 1.6rem; padding: .1rem .4rem; border: 1px solid var(--linea-fuerte); border-bottom-width: 2px; border-radius: .35rem; background: var(--card); font: 700 .75rem/1.4 var(--f-body); text-align: center; color: var(--ink); }
+  .g-tips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter-bento); }
+  .g-tips article { padding: var(--s-5); border: 1px solid var(--linea); border-radius: var(--r-bento); background: var(--card); box-shadow: var(--sombra-bento); }
+  .g-tips article:first-child { grid-column: 1 / -1; }
+  .g-tips h3 { margin: 0 0 var(--s-2); font-size: var(--t-lg); }
+  .g-tips p { margin: 0 0 var(--s-2); color: var(--ink-2); line-height: 1.6; }
+  .g-tips b { color: var(--marca); }
+  .g-ej { padding: .6rem .8rem; border-radius: .65rem; background: var(--canvas-2); font-size: var(--t-sm); color: var(--ink) !important; }
+  .g-ej span { font: 700 .65rem/1 var(--f-body); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin-right: .35rem; }
+  .g-faq { display: grid; gap: var(--s-2); }
+  .g-faq details { border: 1px solid var(--linea); border-radius: .85rem; background: var(--card); }
+  .g-faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: var(--s-3); align-items: center; padding: var(--s-4) var(--s-5); font: 700 var(--t-base, 1rem)/1.4 var(--f-display); color: var(--marca); min-height: 44px; }
+  .g-faq summary::-webkit-details-marker { display: none; }
+  .g-faq summary::after { content: "+"; font-size: 1.4rem; line-height: 1; color: var(--action); transition: transform var(--dur-2); }
+  .g-faq details[open] summary::after { transform: rotate(45deg); }
+  .g-faq p { margin: 0; padding: 0 var(--s-5) var(--s-4); color: var(--ink-2); line-height: 1.6; }
+  .g-faq b { color: var(--marca); }
+  .g-nota { display: flex; gap: .5rem; align-items: flex-start; margin: var(--s-4) 0 0; padding: var(--s-3) var(--s-4); border-radius: .75rem; background: color-mix(in srgb, var(--action) 7%, var(--canvas)); color: var(--ink-2); font-size: var(--t-sm); line-height: 1.55; }
+  .g-nota :global(svg) { flex: none; color: var(--action); margin-top: .1rem; }
   code { font-size: .9em; background: var(--canvas-2); padding: .1em .35em; border-radius: .3em; }
-  @media (max-width: 760px) { .dos { grid-template-columns: 1fr; } }
+
+  @media (max-width: 980px) {
+    .g-cuerpo { grid-template-columns: 1fr; gap: var(--s-5); }
+    .g-indice { position: static; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+    .g-indice ol { display: flex; border: 0; gap: .5rem; width: max-content; }
+    .g-indice a { border: 1px solid var(--linea); border-radius: 999px; margin: 0; padding: .45rem .8rem .45rem .45rem; white-space: nowrap; }
+    .g-indice a[aria-current] { border-color: var(--action); }
+  }
+  @media (max-width: 760px) {
+    .g-accesos, .g-tips { grid-template-columns: 1fr; }
+    .g-acceso { grid-template-columns: 1fr; }
+    .g-atajos { align-items: flex-start; flex-direction: column; gap: var(--s-3); }
+  }
 </style>
