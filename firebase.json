@@ -1370,6 +1370,16 @@
         "source": "/perfil",
         "destination": "/",
         "type": 301
+      },
+      {
+        "source": "/sitemap.xml",
+        "destination": "/sitemap-index.xml",
+        "type": 301
+      },
+      {
+        "source": "/sitemap_index.xml",
+        "destination": "/sitemap-index.xml",
+        "type": 301
       }
     ],
     "rewrites": [],

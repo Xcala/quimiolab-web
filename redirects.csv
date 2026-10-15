@@ -271,3 +271,5 @@ origen,destino,codigo
 /unidad-de-negocio/**,/soluciones/,301
 /landing,/,301
 /perfil,/,301
+/sitemap.xml,/sitemap-index.xml,301
+/sitemap_index.xml,/sitemap-index.xml,301
