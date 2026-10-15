@@ -56,7 +56,7 @@ Home, Nosotros y Contáctenos. Entrada con `?edit` → enlace al correo (o Googl
 - `firebase.json` se genera con `npm run firebase:json`; el rewrite a `/api/form` solo aparece cuando exista `functions/`.
 
 ## Pendientes principales
-1. Lanzamiento: Nicolas conecta los 4 dominios en Firebase y cambia DNS (GoDaddy para .com, ColombiaHosting para .com.co) según `docs/LANZAMIENTO.md`; luego verificar en vivo y Search Console (cambio de dirección .com.co → .com).
+1. Lanzamiento: hecho el 2026-10-15 (4 dominios en Firebase con HTTPS, DNS en GoDaddy y ColombiaHosting, Search Console con cambio de dirección .com.co → .com). Queda vigilar Páginas/Sitemaps en Search Console las próximas semanas.
 2. Fase F: aviso por correo de cada solicitud a **milacontigo@quimiolab.com** (hoy se guardan en Firestore `solicitudes` y se ven en /admin/ → Solicitudes). Necesita credencial SMTP o de un servicio de envío.
 3. Registros sanitarios INVIMA nuevos (QR por serial): agregar al panel o importar con `scripts/importar_paginas_wp.mjs`.
 4. Datos a confirmar con el cliente: horario, sello ISO/ICONTEC (¿vigente?), año de fundación (1996 vs 1992), logos de clientes, PDF del catálogo 2026, textos de las páginas institucionales nuevas. WhatsApp ya es real (+57 321 482 4921 / +57 313 269 1485, en `sitio.json`).
