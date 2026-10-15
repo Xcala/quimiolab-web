@@ -25,28 +25,30 @@ Abre https://dcc.godaddy.com/control/portfolio → **quimiolab.com** → **DNS**
 
 | Tipo | Nombre | Valor | Qué hacer |
 |---|---|---|---|
-| A | @ | 199.36.158.100 | agregar (borra los A  y ) |
+| A | @ | 199.36.158.100 | agregar (borra los A `15.197.225.128` y `3.33.251.168`) |
 | TXT | @ | hosting-site=quimiolab-web | agregar (sin borrar los otros TXT) |
-| CNAME | www | quimiolab-web.web.app | reemplaza lo que haya en  (hoy A  / ) |
+| CNAME | www | quimiolab-web.web.app | reemplaza lo que haya en `www` (hoy A `15.197.225.128` / `3.33.251.168`) |
 
 3. **NO toques** estos (correo de Quimiolab en Microsoft 365):
-   - MX  →    - TXT  →  y    - CNAME , ,  y cualquier otro que mencione outlook / microsoft.
+   - MX `@` → `quimiolab-com.mail.protection.outlook.com`
+   - TXT `@` → `v=spf1 include:spf.protection.outlook.com -all` y `MS=ms66876403`
+   - CNAME `autodiscover`, `selector1._domainkey`, `selector2._domainkey` y cualquier otro que mencione outlook / microsoft.
 
 ## Paso 4 — DNS de quimiolab.com.co en ColombiaHosting (10 min)
 cPanel de ColombiaHosting → **Zone Editor** → **quimiolab.com.co**.
 
 1. **Primero el correo de .com.co** (hoy depende de la IP del WordPress):
-   - : cambia el CNAME (→ ) por un **A**  → .
-   - **MX** de : cámbialo a  (prioridad 0).
+   - `mail`: cambia el CNAME (→ `quimiolab.com.co`) por un **A** `mail` → `190.8.176.146`.
+   - **MX** de `quimiolab.com.co`: cámbialo a `mail.quimiolab.com.co` (prioridad 0).
 2. Después el sitio:
 
 | Tipo | Nombre | Valor | Qué hacer |
 |---|---|---|---|
-| A | quimiolab.com.co (@) | 199.36.158.100 | reemplaza el A  |
+| A | quimiolab.com.co (@) | 199.36.158.100 | reemplaza el A `190.8.176.146` |
 | TXT | quimiolab.com.co (@) | hosting-site=quimiolab-web | agregar (sin borrar el SPF) |
-| CNAME | www | quimiolab-web.web.app | reemplaza el CNAME  →  |
+| CNAME | www | quimiolab-web.web.app | reemplaza el CNAME `www` → `quimiolab.com.co` |
 
-3. **No canceles el hosting de ColombiaHosting** todavía: el WordPress queda como respaldo en  y el correo .com.co sigue ahí.
+3. **No canceles el hosting de ColombiaHosting** todavía: el WordPress queda como respaldo en `190.8.176.146` y el correo .com.co sigue ahí.
 
 ## Paso 5 — Esperar y comprobar (de 15 min a 24 h)
 Firebase emite los certificados solo. En la lista de dominios el estado pasa a **«Conectado»**.
