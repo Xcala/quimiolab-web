@@ -14,11 +14,13 @@ const marca = marcaPorSlug(item.marca);
 const lineas = item.lineas.map((l) => lineaPorSlug(l)!).filter(Boolean);
 const tipo = item.es_equipo ? 'Equipo' : 'Producto';
 const relacionados = (item.es_equipo ? productosDeMarca(item.marca!) : [...equiposDeMarca(item.marca!), ...productosDeMarca(item.marca!)]).filter((p) => p.slug !== item.slug).slice(0, 4);
-const descripcion = item.resumen || `${item.nombre}${marca ? ` de ${marca.nombre}` : ''}, distribuido en Colombia por Quimiolab con soporte técnico y científico. Solicita tu cotización.`;
+// copia del WordPress con «-2» y el mismo nombre: su canonical es el producto original
+const original = /-\d+$/.test(item.slug) ? catalogo.find((x) => x.slug === item.slug.replace(/-\d+$/, '') && x.nombre === item.nombre) : undefined;
+const descripcion = item.resumen ? (item.resumen.toLowerCase().includes(item.nombre.toLowerCase()) ? item.resumen : `${item.nombre}: ${item.resumen}`) : `${item.nombre}${marca ? ` de ${marca.nombre}` : ''}, distribuido en Colombia por Quimiolab con soporte técnico y científico. Solicita tu cotización.`;
 const rutaMigas = [{ nombre: item.es_equipo ? 'Equipos' : 'Productos', url: item.es_equipo ? '/equipos/' : '/productos/' }, ...(marca ? [{ nombre: marca.nombre, url: marca.url }] : []), { nombre: item.nombre, url: item.url }];
 const otrasImagenes = item.imagenes.slice(1, 5);
 ---
-<Base title={`${item.nombre}${marca ? ` · ${marca.nombre}` : ''}`} description={descripcion} tipo="product" imagen={item.imagen?.src} jsonld={[migas(rutaMigas), productoLd(item)]}>
+<Base title={`${item.nombre}${marca ? ` · ${marca.nombre}` : ''}`} description={descripcion.length < 90 ? `${descripcion} Distribuido en Colombia por Quimiolab con soporte técnico y científico. Cotiza en línea.` : descripcion} canonical={original?.url} tipo="product" imagen={item.imagen?.src} jsonld={[migas(rutaMigas), productoLd(item)]}>
   <article class="ficha" style={marca ? `--aliado:${marca.color}` : undefined}>
     <!-- Hero a sangre en degradado navy: Q-lupa en el color del aliado, equipo delante, logo del aliado en placa -->
     <header class="hero-ficha seccion-navy">

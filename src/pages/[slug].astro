@@ -8,8 +8,13 @@ export async function getStaticPaths() { return paginas.filter((p) => !['nosotro
 const { pg } = Astro.props;
 const ruta = [{ nombre: pg.titulo, url: pg.url }];
 const esRegistro = pg.slug.startsWith('registro-sanitario');
+const DESCRIPCIONES: Record<string, string> = {
+  molbio: 'Molbio Diagnostics: PCR en tiempo real portátil en el punto de atención para enfermedades infecciosas. Distribuido en Colombia por Quimiolab.',
+  'politica-de-denuncias-y-no-retaliacion': 'Política de denuncias y no retaliación de Quimiolab S.A.S.: cómo reportar de forma confidencial y cómo protegemos a quien reporta.',
+};
+const TITULOS: Record<string, string> = { molbio: 'Molbio Diagnostics: PCR en tiempo real en el punto de atención' };
 ---
-<Base title={pg.titulo} description={esRegistro ? `${pg.titulo}. Documento de registro sanitario INVIMA publicado por Quimiolab.` : `${pg.titulo} de Quimiolab S.A.S.`} noindex={esRegistro} jsonld={[migas(ruta)]}>
+<Base title={TITULOS[pg.slug] ?? pg.titulo} description={esRegistro ? `${pg.titulo}. Documento de registro sanitario INVIMA publicado por Quimiolab.` : DESCRIPCIONES[pg.slug] ?? `${pg.titulo} de Quimiolab S.A.S.`} noindex={esRegistro} jsonld={[migas(ruta)]}>
   <section class="seccion"><div class="wrap"><Miga items={ruta} /><h1>{pg.titulo}</h1><div class="prosa" set:html={pg.contenido_html} /></div></section>
 </Base>
 <style> h1 { font-size: var(--t-3xl); margin-bottom: var(--s-6); max-width: 30ch; } </style>

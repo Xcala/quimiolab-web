@@ -28,7 +28,11 @@ interface Props {
 }
 const { title, description, canonical, noindex = false, imagen, tipo = 'website', jsonld = [], claseBody = '', gsap = false, heroImg = false, editable } = Astro.props;
 const esHome = Astro.url.pathname === '/';
-const titulo = esHome ? title : `${title} · Quimiolab`;
+// título: «· Quimiolab» solo si cabe (Google muestra ~60–65 caracteres)
+const titulo = esHome || `${title} · Quimiolab`.length > 65 ? title : `${title} · Quimiolab`;
+// descripción: limpia y recortada por palabra a ~155 caracteres (Google corta hacia los 160)
+const limpia = String(description ?? '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const descripcion = limpia.length <= 158 ? limpia : limpia.slice(0, 155).replace(/[\s,;:.\-–—]+\S*$/, '') + '…';
 const abs = (u: string) => (u.startsWith('http') ? u : `${sitio.url}${u.startsWith('/') ? u : '/' + u}`);
 const urlCanonica = abs(canonical ?? Astro.url.pathname);
 const og = abs(imagen ?? '/og-quimiolab.jpg');
@@ -42,14 +46,14 @@ const bloques = [organizacion(), sitioWeb(), ...jsonld];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titulo}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={descripcion} />
     <meta name="robots" content={robots} />
     <link rel="canonical" href={urlCanonica} />
     <meta property="og:type" content={tipo === 'article' ? 'article' : 'website'} />
     <meta property="og:site_name" content="Quimiolab" />
     <meta property="og:locale" content="es_CO" />
     <meta property="og:title" content={titulo} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={descripcion} />
     <meta property="og:url" content={urlCanonica} />
     <meta property="og:image" content={og} />
     <meta name="twitter:card" content="summary_large_image" />

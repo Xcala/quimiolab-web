@@ -6,11 +6,11 @@
 import Base from '../layouts/Base.astro';
 import Miga from './Miga.astro';
 import { migas } from '../lib/seo';
-interface Props { titulo: string; descripcion: string; url: string; eyebrow: string; lead: string }
-const { titulo, descripcion, url, eyebrow, lead } = Astro.props;
+interface Props { titulo: string; description: string; url: string; eyebrow: string; lead: string }
+const { titulo, description, url, eyebrow, lead } = Astro.props;
 const ruta = [{ nombre: titulo, url }];
 ---
-<Base title={titulo} description={descripcion} jsonld={[migas(ruta)]}>
+<Base title={titulo} description={description} jsonld={[migas(ruta)]}>
   <section class="seccion tinte-2">
     <div class="wrap">
       <Miga items={ruta} />

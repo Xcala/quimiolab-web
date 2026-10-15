@@ -8,6 +8,6 @@ const { linea } = Astro.props;
 const items = productosDeLinea(linea.slug);
 const ruta = [{ nombre: 'Soluciones', url: '/soluciones/' }, { nombre: linea.nombre, url: linea.url }, { nombre: 'Productos', url: `${linea.url}productos/` }];
 ---
-<Base title={`Productos de ${linea.nombre.toLowerCase()}`} description={`${items.length} productos de ${linea.nombre.toLowerCase()} distribuidos en Colombia por Quimiolab.`} jsonld={[migas(ruta)]}>
+<Base title={`Productos de ${linea.nombre.toLowerCase()}`} description={`${items.length} reactivos, kits y consumibles de ${linea.nombre.toLowerCase()} distribuidos en Colombia por Quimiolab, con soporte técnico y científico y cotización en línea.`} jsonld={[migas(ruta)]}>
   <Listado tipo="productos" titulo={`Productos · ${linea.nombre}`} eyebrow={`${items.length} referencias`} lead={linea.descripcion} items={items} pagina={1} total={1} base={`${linea.url}productos/`} migas={ruta} filtroLinea={true} />
 </Base>

@@ -15,8 +15,10 @@ if (post.imagen?.src) {
   if (primera && base(primera[1]) === base(post.imagen.src)) contenido = contenido.slice(primera[0].length);
 }
 const ruta = [{ nombre: 'Blog', url: '/blog/' }, { nombre: post.titulo, url: post.url }];
+// copia del WordPress con «-2» y el mismo título: su canonical es el artículo original
+const original = /-\d+$/.test(post.slug) ? posts.find((x) => x.slug === post.slug.replace(/-\d+$/, '') && x.titulo === post.titulo) : undefined;
 ---
-<Base heroImg={!!post.imagen} title={post.titulo} description={post.resumen} tipo="article" imagen={post.imagen?.src} jsonld={[migas(ruta), articuloLd(post)]}>
+<Base heroImg={!!post.imagen} canonical={original?.url} title={post.titulo} description={post.resumen} tipo="article" imagen={post.imagen?.src} jsonld={[migas(ruta), articuloLd(post)]}>
   <article class="articulo">
     <header class="wrap"><Miga items={ruta} /><span class="eyebrow">Blog científico</span><h1>{post.titulo}</h1><p class="meta muted">Publicado el <time datetime={post.fecha}>{fecha(post.fecha)}</time>{post.modificado.slice(0, 10) !== post.fecha.slice(0, 10) && <> · actualizado el <time datetime={post.modificado}>{fecha(post.modificado)}</time></>} · Equipo científico Quimiolab</p></header>
     {post.imagen && <div class="wrap portada"><Imagen img={post.imagen} alt={post.titulo} eager id="hero-img" /></div>}
