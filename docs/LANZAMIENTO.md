@@ -13,49 +13,40 @@
 
 ---
 
-## Paso 1 — Conectar los dominios en Firebase (10 min)
-Abre: https://console.firebase.google.com/project/quimiolab-web/hosting/sites/quimiolab-web (arriba a la izquierda debe decir **Quimiolab Web**).
-
-1. Pulsa **Agregar dominio personalizado** → escribe `www.quimiolab.com` → **Continuar**.
-   Firebase te muestra unos registros (un **TXT** y uno o dos **A**, normalmente `199.36.158.100`). **Déjalos a la vista**: los copias en el paso 3.
-2. **Agregar dominio personalizado** → `quimiolab.com` → marca **«Redireccionar quimiolab.com a un dominio existente»** → elige `www.quimiolab.com` → **Continuar**. Anota sus registros.
-3. Repite con `quimiolab.com.co` → redirigir a `www.quimiolab.com`.
-4. Repite con `www.quimiolab.com.co` → redirigir a `www.quimiolab.com`.
-
-✔ Verás los 4 dominios en la lista con estado «Necesita configuración». Es normal hasta que cambies los DNS.
-
-## Paso 2 — Permitir el ingreso al editor desde el dominio nuevo (1 min)
-`Authentication → Configuración → Dominios autorizados → Agregar un dominio`:
-```
-www.quimiolab.com
-```
-y otra vez:
-```
-quimiolab.com
-```
-✔ Sin esto, el enlace de ingreso de Leidy y Daniela fallaría en el dominio nuevo.
+## Paso 1 y 2 — Firebase ✅ (hecho por Claude el 15-oct)
+- Hosting: agregados **www.quimiolab.com** (principal) y **quimiolab.com**, **quimiolab.com.co**, **www.quimiolab.com.co** (los tres redirigen a www.quimiolab.com). Estado: «Requiere configuración» hasta que cambien los DNS.
+- Authentication → Dominios autorizados: agregados **www.quimiolab.com** y **quimiolab.com**.
 
 ## Paso 3 — DNS de quimiolab.com en GoDaddy (10 min)
 Abre https://dcc.godaddy.com/control/portfolio → **quimiolab.com** → **DNS**.
 
 1. Pestaña **Reenvío** (Forwarding): **elimina** el reenvío del dominio hacia www.quimiolab.com.co.
-2. Pestaña **Registros DNS**: borra los **A** de `@` (`3.33.251.168` y `15.197.225.128`) y el registro de `www` (A o CNAME).
-3. Agrega **exactamente** los registros que te mostró Firebase para `www.quimiolab.com` y `quimiolab.com` (TXT y A).
-4. **NO toques** estos (son el correo de Quimiolab en Microsoft 365):
-   - MX `@` → `quimiolab-com.mail.protection.outlook.com`
-   - TXT `@` → `v=spf1 include:spf.protection.outlook.com -all` y `MS=ms66876403`
-   - CNAME `autodiscover`, `selector1._domainkey`, `selector2._domainkey` y cualquier otro que mencione outlook / microsoft.
+2. Pestaña **Registros DNS**, deja exactamente esto para el sitio:
 
-⚠️ Si GoDaddy dice que ya existe un TXT en `@`, **agrega** el de Firebase como otro registro; no reemplaces el de SPF.
+| Tipo | Nombre | Valor | Qué hacer |
+|---|---|---|---|
+| A | @ | 199.36.158.100 | agregar (borra los A  y ) |
+| TXT | @ | hosting-site=quimiolab-web | agregar (sin borrar los otros TXT) |
+| CNAME | www | quimiolab-web.web.app | reemplaza lo que haya en  (hoy A  / ) |
+
+3. **NO toques** estos (correo de Quimiolab en Microsoft 365):
+   - MX  →    - TXT  →  y    - CNAME , ,  y cualquier otro que mencione outlook / microsoft.
 
 ## Paso 4 — DNS de quimiolab.com.co en ColombiaHosting (10 min)
-Entra a tu cPanel de ColombiaHosting → **Zone Editor** (Editor de zona) → **quimiolab.com.co**.
+cPanel de ColombiaHosting → **Zone Editor** → **quimiolab.com.co**.
 
-1. **Primero el correo de .com.co** (hoy depende de la misma IP del WordPress):
-   - El registro `mail` es un CNAME a `quimiolab.com.co`: cámbialo por un **A** `mail` → `190.8.176.146`.
-   - El **MX** de `quimiolab.com.co` (hoy apunta a `quimiolab.com.co`): cámbialo a `mail.quimiolab.com.co` (prioridad 0).
-2. Ahora el sitio: cambia el **A** de `@` (`190.8.176.146`) por los A que Firebase mostró para `quimiolab.com.co`, y el registro de `www` (hoy CNAME a `quimiolab.com.co`) por lo que Firebase mostró para `www.quimiolab.com.co`. Agrega sus TXT.
-3. **No canceles el hosting de ColombiaHosting** todavía: el WordPress queda como respaldo en `190.8.176.146` (y el correo .com.co sigue ahí).
+1. **Primero el correo de .com.co** (hoy depende de la IP del WordPress):
+   - : cambia el CNAME (→ ) por un **A**  → .
+   - **MX** de : cámbialo a  (prioridad 0).
+2. Después el sitio:
+
+| Tipo | Nombre | Valor | Qué hacer |
+|---|---|---|---|
+| A | quimiolab.com.co (@) | 199.36.158.100 | reemplaza el A  |
+| TXT | quimiolab.com.co (@) | hosting-site=quimiolab-web | agregar (sin borrar el SPF) |
+| CNAME | www | quimiolab-web.web.app | reemplaza el CNAME  →  |
+
+3. **No canceles el hosting de ColombiaHosting** todavía: el WordPress queda como respaldo en  y el correo .com.co sigue ahí.
 
 ## Paso 5 — Esperar y comprobar (de 15 min a 24 h)
 Firebase emite los certificados solo. En la lista de dominios el estado pasa a **«Conectado»**.
