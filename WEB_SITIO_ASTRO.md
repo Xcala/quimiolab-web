@@ -214,3 +214,8 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 18. Fase E (imágenes), Fase F (Cloud Function `formulario` + `firestore.rules` + Secret Manager), proyecto Firebase `quimiolab-web` y canal de vista previa.
 19. Reemplazar datos de relleno: WhatsApp, horario, certificación ISO, año de fundación (1996 vs 1992).
 20. Editor in situ: configurar Firebase (Auth Google, Firestore, app web, reglas), confirmar el correo de «Lady», avisar al equipo de Quimiolab cómo entrar; fase 2 si piden plantillas de secciones nuevas o fotos en Storage.
+
+### 2026-10-15 — DNS .com.co, robots para IA y llms-full
+- ColombiaHosting (cPanel): apex A → 199.36.158.100, `www` CNAME → quimiolab-web.web.app, TXT hosting-site; correo .com.co intacto (`mail` A 190.8.176.146, MX y SRV a mail.quimiolab.com.co). Respaldo en `docs/dns-respaldo-quimiolab.com.co.txt`. El correo Outlook de quimiolab.com no se tocó (MX, SPF, autodiscover verificados).
+- robots.txt: un solo grupo con buscadores y rastreadores de IA (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended…) que repite las exclusiones (/admin/, /buscar/, /sistema/, /api/).
+- `/llms.txt` ampliado y nuevo `/llms-full.txt` (cada equipo, producto y artículo con su resumen). Organization JSON-LD con descripción, SD Biosensor como matriz, contactPoint, sameAs y knowsAbout.

@@ -13,6 +13,15 @@ export const organizacion = () => ({
   email: sitio.correo,
   address: { '@type': 'PostalAddress', streetAddress: 'Calle 77 # 28B-13, Santa Sofía', addressLocality: 'Bogotá', addressCountry: 'CO' },
   foundingDate: '1996',
+  description: sitio.descripcion,
+  areaServed: { '@type': 'Country', name: 'Colombia' },
+  parentOrganization: { '@type': 'Organization', name: 'SD Biosensor', url: 'https://www.sdbiosensor.com' },
+  knowsAbout: ['Diagnóstico in vitro', 'Laboratorio clínico', 'Pruebas rápidas', 'Inmunoensayo', 'Biología molecular', 'Banco de sangre', 'Registro sanitario INVIMA'],
+  contactPoint: [
+    { '@type': 'ContactPoint', contactType: 'sales', telephone: `+${sitio.whatsapp}`, email: sitio.correo_formularios, areaServed: 'CO', availableLanguage: 'es' },
+    { '@type': 'ContactPoint', contactType: 'customer service', telephone: sitio.pbx_tel, email: sitio.correo, areaServed: 'CO', availableLanguage: 'es' },
+  ],
+  sameAs: ['https://www.linkedin.com/company/quimiolabsas/', 'https://www.instagram.com/quimiolab_sas/', 'https://www.youtube.com/@quimiolab4921'],
 });
 
 export const sitioWeb = () => ({
