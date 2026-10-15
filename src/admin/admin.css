@@ -151,3 +151,12 @@ html.adm-on, html.adm-on body { background: var(--a-fondo); }
 .ingreso .adm-campo input { min-height: 2.75rem; padding: .5rem .75rem; border: 1px solid var(--a-linea); border-radius: .55rem; font: 1rem var(--a-font); color: var(--a-ink); }
 .ingreso .adm-campo input:focus { outline: 2px solid var(--a-brillante); outline-offset: 1px; }
 .ingreso-o { text-align: center; margin-top: .25rem !important; }
+
+/* solicitudes */
+.adm-nav-sol i { font-style: normal; display: inline-grid; place-items: center; min-width: 1.3rem; height: 1.3rem; padding: 0 .3rem; margin-left: .3rem; border-radius: 999px; background: #F2B705; color: #001A4D; font-size: .72rem; }
+.adm-nav-sol i[hidden] { display: none; }
+.adm-sol { display: grid; grid-template-columns: max-content 1fr; gap: .45rem 1.25rem; margin: 0; }
+.adm-sol dt { font-weight: 700; font-size: .85rem; color: var(--a-muted); }
+.adm-sol dd { margin: 0; word-break: break-word; }
+.adm-sol-msg { padding: 1rem; border-radius: .6rem; background: #F7FAFD; border: 1px solid var(--a-linea); }
+.adm-sol-msg p { margin: .4rem 0 0; line-height: 1.6; white-space: normal; }

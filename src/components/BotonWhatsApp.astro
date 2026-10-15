@@ -1,7 +1,8 @@
 ---
-/** Botón flotante de WhatsApp: canal donde el cliente cierra. Número pendiente (placeholder 573000000000). */
+/** Botón flotante de WhatsApp: canal donde el cliente cierra. Número comercial en src/data/sitio.json. */
 import Icon from './Icon.astro';
-const numero = '573000000000';
+import { sitio } from '../lib/data';
+const numero = sitio.whatsapp;
 const texto = encodeURIComponent('Hola Quimiolab, quisiera información sobre ');
 ---
 <a class="wa" href={`https://wa.me/${numero}?text=${texto}`} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">

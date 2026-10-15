@@ -50,6 +50,21 @@ service cloud.firestore {
         && request.resource.data.data is string && request.resource.data.data.size() < 1040000;
       allow delete: if esAdmin();
     }
+    // Formulario de contacto/cotización: cualquiera puede crear (con campos y tamaños acotados); solo admins leen y gestionan
+    function texto(v, max) { return v is string && v.size() <= max; }
+    match /solicitudes/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['tipo', 'tema', 'producto', 'nombre', 'entidad', 'correo', 'telefono', 'pais', 'ciudad', 'mensaje', 'pagina', 'acepto', 'estado', 'creado'])
+        && request.resource.data.keys().hasAll(['nombre', 'correo', 'telefono', 'mensaje', 'acepto', 'estado', 'creado'])
+        && texto(request.resource.data.nombre, 120) && request.resource.data.nombre.size() > 1
+        && texto(request.resource.data.correo, 160) && request.resource.data.correo.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && texto(request.resource.data.telefono, 40) && texto(request.resource.data.mensaje, 4000) && request.resource.data.mensaje.size() >= 10
+        && texto(request.resource.data.get('entidad', ''), 160) && texto(request.resource.data.get('producto', ''), 200)
+        && texto(request.resource.data.get('pagina', ''), 300) && texto(request.resource.data.get('tema', ''), 40)
+        && request.resource.data.acepto == true && request.resource.data.estado == 'nueva'
+        && request.resource.data.creado is timestamp
+        && request.resource.data.creado > request.time - duration.value(10, 'm') && request.resource.data.creado < request.time + duration.value(10, 'm');
+      allow read, update, delete: if esAdmin();
+    }
     match /{document=**} { allow read, write: if false; }
   }
 }

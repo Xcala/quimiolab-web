@@ -1,0 +1,17 @@
+---
+/** Tarjeta de canal de contacto (correo, WhatsApp, teléfono) para el lateral de las páginas institucionales. */
+import Icon from './Icon.astro';
+interface Props { icono: 'correo' | 'whatsapp' | 'telefono' | 'documento' | 'descargar'; titulo: string; texto: string; href: string; externo?: boolean }
+const { icono, titulo, texto, href, externo = false } = Astro.props;
+---
+<a class="canal" href={href} target={externo ? '_blank' : undefined} rel={externo ? 'noopener' : undefined}>
+  <span class="ic"><Icon name={icono} size={20} /></span>
+  <span><b>{titulo}</b><span>{texto}</span></span>
+</a>
+<style>
+  .canal { display: flex; gap: var(--s-3); align-items: center; padding: var(--s-4); border: 1px solid var(--linea); border-radius: var(--r-bento); background: var(--card); box-shadow: var(--sombra-bento); color: var(--ink); text-decoration: none; transition: border-color var(--dur-2), transform var(--dur-2); }
+  .canal:hover { border-color: var(--action); transform: translateY(-2px); }
+  .ic { width: 2.5rem; height: 2.5rem; flex: none; display: grid; place-items: center; border-radius: .65rem; background: var(--chip); color: var(--action); }
+  b { display: block; font-family: var(--f-display); color: var(--marca); font-size: var(--t-sm); }
+  span > span { color: var(--ink-2); font-size: var(--t-sm); word-break: break-word; }
+</style>

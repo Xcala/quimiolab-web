@@ -54,7 +54,7 @@ export const pasosEditor = (preparar: { seccion: () => void }): Paso[] => [
   { el: '[data-tour="publicar"]', titulo: '9 · Publicar',
     texto: '<p>Cuando estés conforme, pulsa <b>Publicar</b>. Los visitantes ven los cambios en <b>máximo 10 minutos</b>.</p><p>¿Cambiaste de idea antes de publicar? <b>Descartar</b> vuelve a lo que está en el sitio.</p>' },
   { logo: true, titulo: '¡Listo para editar!',
-    texto: '<p>El botón <b class="tg-ico">?</b> de la barra repite este recorrido cuando quieras.</p><p>El blog, los productos, las marcas y las líneas se editan en el <b>panel de contenido</b> (quimiolab.com.co<b>/admin/</b>).</p>' },
+    texto: '<p>El botón <b class="tg-ico">?</b> de la barra repite este recorrido cuando quieras.</p><p>El blog, los productos, las marcas y las líneas se editan en el <b>panel de contenido</b> (quimiolab.com<b>/admin/</b>).</p>' },
 ];
 
 /* ---------------- panel de contenido: lista ---------------- */

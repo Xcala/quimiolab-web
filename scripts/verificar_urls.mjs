@@ -16,14 +16,15 @@ const existe = (p) => { const d = decodeURIComponent(p); return existsSync(join(
 const lista = readFileSync(process.argv[2], 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
 const filas = []; const res = { ok: 0, redir: 0, roto: 0 };
 for (const u of [...new Set(lista)]) {
-  let p; try { p = new URL(u, 'https://www.quimiolab.com.co').pathname; } catch { continue; }
+  let p; try { p = new URL(u, 'https://www.quimiolab.com').pathname; } catch { continue; }
   if (!p.endsWith('/') && !/\.[a-z0-9]{2,5}$/i.test(p)) p += '/';
   let destino = p, estado = '', saltos = 0;
+  // mismo orden que Firebase Hosting: primero las redirecciones (la primera que coincide), después los archivos
   while (saltos < 5) {
-    if (existe(destino)) { estado = saltos ? 'redirige' : 'existe'; break; }
     const r = reglas.find((x) => x.re.test(destino) || x.re.test(decodeURIComponent(destino)));
-    if (!r) { estado = 'ROTO'; break; }
-    destino = r.destination; saltos++;
+    if (r) { destino = r.destination.split('?')[0]; saltos++; continue; }
+    if (existe(destino)) { estado = saltos ? 'redirige' : 'existe'; break; }
+    estado = 'ROTO'; break;
   }
   if (!estado) estado = 'ROTO (cadena)';
   estado === 'existe' ? res.ok++ : estado === 'redirige' ? res.redir++ : res.roto++;

@@ -15,4 +15,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://www.quimiolab.com.co/sitemap-index.xml
+Sitemap: https://www.quimiolab.com/sitemap-index.xml

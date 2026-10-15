@@ -5,7 +5,7 @@ import Icon from '../../components/Icon.astro';
 import TarjetaProducto from '../../components/TarjetaProducto.astro';
 import FormularioContacto from '../../components/FormularioContacto.astro';
 import LogoQLupa from '../../components/LogoQLupa.astro';
-import { marcas, productosDeMarca, equiposDeMarca, lineaPorSlug, logoMarca } from '../../lib/data';
+import { marcas, productosDeMarca, equiposDeMarca, lineaPorSlug, logoMarca, sitio } from '../../lib/data';
 import { migas } from '../../lib/seo';
 export async function getStaticPaths() { return marcas.map((m) => ({ params: { slug: m.slug }, props: { marca: m } })); }
 const { marca } = Astro.props;
@@ -14,7 +14,7 @@ const equipos = equiposDeMarca(marca.slug);
 const logo = logoMarca(marca.slug);
 const porLinea = marca.lineas.map((l) => ({ linea: lineaPorSlug(l)!, items: productos.filter((p) => p.lineas.includes(l)) })).filter((g) => g.items.length);
 const descripcion = marca.resumen || `Equipos y productos ${marca.nombre} distribuidos en Colombia por Quimiolab: ${equipos.length} equipos y ${productos.length} productos con soporte técnico y científico local.`;
-const ld = [migas([{ nombre: 'Marcas', url: '/marcas/' }, { nombre: marca.nombre, url: marca.url }]), { '@context': 'https://schema.org', '@type': 'Brand', name: marca.nombre, url: `https://www.quimiolab.com.co${marca.url}`, logo: logo ? `https://www.quimiolab.com.co${logo}` : undefined }];
+const ld = [migas([{ nombre: 'Marcas', url: '/marcas/' }, { nombre: marca.nombre, url: marca.url }]), { '@context': 'https://schema.org', '@type': 'Brand', name: marca.nombre, url: `${sitio.url}${marca.url}`, logo: logo ? `${sitio.url}${logo}` : undefined }];
 ---
 <Base title={`${marca.nombre} en Colombia`} description={descripcion} jsonld={ld}>
   <section class="cabecera-marca seccion-navy" style={`--aliado:${marca.color}`}>

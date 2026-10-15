@@ -1,0 +1,26 @@
+---
+/** Vinculación de proveedores y clientes (contenido del formulario de vinculación del Webflow viejo). */
+import PaginaSimple from '../components/PaginaSimple.astro';
+import TarjetaCanal from '../components/TarjetaCanal.astro';
+import { sitio } from '../lib/data';
+const correo = `mailto:${sitio.correo_formularios}?subject=${encodeURIComponent('Solicitud de vinculación')}`;
+---
+<PaginaSimple titulo="Vinculación de proveedores y clientes" url="/vinculacion/" eyebrow="Cumplimiento" description="Proceso de vinculación con Quimiolab para proveedores y clientes: información requerida y cómo iniciar la solicitud." lead="Para trabajar con Quimiolab como proveedor o cliente diligenciamos un formulario de vinculación y conocimiento de la contraparte.">
+  <h2>Cómo iniciar</h2>
+  <p>Escríbenos a <a href={correo}>{sitio.correo_formularios}</a> con el asunto <strong>«Solicitud de vinculación»</strong>, indicando si eres proveedor o cliente. Te enviamos el formulario y te acompañamos en el proceso.</p>
+  <h2>Información que te pediremos</h2>
+  <ul>
+    <li><strong>Información básica:</strong> razón social, NIT, ciudad, dirección, actividad económica, tipo y sector de la empresa, tipo de contribuyente.</li>
+    <li><strong>Representante legal:</strong> datos de identificación y de contacto.</li>
+    <li><strong>Información institucional:</strong> accionistas, beneficiarios finales y junta directiva, incluida la condición de persona expuesta políticamente (PEP).</li>
+    <li><strong>Operaciones internacionales:</strong> importación, exportación, inversión, giros, préstamos o transferencias.</li>
+    <li><strong>Información financiera:</strong> activos, pasivos, patrimonio, ingresos y egresos.</li>
+    <li><strong>Declaración de origen de fondos</strong> y autorización de tratamiento de datos.</li>
+  </ul>
+  <p class="muted">Tus datos se tratan según nuestra <a href="/politica-de-datos/">política de tratamiento de datos personales</a>.</p>
+  <p><a class="btn btn-primario" href={correo}>Solicitar el formulario de vinculación</a></p>
+  <Fragment slot="lado">
+    <TarjetaCanal icono="correo" titulo="Vinculación" texto={sitio.correo_formularios} href={correo} />
+    <TarjetaCanal icono="telefono" titulo="PBX" texto={sitio.pbx} href={`tel:${sitio.pbx_tel}`} />
+  </Fragment>
+</PaginaSimple>

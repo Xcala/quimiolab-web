@@ -730,6 +730,646 @@
         "source": "/author/malory/",
         "destination": "/blog/",
         "type": 301
+      },
+      {
+        "source": "/eventos/",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/quimiolab-nosotros",
+        "destination": "/nosotros/",
+        "type": 301
+      },
+      {
+        "source": "/quimiolab-nosotros/",
+        "destination": "/nosotros/",
+        "type": 301
+      },
+      {
+        "source": "/contacto",
+        "destination": "/contactenos/",
+        "type": 301
+      },
+      {
+        "source": "/contacto/",
+        "destination": "/contactenos/",
+        "type": 301
+      },
+      {
+        "source": "/marca/mp-biomedical",
+        "destination": "/marcas/mp-biomedicals/",
+        "type": 301
+      },
+      {
+        "source": "/marca/mp-biomedical/",
+        "destination": "/marcas/mp-biomedicals/",
+        "type": 301
+      },
+      {
+        "source": "/marca/mp",
+        "destination": "/marcas/mp-biomedicals/",
+        "type": 301
+      },
+      {
+        "source": "/marca/mp/",
+        "destination": "/marcas/mp-biomedicals/",
+        "type": 301
+      },
+      {
+        "source": "/marca/meridian",
+        "destination": "/marcas/meridian-bioscience/",
+        "type": 301
+      },
+      {
+        "source": "/marca/meridian/",
+        "destination": "/marcas/meridian-bioscience/",
+        "type": 301
+      },
+      {
+        "source": "/marca/the-binding-site",
+        "destination": "/marcas/binding-site/",
+        "type": 301
+      },
+      {
+        "source": "/marca/the-binding-site/",
+        "destination": "/marcas/binding-site/",
+        "type": 301
+      },
+      {
+        "source": "/marca/molbio",
+        "destination": "/molbio/",
+        "type": 301
+      },
+      {
+        "source": "/marca/molbio/",
+        "destination": "/molbio/",
+        "type": 301
+      },
+      {
+        "source": "/marca/quimiolab",
+        "destination": "/nosotros/",
+        "type": 301
+      },
+      {
+        "source": "/marca/quimiolab/",
+        "destination": "/nosotros/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/triage-meterpro",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/triage-meterpro/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/triage-meterpro",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/triage-meterpro/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/virclia-r-lotus",
+        "destination": "/producto/virclia-lotus/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/virclia-r-lotus/",
+        "destination": "/producto/virclia-lotus/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/virclia-r-lotus",
+        "destination": "/producto/virclia-lotus/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/virclia-r-lotus/",
+        "destination": "/producto/virclia-lotus/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/auto-lipa-tm-48",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/auto-lipa-tm-48/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/auto-lipa-tm-48",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/auto-lipa-tm-48/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/tendigo-tm",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/tendigo-tm/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/tendigo-tm",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/tendigo-tm/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/auto-lia-tm-48",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/auto-lia-tm-48/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/auto-lia-tm-48",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/auto-lia-tm-48/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/gemini",
+        "destination": "/producto/gemini/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/gemini/",
+        "destination": "/producto/gemini/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/gemini",
+        "destination": "/producto/gemini/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/gemini/",
+        "destination": "/producto/gemini/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/truelab-r-duo-dx-real-time-quantitative-micro-pcr-analyzer",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/truelab-r-duo-dx-real-time-quantitative-micro-pcr-analyzer/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/truelab-r-duo-dx-real-time-quantitative-micro-pcr-analyzer",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/truelab-r-duo-dx-real-time-quantitative-micro-pcr-analyzer/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/truelab-r-uno-dx-real-time-quantitative-micro-pcr-analyzer",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/truelab-r-uno-dx-real-time-quantitative-micro-pcr-analyzer/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/truelab-r-uno-dx-real-time-quantitative-micro-pcr-analyzer",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/truelab-r-uno-dx-real-time-quantitative-micro-pcr-analyzer/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/trueprep-r-auto-v2-universal-cartridge-based-sample-prep-device",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/trueprep-r-auto-v2-universal-cartridge-based-sample-prep-device/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/trueprep-r-auto-v2-universal-cartridge-based-sample-prep-device",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/trueprep-r-auto-v2-universal-cartridge-based-sample-prep-device/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/truelab-r-quattro-dx-real-time-quantitative-micro-pcr-analyzer",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/truelab-r-quattro-dx-real-time-quantitative-micro-pcr-analyzer/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/truelab-r-quattro-dx-real-time-quantitative-micro-pcr-analyzer",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/truelab-r-quattro-dx-real-time-quantitative-micro-pcr-analyzer/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/cfx96-tm",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/cfx96-tm/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/cfx96-tm",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/cfx96-tm/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/helmed",
+        "destination": "/producto/helmed/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/helmed/",
+        "destination": "/producto/helmed/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/helmed",
+        "destination": "/producto/helmed/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/helmed/",
+        "destination": "/producto/helmed/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/helia",
+        "destination": "/producto/helmed-copia/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/helia/",
+        "destination": "/producto/helmed-copia/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/helia",
+        "destination": "/producto/helmed-copia/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/helia/",
+        "destination": "/producto/helmed-copia/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/helios",
+        "destination": "/producto/helios-convencional/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/helios/",
+        "destination": "/producto/helios-convencional/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/helios",
+        "destination": "/producto/helios-convencional/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/helios/",
+        "destination": "/producto/helios-convencional/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/i4-infinity-4-objective-microscope",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/i4-infinity-4-objective-microscope/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/i4-infinity-4-objective-microscope",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/i4-infinity-4-objective-microscope/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/elx50",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/elx50/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/elx50",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/elx50/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/meterpro",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/meterpro/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/meterpro",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/meterpro/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/sofia",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/sofia/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/sofia",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/sofia/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/geenius",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/geenius/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/geenius",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/geenius/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/phd-lx",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/phd-lx/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/phd-lx",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/phd-lx/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/evolis",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/evolis/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/evolis",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/evolis/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/optilite",
+        "destination": "/producto/optilite/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/optilite/",
+        "destination": "/producto/optilite/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/optilite",
+        "destination": "/producto/optilite/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/optilite/",
+        "destination": "/producto/optilite/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/spaplus",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/spaplus/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/spaplus",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/spaplus/",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/elite-ingenius",
+        "destination": "/producto/elite-ingenius/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/elite-ingenius/",
+        "destination": "/producto/elite-ingenius/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/elite-ingenius",
+        "destination": "/producto/elite-ingenius/",
+        "type": 301
+      },
+      {
+        "source": "/equipos/elite-ingenius/",
+        "destination": "/producto/elite-ingenius/",
+        "type": 301
+      },
+      {
+        "source": "/marca/**",
+        "destination": "/marcas/",
+        "type": 301
+      },
+      {
+        "source": "/equipo/**",
+        "destination": "/equipos/",
+        "type": 301
+      },
+      {
+        "source": "/blogs/**",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/evento-cientifico/**",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/eventos-cientificos/**",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/linea-de-producto/**",
+        "destination": "/soluciones/",
+        "type": 301
+      },
+      {
+        "source": "/lineas-de-producto/**",
+        "destination": "/soluciones/",
+        "type": 301
+      },
+      {
+        "source": "/linea/**",
+        "destination": "/soluciones/",
+        "type": 301
+      },
+      {
+        "source": "/portafolio/**",
+        "destination": "/contactenos/",
+        "type": 301
+      },
+      {
+        "source": "/portafolios/**",
+        "destination": "/contactenos/",
+        "type": 301
+      },
+      {
+        "source": "/caso/**",
+        "destination": "/nosotros/",
+        "type": 301
+      },
+      {
+        "source": "/casos/**",
+        "destination": "/nosotros/",
+        "type": 301
+      },
+      {
+        "source": "/unidad-de-negocio/**",
+        "destination": "/soluciones/",
+        "type": 301
+      },
+      {
+        "source": "/landing",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/perfil",
+        "destination": "/",
+        "type": 301
       }
     ],
     "rewrites": [],

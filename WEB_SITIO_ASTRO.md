@@ -184,6 +184,17 @@ Nicolas preguntó si este era el mejor UX para editar. Diagnóstico: el enfoque 
 - **Hero del home**: red de nodos animada en `canvas` (`src/scripts/red-hero.ts`) que reemplaza el patrón estático del hero; los nodos flotan y se enlazan, y los cercanos al puntero lo siguen y se conectan con él (Azul Brillante). Densidad según el área (menos en móvil), pausa fuera de pantalla o con la pestaña oculta, quieta con «reducir movimiento». Solo en el hero, como prueba.
 - Correo de entrega a Leidy Carrillo y Daniela Pava como borrador en Gmail de Nicolas, programado para el 2026-10-08 a las 7:00 a. m. (Colombia) con la tarea `enviar-correo-quimiolab-editores`.
 
+### 2026-10-15 — Preparación del lanzamiento: dominio www.quimiolab.com, mapa de URLs y producción
+
+Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimiolab.com** (quimiolab.com.co, www.quimiolab.com.co y quimiolab.com redirigen 301 conservando la ruta, configurado como redirección de dominio en Firebase), formularios guardados en el panel, páginas faltantes con el texto del Webflow, WhatsApp +57 321 482 4921 / +57 313 269 1485, formularios a milacontigo@quimiolab.com.
+- **Mapa de URLs** (`docs/mapa-urls.csv`, `scripts/verificar_urls.mjs`, que respeta el orden de Firebase: redirecciones antes que archivos): 664 URLs del WordPress en vivo + rutas del Webflow. Probado en Firebase: 798/798 responden 200 con ≤ 1 redirección. Lección: en Firebase las redirecciones ganan a los archivos; un comodín como `/blog/**` crea bucles. Solo hay comodines para prefijos que ya no existen (`/marca/`, `/equipo/`, `/evento-cientifico/`, `/linea/`, `/portafolio/`, `/caso/`…), y redirecciones exactas para marcas y equipos del Webflow (slugs del consolidado).
+- Congelación de contenido: desde el export solo cambiaron 2 registros INVIMA nuevos (15-oct) → `scripts/importar_paginas_wp.mjs` (también trajo `/molbio/`, página de marca sin catálogo). Redirecciones para /author/*, /category/uncategorized/, /categoria-producto/sin-categorizar/, /eventos/.
+- Sin dependencias del WordPress: PDF de la política de datos → `public/documentos/`, última imagen de un post → `public/media/`.
+- Páginas nuevas (`PaginaSimple` + `TarjetaCanal`): /politica-de-datos/ (responsable, derechos Ley 1581, cookies, PDF oficial QGGES-25 v.03), /trabaja-con-nosotros/, /linea-de-transparencia/, /vinculacion/. Quitado «Eventos» del pie.
+- **Formulario** → Firestore `solicitudes` por REST (sin SDK), con trampa, tiempo mínimo y reglas que validan campos/tamaños; nadie de afuera puede leer. Panel → pestaña **Solicitudes** (lista por estado, detalle, responder por correo/WhatsApp, atendida/spam). Queda una solicitud «PRUEBA Braindy (ignorar)».
+- **Producción desplegada** (`npm run deploy`) en quimiolab-web.web.app: canonical www.quimiolab.com, `index, follow`, GTM. Falta conectar dominios y DNS: pasos exactos en `docs/LANZAMIENTO.md` (cuidado con el correo: Microsoft 365 en quimiolab.com; cPanel en quimiolab.com.co).
+- El Archivo de Internet (429) y Common Crawl (504) no respondieron para el historial del Webflow; queda pendiente refinar.
+
 ## Decisiones tomadas
 - 2026-09-28: Astro + Firebase; catálogo sin pagos; sin CMS (Braindy publica); GA4/GTM + Meta + WhatsApp; código en Drive.
 - 2026-09-30: rutas: conservar `/producto/{slug}/`, posts a `/blog/`; plantillas directo en Astro (sin HTML aprobable). Plugin con backdoor desactivado. Medición: reutilizar GTM-PHGTFJG, la GA4 con historial (G-MXQPSS996H o G-HHFRJLTQWH) y el píxel 1194049767926479 del Webflow viejo.

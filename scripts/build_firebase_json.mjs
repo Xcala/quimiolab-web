@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const filas = readFileSync(join(raiz, 'redirects.csv'), 'utf8').replace(/^﻿/, '').split(/\r?\n/).slice(1).filter(Boolean).map((l) => l.split(',').map((s) => s.trim()));
 const redirects = filas.map(([source, destination, type]) => ({ source, destination, type: Number(type) || 301 }));
-// Dominio viejo (quimiolab.com) y variantes: una sola 301 a la ruta equivalente en www.quimiolab.com.co
+// Dominio principal: www.quimiolab.com. quimiolab.com, quimiolab.com.co y www.quimiolab.com.co se conectan en Firebase como dominios que redirigen (301) a él conservando la ruta.
 const hosting = {
   public: 'dist',
   cleanUrls: false,

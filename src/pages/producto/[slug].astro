@@ -6,7 +6,7 @@ import Imagen from '../../components/Imagen.astro';
 import TarjetaProducto from '../../components/TarjetaProducto.astro';
 import FormularioContacto from '../../components/FormularioContacto.astro';
 import LogoQLupa from '../../components/LogoQLupa.astro';
-import { catalogo, marcaPorSlug, lineaPorSlug, logoMarca, productosDeMarca, equiposDeMarca } from '../../lib/data';
+import { catalogo, marcaPorSlug, lineaPorSlug, logoMarca, productosDeMarca, equiposDeMarca, sitio } from '../../lib/data';
 import { migas, productoLd } from '../../lib/seo';
 export async function getStaticPaths() { return catalogo.map((p) => ({ params: { slug: p.slug }, props: { item: p } })); }
 const { item } = Astro.props;
@@ -36,7 +36,7 @@ const otrasImagenes = item.imagenes.slice(1, 5);
             {marca && <p class="marca-linea">Marca <a href={marca.url}><b>{marca.nombre}</b></a> · representada por Quimiolab en Colombia</p>}
             <div class="acciones">
               <a class="btn btn-primario" href="#cotizar"><Icon name="cotizar" size={18} /> Solicitar cotización</a>
-              <a class="btn btn-fantasma" href="https://wa.me/573000000000" rel="noopener"><Icon name="whatsapp" size={18} /> Preguntar por WhatsApp</a>
+              <a class="btn btn-fantasma" href={`https://wa.me/${sitio.whatsapp}?text=${encodeURIComponent(`Hola Quimiolab, quisiera información sobre ${item.nombre}`)}`} rel="noopener"><Icon name="whatsapp" size={18} /> Preguntar por WhatsApp</a>
             </div>
           </div>
           <div class="escena">

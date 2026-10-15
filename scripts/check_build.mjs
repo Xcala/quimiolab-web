@@ -19,13 +19,14 @@ for (const ruta of criticas) {
   const html = readFileSync(f, 'utf8');
   const h1 = (html.match(/<h1[\s>]/g) || []).length;
   if (h1 !== 1) errores.push(`${ruta}: ${h1} H1`);
-  if (!/<link rel="canonical" href="https:\/\/www\.quimiolab\.com\.co\//.test(html)) errores.push(`${ruta}: canonical ausente o incorrecto`);
+  if (!/<link rel="canonical" href="https:\/\/www\.quimiolab\.com\//.test(html)) errores.push(`${ruta}: canonical ausente o incorrecto`);
   if (!/<meta name="description" content="[^"]{20,}/.test(html)) errores.push(`${ruta}: meta descripción ausente`);
   const esNoindex = /name="robots" content="noindex/.test(html);
   if (noindex.includes(ruta) && !esNoindex) errores.push(`${ruta}: debería ser noindex`);
   if (!noindex.includes(ruta) && esNoindex && process.env.PUBLIC_NOINDEX !== '1') errores.push(`${ruta}: noindex en producción`);
   if (/quimiolab\.com\.co\/wp-content|uploads-ssl\.webflow\.com/.test(html)) aviso.push(`${ruta}: imágenes aún en el CDN viejo (Fase E pendiente)`);
-  if (/href="https?:\/\/(www\.)?quimiolab\.com\/[^"]/.test(html)) errores.push(`${ruta}: enlace al dominio viejo quimiolab.com`);
+  // el dominio principal es www.quimiolab.com: no deben quedar enlaces al .com.co (WordPress viejo) ni a sus archivos
+  if (/href="https?:\/\/(www\.)?quimiolab\.com\.co\/[^"]/.test(html)) errores.push(`${ruta}: enlace al dominio viejo quimiolab.com.co`);
 }
 
 // Todas las páginas: un H1 y sin enlaces internos rotos

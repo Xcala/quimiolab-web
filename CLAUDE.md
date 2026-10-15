@@ -3,10 +3,11 @@
 Lee esto antes de tocar nada. Es el contexto que antes vivía en Claude Cowork.
 
 ## Qué es
-Migración de www.quimiolab.com.co (WordPress) a un sitio estático en **Astro 7** desplegado en **Firebase Hosting** (proyecto `quimiolab-web`, cuenta nicolas@braindy.co). Cliente: Quimiolab (Bogotá, diagnóstico in vitro, empresa de SD Biosensor). Agencia: Braindy (Nicolas). Idioma del código, comentarios y commits: **español**.
+Migración de www.quimiolab.com.co (WordPress) y quimiolab.com (Webflow viejo) a un sitio estático en **Astro 7** desplegado en **Firebase Hosting** (proyecto `quimiolab-web`, cuenta nicolas@braindy.co). Cliente: Quimiolab (Bogotá, diagnóstico in vitro, empresa de SD Biosensor). Agencia: Braindy (Nicolas). Idioma del código, comentarios y commits: **español**.
 
 - Vista previa pública: https://quimiolab-web--vista-previa-9l92itmo.web.app (canal `vista-previa`, se renueva con `npm run deploy:preview`).
-- Producción: https://quimiolab-web.web.app (vacío hasta el lanzamiento; el dominio se conecta al final).
+- Producción: https://quimiolab-web.web.app (publicada el 2026-10-15). **Dominio principal: www.quimiolab.com**; quimiolab.com, quimiolab.com.co y www.quimiolab.com.co redirigen a él (redirección de dominio en Firebase). Conexión de dominios y DNS: `docs/LANZAMIENTO.md`.
+- Mapa de URLs antiguas: `docs/mapa-urls.csv`; verificar con `node scripts/verificar_urls.mjs lista.txt` (respeta el orden de Firebase: redirecciones antes que archivos — no uses comodines `/seccion/**` sobre secciones que existen: crean bucles).
 - Bitácora completa de decisiones: `WEB_SITIO_ASTRO.md` en la raíz (copiada del proyecto de Cowork). Léela cuando una decisión no sea obvia.
 
 ## Comandos
@@ -15,6 +16,7 @@ Migración de www.quimiolab.com.co (WordPress) a un sitio estático en **Astro 7
 - `npm run build` — build completo: `prebuild` baja el contenido publicado por el cliente (Firestore → `src/data/contenido.json`), `astro build`, aplica orden de secciones, Pagefind y `scripts/check_build.mjs` (H1 único, canonical, enlaces rotos, redirecciones). **Debe terminar en `check_build: OK`.**
 - `npm run deploy:preview` — build con `noindex` + `firebase.json` + deploy al canal de vista previa.
 - `npm run deploy` — producción (solo cuando Nicolas lo pida explícitamente).
+- `node scripts/importar_paginas_wp.mjs` — trae del WordPress los registros sanitarios INVIMA (QR) y /molbio/ con su URL exacta.
 - `npm run data` — regenera `src/data/*.json` desde `export/` (WordPress) y reaplica el mapa de imágenes.
 - `npm run images` — descarga imágenes del WP/Webflow a `public/media/` (ya hecho: 485/486).
 - Python no está instalado en el PC; usa Node para scripts nuevos.
@@ -40,7 +42,7 @@ Migración de www.quimiolab.com.co (WordPress) a un sitio estático en **Astro 7
 - Pie siempre abajo (`body` flex column + `main { flex: 1 0 auto }`). Toda navegación abre arriba.
 
 ## Editor in situ (el cliente edita sin código)
-Home, Nosotros y Contáctenos. Entrada con `?edit` → Google Sign-In → correos de `ADMINS` en `src/editor/config.ts` (misma lista en `firestore.rules`). Datos en Firestore `page_contents` (un documento por bloque + `layout__<página>`). Los visitantes reciben lo publicado por un script de 8 KB (REST + caché 10 min) y cada build lo hornea en el HTML.
+Home, Nosotros y Contáctenos. Entrada con `?edit` → enlace al correo (o Google) → correos de `ADMINS` en `src/editor/config.ts` (misma lista en `firestore.rules`). Datos en Firestore `page_contents` (un documento por bloque + `layout__<página>`). Los visitantes reciben lo publicado por un script de 8 KB (REST + caché 10 min) y cada build lo hornea en el HTML.
 - Marcar bloques: `<Ed id="pagina_seccion_elemento" as="h2">…</Ed>`, `<EdImg id=… src=… alt=… />`, `<EdLink id=… href=…><Ed id=…>texto</Ed></EdLink>`, secciones `data-ed-sec="clave" data-ed-label="Nombre"`, página `<Base editable="clave">`.
 - **Los ids nunca se renombran** (el cliente perdería ese contenido). El valor por defecto es siempre lo que está en el código.
 - Fondos, patrones y plantillas de secciones nuevas viven en `src/editor/secciones.mjs` (compartido con el build); el layout guarda `{ key, hidden?, bg?, patron?, tpl? }`. Nunca cambies los `id` de las plantillas ni sus nombres de campo (el cliente perdería esas secciones).
@@ -54,10 +56,10 @@ Home, Nosotros y Contáctenos. Entrada con `?edit` → Google Sign-In → correo
 - `firebase.json` se genera con `npm run firebase:json`; el rewrite a `/api/form` solo aparece cuando exista `functions/`.
 
 ## Pendientes principales
-1. Firebase del editor: verificar Auth Google + dominios autorizados en la consola y probar `/?edit` en la vista previa (app web y reglas ya listas).
-2. Fase F: Cloud Function `formulario` (honeypot, límite por IP, validación país/idioma, aviso a contactenos@) + Secret Manager. Hoy el formulario falla al enviar.
-3. Páginas faltantes: `/trabaja-con-nosotros/`, `/linea-de-transparencia/`, `/vinculacion/`, `/eventos/`, `/politica-de-datos/` (contenido en el consolidado del Webflow viejo).
-4. Datos de relleno a reemplazar con el cliente: WhatsApp `573000000000`, horario, sello ISO/ICONTEC, año de fundación (1996 vs 1992), logos de clientes para prueba social, PDF del catálogo 2026.
+1. Lanzamiento: Nicolas conecta los 4 dominios en Firebase y cambia DNS (GoDaddy para .com, ColombiaHosting para .com.co) según `docs/LANZAMIENTO.md`; luego verificar en vivo y Search Console (cambio de dirección .com.co → .com).
+2. Fase F: aviso por correo de cada solicitud a **milacontigo@quimiolab.com** (hoy se guardan en Firestore `solicitudes` y se ven en /admin/ → Solicitudes). Necesita credencial SMTP o de un servicio de envío.
+3. Registros sanitarios INVIMA nuevos (QR por serial): agregar al panel o importar con `scripts/importar_paginas_wp.mjs`.
+4. Datos a confirmar con el cliente: horario, sello ISO/ICONTEC (¿vigente?), año de fundación (1996 vs 1992), logos de clientes, PDF del catálogo 2026, textos de las páginas institucionales nuevas. WhatsApp ya es real (+57 321 482 4921 / +57 313 269 1485, en `sitio.json`).
 5. Medición: reutilizar GTM `GTM-PHGTFJG`, decidir GA4 (G-MXQPSS996H o G-HHFRJLTQWH), píxel Meta 1194049767926479; conseguir accesos.
 6. Una imagen fallida en `export/imagenes-fallidas.txt`.
 

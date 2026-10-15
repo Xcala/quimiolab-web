@@ -1,0 +1,23 @@
+---
+/** Línea de Transparencia e Integridad (canales del Webflow viejo, con los WhatsApp actuales). */
+import PaginaSimple from '../components/PaginaSimple.astro';
+import TarjetaCanal from '../components/TarjetaCanal.astro';
+import { sitio } from '../lib/data';
+const correo = 'lineadetransparencia@quimiolab.com';
+---
+<PaginaSimple titulo="Línea de Transparencia e Integridad" url="/linea-de-transparencia/" eyebrow="Cumplimiento" description="Canal de Quimiolab para reportar de forma confidencial situaciones contrarias a la ética, la ley o nuestras políticas." lead="Si conoces una situación contraria a la ética, a la ley o a nuestras políticas, cuéntanos. Tu reporte se trata de forma confidencial.">
+  <h2>Canales para reportar</h2>
+  <ul>
+    <li>Correo: <a href={`mailto:${correo}`}>{correo}</a></li>
+    <li>WhatsApp: <a href={`https://wa.me/${sitio.whatsapp}`} target="_blank" rel="noopener">{sitio.whatsapp_txt}</a> o <a href={`https://wa.me/${sitio.whatsapp_2}`} target="_blank" rel="noopener">{sitio.whatsapp_2_txt}</a></li>
+    <li>Teléfono: <a href={`tel:${sitio.pbx_tel}`}>{sitio.pbx}</a></li>
+  </ul>
+  <h2>Qué incluir en tu reporte</h2>
+  <p>Describe <strong>qué pasó, cuándo y quiénes están involucrados</strong>, y adjunta las evidencias que tengas. Puedes reportar de forma anónima.</p>
+  <p>Conoce cómo protegemos a quien reporta en nuestra <a href="/politica-de-denuncias-y-no-retaliacion/">política de denuncias y no retaliación</a>.</p>
+  <Fragment slot="lado">
+    <TarjetaCanal icono="correo" titulo="Correo confidencial" texto={correo} href={`mailto:${correo}`} />
+    <TarjetaCanal icono="whatsapp" titulo="WhatsApp" texto={sitio.whatsapp_txt} href={`https://wa.me/${sitio.whatsapp}`} externo />
+    <TarjetaCanal icono="telefono" titulo="PBX" texto={sitio.pbx} href={`tel:${sitio.pbx_tel}`} />
+  </Fragment>
+</PaginaSimple>

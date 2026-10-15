@@ -49,7 +49,7 @@ export const PAGINAS = [
 ];
 
 /** WhatsApp por defecto cuando el cliente elige ese destino (sin el +). */
-export const WHATSAPP = '573000000000';
+export const WHATSAPP = '573214824921'; // comercial (también +57 313 269 1485, en src/data/sitio.json)
 
 /** Tamaño máximo de las fotos subidas: se convierten a WebP y se reducen hasta caber. */
 export const FOTO_ANCHO_MAX = 1600;

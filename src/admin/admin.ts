@@ -209,6 +209,7 @@ function montar() {
   const cab = h('header', 'adm-cab');
   cab.innerHTML = `<a class="adm-logo" href="#/catalogo"><b>Quimiolab</b><span>Panel de contenido</span></a>`;
   const nav = h('nav', 'adm-nav'); nav.setAttribute('aria-label', 'Secciones'); nav.dataset.tour = 'pestanas';
+  const sol = h('a', 'adm-nav-sol', 'Solicitudes <i data-nuevas hidden></i>'); sol.setAttribute('href', '#/solicitudes'); sol.dataset.tipo = 'solicitudes'; nav.append(sol);
   (Object.values(TIPOS)).forEach((t) => { const a = h('a', '', t.nombre); a.setAttribute('href', `#/${t.id}`); a.dataset.tipo = t.id; nav.append(a); });
   const der = h('div', 'adm-der');
   const paginas = h('a', 'adm-btn adm-btn-claro', `${I.lapiz}<span>Editar páginas</span>`); paginas.setAttribute('href', '/?edit'); paginas.title = 'Inicio, Nosotros y Contáctenos se editan sobre la página'; paginas.dataset.tour = 'paginas';
@@ -229,6 +230,7 @@ function ruta() {
   if (salirConCambios && !salirConCambios()) return;
   salirConCambios = null;
   const [, t = 'catalogo', slug] = location.hash.split('/');
+  if (t === 'solicitudes') { raiz.querySelectorAll<HTMLAnchorElement>('.adm-nav a').forEach((a) => a.toggleAttribute('aria-current', a.dataset.tipo === 'solicitudes')); window.scrollTo(0, 0); solicitudes(slug ? decodeURIComponent(slug) : ''); return; }
   const tipo = (t in TIPOS ? t : 'catalogo') as TipoId;
   raiz.querySelectorAll<HTMLAnchorElement>('.adm-nav a').forEach((a) => a.toggleAttribute('aria-current', a.dataset.tipo === tipo));
   window.scrollTo(0, 0);
@@ -394,7 +396,7 @@ async function editar(t: TipoId, slugRuta: string) {
   const campoSlug = h('div', 'adm-campo');
   const slugIn = h('input') as HTMLInputElement; slugIn.id = 'f-slug'; slugIn.maxLength = 80; slugIn.value = slug;
   campoSlug.innerHTML = `<label for="f-slug">Dirección de la página</label>`;
-  const pre = h('div', 'adm-slug', `<span>quimiolab.com.co${esc(tipo.url('').replace(/\/$/, ''))}/</span>`); pre.append(slugIn, h('span', '', '/'));
+  const pre = h('div', 'adm-slug', `<span>quimiolab.com${esc(tipo.url('').replace(/\/$/, ''))}/</span>`); pre.append(slugIn, h('span', '', '/'));
   const slugAyuda = h('p', 'adm-ayuda');
   campoSlug.append(pre, slugAyuda); form.append(campoSlug); campoSlug.dataset.tour = 'direccion';
   const refrescarSlug = () => {
@@ -525,6 +527,64 @@ async function editar(t: TipoId, slugRuta: string) {
   pintarPrev();
   recorridoActual = () => { (esMovil() ? bPrev : prev).dataset.tour = 'vista'; abrirRecorrido('ficha', pasosFicha()); };
   if (tocaRecorrido('ficha')) setTimeout(recorridoActual, 700);
+}
+
+/* ---------- solicitudes del formulario de contacto ---------- */
+type Solicitud = { id: string; d: Record<string, Valor> };
+const TEMAS: Record<string, string> = { cotizacion: 'Cotización', demo: 'Demostración de equipo', soporte: 'Soporte técnico', capacitacion: 'Capacitación', catalogo: 'Catálogo PDF', disponibilidad: 'Disponibilidad', otro: 'Otro' };
+const ESTADOS: Record<string, string> = { nueva: 'Nueva', atendida: 'Atendida', spam: 'Spam' };
+const fechaSol = (s: Solicitud) => millis(s.d.creado) || Date.parse(s.d.creado) || 0;
+async function solicitudes(id: string) {
+  cuerpo.innerHTML = '<p class="adm-conteo">Cargando solicitudes…</p>';
+  let todas: Solicitud[] = [];
+  try { todas = (await alm.todos('solicitudes')).sort((a, b) => fechaSol(b) - fechaSol(a)); }
+  catch (e) { console.error(e); cuerpo.innerHTML = '<p class="adm-conteo">No se pudieron leer las solicitudes. Revisa tu conexión.</p>'; return; }
+  const nuevas = todas.filter((s) => (s.d.estado || 'nueva') === 'nueva').length;
+  const marca = raiz.querySelector<HTMLElement>('[data-nuevas]'); if (marca) { marca.hidden = !nuevas; marca.textContent = String(nuevas); }
+  if (id) return detalleSolicitud(todas.find((s) => s.id === id));
+  cuerpo.innerHTML = '';
+  const cab = h('div', 'adm-titulo', '<h1>Solicitudes</h1>');
+  const filtros = h('div', 'adm-filtros');
+  const estado = h('select', 'adm-select') as HTMLSelectElement; estado.setAttribute('aria-label', 'Estado');
+  [['nueva', 'Nuevas'], ['', 'Todas'], ['atendida', 'Atendidas'], ['spam', 'Spam']].forEach(([v, n]) => estado.append(new Option(n, v)));
+  filtros.append(estado);
+  const nota = h('p', 'adm-ayuda', 'Aquí llega todo lo que la gente envía desde los formularios del sitio (contacto y cotización). Ábrela para ver los datos y responder por correo o WhatsApp; luego márcala como atendida.');
+  const conteo = h('p', 'adm-conteo'); const ul = h('ul', 'adm-lista');
+  const pintar = () => {
+    const items = todas.filter((s) => !estado.value || (s.d.estado || 'nueva') === estado.value);
+    conteo.textContent = `${items.length} solicitud${items.length === 1 ? '' : 'es'}`;
+    ul.innerHTML = items.length ? '' : '<li class="adm-ayuda">No hay solicitudes en este estado.</li>';
+    for (const s of items) {
+      const li = h('li'); const a = h('a', 'adm-fila-item'); a.setAttribute('href', `#/solicitudes/${encodeURIComponent(s.id)}`);
+      const est = s.d.estado || 'nueva';
+      a.innerHTML = `<span class="adm-txt"><b>${esc(s.d.nombre)}${s.d.entidad ? ` · ${esc(s.d.entidad)}` : ''}</b><span>${esc(s.d.producto ? `Cotización: ${s.d.producto}` : TEMAS[s.d.tema] || s.d.tipo || 'Contacto')} · ${cuando(fechaSol(s))}</span></span><span class="adm-insignias"><i class="${est === 'nueva' ? 'i-borrador' : est === 'spam' ? 'i-oculto' : 'i-nuevo'}">${ESTADOS[est]}</i></span>`;
+      li.append(a); ul.append(li);
+    }
+  };
+  estado.addEventListener('input', pintar);
+  cuerpo.append(cab, nota, filtros, conteo, ul); pintar();
+}
+function detalleSolicitud(s?: Solicitud) {
+  cuerpo.innerHTML = '';
+  if (!s) { cuerpo.innerHTML = '<div class="adm-vacio"><h1>No encontramos esa solicitud</h1><p><a href="#/solicitudes">Volver a Solicitudes</a></p></div>'; return; }
+  const d = s.d;
+  const barra = h('div', 'adm-barra');
+  const volver = h('a', 'adm-btn adm-btn-ic', I.atras); volver.setAttribute('href', '#/solicitudes'); volver.setAttribute('aria-label', 'Volver a Solicitudes');
+  barra.append(volver, h('div', 'adm-barra-tit', `<span>Solicitud · ${cuando(fechaSol(s))}</span><b>${esc(d.nombre)}</b>`));
+  const tel = String(d.telefono || '').replace(/[^\d+]/g, ''); const wa = tel.replace(/^\+/, '').replace(/^(?!57)(3\d{9})$/, '57$1');
+  const asunto = encodeURIComponent(`Quimiolab · ${d.producto ? `Cotización ${d.producto}` : TEMAS[d.tema] || 'Tu solicitud'}`);
+  const acciones = h('div', 'adm-fila');
+  acciones.innerHTML = `<a class="adm-btn adm-btn-p" href="mailto:${esc(d.correo)}?subject=${asunto}">Responder por correo</a>${wa ? `<a class="adm-btn" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">WhatsApp</a><a class="adm-btn" href="tel:${esc(tel)}">Llamar</a>` : ''}`;
+  const marcar = (est: string, texto: string) => { const b = boton('adm-btn', texto); b.addEventListener('click', async () => { try { await alm.poner('solicitudes', s.id, { ...d, estado: est }); toast(`Marcada como ${ESTADOS[est].toLowerCase()}.`); location.hash = '#/solicitudes'; } catch (e) { console.error(e); toast('No se pudo actualizar.', true); } }); return b; };
+  const est = d.estado || 'nueva';
+  if (est !== 'atendida') acciones.append(marcar('atendida', 'Marcar como atendida'));
+  if (est !== 'spam') acciones.append(marcar('spam', 'Es spam'));
+  if (est !== 'nueva') acciones.append(marcar('nueva', 'Volver a nueva'));
+  const filas: [string, Valor][] = [['Estado', ESTADOS[est]], ['Tema', d.producto ? 'Cotización de producto' : TEMAS[d.tema] || d.tipo], ['Producto', d.producto], ['Nombre', d.nombre], ['Entidad', d.entidad], ['Correo', d.correo], ['Teléfono', d.telefono], ['País', d.pais], ['Ciudad', d.ciudad], ['Enviada desde', d.pagina], ['Fecha', cuando(fechaSol(s))]];
+  const tabla = h('dl', 'adm-sol'); for (const [k, v] of filas) if (v) tabla.insertAdjacentHTML('beforeend', `<dt>${k}</dt><dd>${esc(v)}</dd>`);
+  const msg = h('div', 'adm-sol-msg', `<b>Mensaje</b><p>${esc(d.mensaje).replace(/\n/g, '<br>')}</p>`);
+  const caja = h('div', 'adm-form'); caja.append(acciones, tabla, msg);
+  cuerpo.append(barra, caja);
 }
 
 /* ---------- campo: foto ---------- */

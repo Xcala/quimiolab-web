@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://www.quimiolab.com.co',
+  site: 'https://www.quimiolab.com',
   output: 'static',
   trailingSlash: 'always',
   build: { format: 'directory', inlineStylesheets: 'auto' },

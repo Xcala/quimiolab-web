@@ -199,7 +199,7 @@ const confianza = [
         <Ed id="home_contacto_lead" as="p" class="lead">Un asesor comercial y científico te responde <strong>en el mismo día hábil</strong>. Cotizaciones, <strong>demostraciones de equipos</strong>, soporte técnico y capacitación.</Ed>
         <ul class="canales">
           <li><a href={`tel:${sitio.pbx_tel}`}><Icon name="telefono" size={18} /> PBX {sitio.pbx}</a></li>
-          <li><EdLink id="home_contacto_whatsapp" href="https://wa.me/573000000000" rel="noopener"><Icon name="whatsapp" size={18} /> <Ed id="home_contacto_whatsapp">WhatsApp comercial</Ed></EdLink></li>
+          <li><EdLink id="home_contacto_whatsapp" href={`https://wa.me/${sitio.whatsapp}`} rel="noopener"><Icon name="whatsapp" size={18} /> <Ed id="home_contacto_whatsapp">WhatsApp comercial</Ed></EdLink></li>
           <li><a href={`mailto:${sitio.correo}`}><Icon name="correo" size={18} /> {sitio.correo}</a></li>
           <li><span><Icon name="ubicacion" size={18} /> {sitio.direccion}</span></li>
         </ul>

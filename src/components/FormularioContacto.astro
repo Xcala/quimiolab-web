@@ -1,16 +1,19 @@
 ---
 /**
- * Formulario de contacto / cotización. Envía a /api/form (Cloud Function `formulario`).
+ * Formulario de contacto / cotización. Guarda cada solicitud en Firestore (colección `solicitudes`, por la API REST,
+ * sin cargar Firebase); el equipo las ve en el panel /admin/ → Solicitudes. El aviso por correo llega con la Fase F.
  * Campos = los del formulario real de Fluent Forms (/contactenos/) + producto de interés opcional.
- * Honeypot `sitio_web` oculto; la Function además valida origen, país e idioma y limita por IP.
+ * Anti-spam: campo trampa `sitio_web`, tiempo mínimo de llenado y límites de tamaño en firestore.rules.
  */
 import Icon from './Icon.astro';
+import { sitio } from '../lib/data';
+import { firebaseConfig } from '../editor/config';
 interface Props { tipo?: 'contacto' | 'cotizacion'; producto?: string; titulo?: string; compacto?: boolean }
 const { tipo = 'contacto', producto, titulo = 'Solicita una cotización o asesoría', compacto = false } = Astro.props;
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || '/api/form';
+const endpoint = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/solicitudes?key=${firebaseConfig.apiKey}`;
 const id = `f-${tipo}-${Math.random().toString(36).slice(2, 7)}`;
 ---
-<form class:list={['formulario', { compacto }]} method="post" action={endpoint} data-formulario novalidate>
+<form class:list={['formulario', { compacto }]} method="post" action={endpoint} data-formulario data-correo={sitio.correo_formularios} data-tel={sitio.pbx} novalidate>
   <h3>{titulo}</h3>
   <input type="hidden" name="tipo" value={tipo} />
   {producto && <input type="hidden" name="producto" value={producto} />}
@@ -63,17 +66,28 @@ const id = `f-${tipo}-${Math.random().toString(36).slice(2, 7)}`;
       if (acepto && !acepto.checked) { bien = false; err.hidden = false; err.querySelector('span')!.textContent = 'Para enviar, acepta la política de tratamiento de datos.'; }
       return bien;
     };
+    const abierto = Date.now();
     form.addEventListener('submit', async (e) => {
       e.preventDefault(); err.hidden = true; ok.hidden = true;
       if (!validar()) { (form.querySelector('[aria-invalid=true]') as HTMLElement)?.focus(); return; }
+      const datos = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      const exito = () => { ok.hidden = false; form.reset(); };
+      // trampa para robots: campo oculto lleno o envío en menos de 3 s → se finge éxito y no se guarda
+      if (datos.sitio_web || Date.now() - abierto < 3000) { exito(); return; }
       boton.setAttribute('aria-busy', 'true');
       try {
-        const datos = Object.fromEntries(new FormData(form).entries());
-        const r = await fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...datos, pagina: location.pathname }) });
-        if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'No pudimos enviar tu solicitud.');
-        ok.hidden = false; form.reset(); (window as any).dataLayer?.push({ event: 'ql_form', tipo: datos.tipo });
+        const texto = (v: unknown, max: number) => ({ stringValue: String(v ?? '').trim().slice(0, max) });
+        const fields: Record<string, unknown> = {
+          tipo: texto(datos.tipo, 20), tema: texto(datos.tema || '', 40), producto: texto(datos.producto || '', 200),
+          nombre: texto(datos.nombre, 120), entidad: texto(datos.entidad, 160), correo: texto(datos.correo, 160), telefono: texto(datos.telefono, 40),
+          pais: texto(datos.pais, 60), ciudad: texto(datos.ciudad || '', 80), mensaje: texto(datos.mensaje, 4000),
+          pagina: texto(location.pathname, 300), acepto: { booleanValue: true }, estado: { stringValue: 'nueva' }, creado: { timestampValue: new Date().toISOString() },
+        };
+        const r = await fetch(form.action, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fields }) });
+        if (!r.ok) throw new Error('No pudimos enviar tu solicitud.');
+        exito(); (window as any).dataLayer?.push({ event: 'ql_form', tipo: datos.tipo, tema: datos.tema || '' });
       } catch (ex: any) {
-        err.hidden = false; err.querySelector('span')!.textContent = `${ex.message || 'No pudimos enviar tu solicitud.'} Escríbenos a contactenos@quimiolab.com o llama al (601) 805 4082.`;
+        err.hidden = false; err.querySelector('span')!.textContent = `${ex.message || 'No pudimos enviar tu solicitud.'} Escríbenos a ${form.dataset.correo} o llama al ${form.dataset.tel}.`;
       } finally { boton.removeAttribute('aria-busy'); }
     });
   });

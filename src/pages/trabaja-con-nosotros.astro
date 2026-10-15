@@ -1,0 +1,22 @@
+---
+/** Trabaja con nosotros (texto del Webflow viejo). La hoja de vida llega por correo al buzón de formularios. */
+import PaginaSimple from '../components/PaginaSimple.astro';
+import TarjetaCanal from '../components/TarjetaCanal.astro';
+import { sitio } from '../lib/data';
+const correo = `mailto:${sitio.correo_formularios}?subject=${encodeURIComponent('Hoja de vida – Trabaja con nosotros')}`;
+---
+<PaginaSimple titulo="Trabaja con nosotros" url="/trabaja-con-nosotros/" eyebrow="Talento" description="Únete al equipo de Quimiolab: asesoría comercial y científica, soporte técnico y operación en diagnóstico in vitro. Envíanos tu hoja de vida." lead="¡Siempre estamos buscando talento! Si te apasiona el diagnóstico in vitro y el servicio al laboratorio, queremos conocerte.">
+  <h2>Cómo postularte</h2>
+  <ol>
+    <li>Prepara tu <strong>hoja de vida en PDF</strong> (máximo 10 MB).</li>
+    <li>Envíala a <a href={correo}>{sitio.correo_formularios}</a> con el asunto <strong>«Hoja de vida»</strong> y el área que te interesa.</li>
+    <li>Incluye tu nombre completo, teléfono móvil y, si tienes, tu perfil de LinkedIn.</li>
+  </ol>
+  <p>Revisamos cada hoja de vida y te contactamos cuando haya una vacante acorde con tu perfil.</p>
+  <p><a class="btn btn-primario" href={correo}>Enviar mi hoja de vida</a></p>
+  <p class="muted">Al enviarnos tus datos aceptas su tratamiento según nuestra <a href="/politica-de-datos/">política de tratamiento de datos personales</a>.</p>
+  <Fragment slot="lado">
+    <TarjetaCanal icono="correo" titulo="Hojas de vida" texto={sitio.correo_formularios} href={correo} />
+    <TarjetaCanal icono="telefono" titulo="PBX" texto={sitio.pbx} href={`tel:${sitio.pbx_tel}`} />
+  </Fragment>
+</PaginaSimple>

@@ -1,0 +1,30 @@
+---
+/** Política de tratamiento de datos personales: el documento oficial vigente (PDF del WordPress, QGGES-25 v.03) + resumen y cookies. */
+import PaginaSimple from '../components/PaginaSimple.astro';
+import TarjetaCanal from '../components/TarjetaCanal.astro';
+import { sitio } from '../lib/data';
+const pdf = '/documentos/politica-de-tratamiento-de-datos-personales.pdf';
+---
+<PaginaSimple titulo="Política de tratamiento de datos personales" url="/politica-de-datos/" eyebrow="Cumplimiento" description="Política de tratamiento de datos personales de Quimiolab S.A.S. (Ley 1581 de 2012): responsable, derechos de los titulares, canales de atención y uso de cookies." lead="Quimiolab trata los datos personales de clientes, proveedores, colaboradores y visitantes conforme a la Ley 1581 de 2012 y a su política de tratamiento de datos personales.">
+  <h2>Responsable del tratamiento</h2>
+  <p><strong>{sitio.razon_social}</strong>, NIT {sitio.nit}, {sitio.direccion}. Correo para asuntos de datos personales: <a href={`mailto:${sitio.correo_datos}`}>{sitio.correo_datos}</a>. Teléfono: {sitio.pbx}.</p>
+  <h2>Tus derechos como titular</h2>
+  <p>De acuerdo con la Ley 1581 de 2012, puedes <strong>conocer, actualizar, rectificar y solicitar la supresión</strong> de tus datos personales, pedir prueba de la autorización otorgada, ser informado sobre el uso que se les da, revocar la autorización y presentar quejas ante la Superintendencia de Industria y Comercio. Para ejercerlos, escribe a <a href={`mailto:${sitio.correo_datos}`}>{sitio.correo_datos}</a>.</p>
+  <h2>Documento completo</h2>
+  <p>Las finalidades, los procedimientos para consultas y reclamos y demás condiciones están en la política oficial (documento QGGES-25, versión 03):</p>
+  <p><a class="btn btn-primario" href={pdf} target="_blank" rel="noopener">Ver la política completa (PDF)</a></p>
+  <object class="pdf" data={pdf} type="application/pdf" aria-label="Política de tratamiento de datos personales (PDF)"><p>Tu navegador no muestra el PDF aquí. <a href={pdf}>Descárgalo</a>.</p></object>
+  <h2 id="cookies">Cookies de este sitio</h2>
+  <p>Usamos <strong>cookies necesarias</strong> para que el sitio funcione. Las cookies de <strong>analítica</strong> (Google Analytics) y de <strong>marketing</strong> (Meta) solo se activan si las aceptas en el aviso de privacidad. Puedes cambiar tu elección cuando quieras en «Preferencias de cookies», al pie de cada página.</p>
+  <h2>Formularios</h2>
+  <p>Los datos que envías en los formularios de contacto y cotización se usan solo para responder tu solicitud y hacer seguimiento comercial, según la política anterior.</p>
+  <Fragment slot="lado">
+    <TarjetaCanal icono="correo" titulo="Datos personales" texto={sitio.correo_datos} href={`mailto:${sitio.correo_datos}`} />
+    <TarjetaCanal icono="descargar" titulo="Política completa" texto="PDF · QGGES-25 v.03" href={pdf} externo />
+    <TarjetaCanal icono="telefono" titulo="PBX" texto={sitio.pbx} href={`tel:${sitio.pbx_tel}`} />
+  </Fragment>
+</PaginaSimple>
+<style>
+  .pdf { display: block; width: 100%; height: 70vh; min-height: 28rem; margin-top: var(--s-4); border: 1px solid var(--linea); border-radius: var(--r-bento); background: var(--canvas-2); }
+  @media (max-width: 640px) { .pdf { display: none; } }
+</style>
