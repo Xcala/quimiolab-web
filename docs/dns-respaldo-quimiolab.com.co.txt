@@ -1,0 +1,30 @@
+Respaldo de la zona DNS de quimiolab.com.co en ColombiaHosting (cPanel, servidor atali), tomado el 2026-10-15 ANTES del cambio a Firebase Hosting.
+Nameservers: ns1-ns4.colombiahosting.com. Si algo falla, estos son los valores originales (TTL 3600 en todos).
+
+quimiolab.com.co.                    A      190.8.176.146          → cambia a 199.36.158.100 (Firebase)
+mail.quimiolab.com.co.               CNAME  quimiolab.com.co        → cambia a A 190.8.176.146 (el correo sigue en el servidor)
+www.quimiolab.com.co.                CNAME  quimiolab.com.co        → cambia a CNAME quimiolab-web.web.app (Firebase)
+ftp.quimiolab.com.co.                A      190.8.176.146
+quimiolab.com.co.                    TXT    v=spf1 +a +mx +ip4:190.8.176.146 +include:_spf.colhost.com +include:md02.com ~all   (aparece dos veces)
+quimiolab.com.co.                    MX 0   quimiolab.com.co        → cambia a mail.quimiolab.com.co
+default._domainkey.quimiolab.com.co. TXT    v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzXf7Is9fp+4eM0zNoCK1Y5douKUkEFzoKCCx26T8CnLYDBdz2vzVhZwpmDRdfT0ZQx0ppqSjE0/4susACzfctqzzirxy0lY6CrWwJEtanC9Kf/fZ0XG1/PGJLUQoyJtRPYWHeuPyZgwpiTqT8+TaxIO7OUAjzXEWJSD0qHiltk3vmsqzOfkKN691nwPbq0ER9oOCCRrc5Q4KioBTYp3/pZ/RoLGrfxHdeF228612xXfxdFILkdizmuvaOmS2pVMCmJO1xWdbl9B1PhvItsvM5qwWDuYtPQJ8+NIXbs0aVVqGLKKJKO2VobNiu3ZC4/y42WiHNXbZd5fgTcNi8EROaQIDAQAB;
+_cpanel-dcv-test-record.quimiolab.com.co. TXT _cpanel-dcv-test-record=TxtxW8byoO3DpkrvaF5PdOuC44NXruzh88mu0wC2cAPKZxFPs1nKfEKMQFK8MITv
+_carddav._tcp.quimiolab.com.co.      SRV    0 0 2079 quimiolab.com.co   → objetivo cambia a mail.quimiolab.com.co
+_carddav._tcp.quimiolab.com.co.      TXT    path=/
+webdisk.quimiolab.com.co.            A      190.8.176.146
+cpcalendars.quimiolab.com.co.        A      190.8.176.146
+webmail.quimiolab.com.co.            A      190.8.176.146
+cpanel.quimiolab.com.co.             A      190.8.176.146
+_caldavs._tcp.quimiolab.com.co.      SRV    0 0 2080 quimiolab.com.co   → objetivo cambia a mail.quimiolab.com.co
+_caldavs._tcp.quimiolab.com.co.      TXT    path=/
+cpcontacts.quimiolab.com.co.         A      190.8.176.146
+_autodiscover._tcp.quimiolab.com.co. SRV    0 0 443 cpanelemaildiscovery.cpanel.net
+autoconfig.quimiolab.com.co.         A      190.8.176.146
+_carddavs._tcp.quimiolab.com.co.     SRV    0 0 2080 quimiolab.com.co   → objetivo cambia a mail.quimiolab.com.co
+_carddavs._tcp.quimiolab.com.co.     TXT    path=/
+autodiscover.quimiolab.com.co.       A      190.8.176.146
+whm.quimiolab.com.co.                A      190.8.176.146
+_caldav._tcp.quimiolab.com.co.       SRV    0 0 2079 quimiolab.com.co   → objetivo cambia a mail.quimiolab.com.co
+_caldav._tcp.quimiolab.com.co.       TXT    path=/
+
+Agregado: quimiolab.com.co. TXT hosting-site=quimiolab-web (verificación Firebase)

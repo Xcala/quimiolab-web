@@ -34,7 +34,7 @@ Abre https://dcc.godaddy.com/control/portfolio → **quimiolab.com** → **DNS**
    - TXT `@` → `v=spf1 include:spf.protection.outlook.com -all` y `MS=ms66876403`
    - CNAME `autodiscover`, `selector1._domainkey`, `selector2._domainkey` y cualquier otro que mencione outlook / microsoft.
 
-## Paso 4 — DNS de quimiolab.com.co en ColombiaHosting (10 min)
+## Paso 4 — DNS de quimiolab.com.co en ColombiaHosting ✅ (hecho por Claude el 15-oct; respaldo en docs/dns-respaldo-quimiolab.com.co.txt; también se movieron los SRV de CalDAV/CardDAV a mail.quimiolab.com.co)
 cPanel de ColombiaHosting → **Zone Editor** → **quimiolab.com.co**.
 
 1. **Primero el correo de .com.co** (hoy depende de la IP del WordPress):
