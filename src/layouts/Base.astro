@@ -120,6 +120,16 @@ const bloques = [organizacion(), sitioWeb(), ...jsonld];
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',gtm);
       </script>
     )}
+    {/* GA4 directo (como en el Webflow viejo; el contenedor GTM solo trae Google Ads): respeta el Consent Mode de arriba */}
+    {!previsualizacion && sitio.ga4?.length > 0 && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${sitio.ga4[0]}`}></script>
+        <script is:inline define:vars={{ ga4: sitio.ga4 }}>
+          gtag('js', new Date());
+          ga4.forEach(function (id) { gtag('config', id); });
+        </script>
+      </>
+    )}
     {bloques.map((b) => <script type="application/ld+json" set:html={JSON.stringify(b)} />)}
   </head>
   <body class={claseBody}>

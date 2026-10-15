@@ -60,7 +60,7 @@ Home, Nosotros y Contáctenos. Entrada con `?edit` → enlace al correo (o Googl
 2. Fase F: aviso por correo de cada solicitud a **milacontigo@quimiolab.com** (hoy se guardan en Firestore `solicitudes` y se ven en /admin/ → Solicitudes). Necesita credencial SMTP o de un servicio de envío.
 3. Registros sanitarios INVIMA nuevos (QR por serial): agregar al panel o importar con `scripts/importar_paginas_wp.mjs`.
 4. Datos a confirmar con el cliente: horario, sello ISO/ICONTEC (¿vigente?), año de fundación (1996 vs 1992), logos de clientes, PDF del catálogo 2026, textos de las páginas institucionales nuevas. WhatsApp ya es real (+57 321 482 4921 / +57 313 269 1485, en `sitio.json`).
-5. Medición: reutilizar GTM `GTM-PHGTFJG`, decidir GA4 (G-MXQPSS996H o G-HHFRJLTQWH), píxel Meta 1194049767926479; conseguir accesos.
+5. Medición: GTM `GTM-PHGTFJG` (solo Google Ads AW-378194507) y GA4 `G-MXQPSS996H` (directo en Base.astro, la G-HHFRJLTQWH ya no existe: 404) activos desde 2026-10-15. Falta: acceso de nicolas@braindy.co a esa GA4, píxel Meta 1194049767926479.
 6. Una imagen fallida en `export/imagenes-fallidas.txt`.
 
 ## Cómo trabajar aquí

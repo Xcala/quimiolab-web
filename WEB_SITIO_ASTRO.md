@@ -219,3 +219,7 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 - ColombiaHosting (cPanel): apex A → 199.36.158.100, `www` CNAME → quimiolab-web.web.app, TXT hosting-site; correo .com.co intacto (`mail` A 190.8.176.146, MX y SRV a mail.quimiolab.com.co). Respaldo en `docs/dns-respaldo-quimiolab.com.co.txt`. El correo Outlook de quimiolab.com no se tocó (MX, SPF, autodiscover verificados).
 - robots.txt: un solo grupo con buscadores y rastreadores de IA (GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended…) que repite las exclusiones (/admin/, /buscar/, /sistema/, /api/).
 - `/llms.txt` ampliado y nuevo `/llms-full.txt` (cada equipo, producto y artículo con su resumen). Organization JSON-LD con descripción, SD Biosensor como matriz, contactPoint, sameAs y knowsAbout.
+
+### 2026-10-15 — Search Console y Analytics
+- Search Console (cuenta nicolas@braindy.co): propiedades de dominio `quimiolab.com` y `quimiolab.com.co` verificadas por TXT (GoDaddy y ColombiaHosting). Sitemap `https://www.quimiolab.com/sitemap-index.xml` enviado; `/sitemap.xml` y `/sitemap_index.xml` redirigen a él. Falta el cambio de dirección .com.co → .com cuando Firebase emita el certificado del .com.co.
+- Analytics: el contenedor GTM-PHGTFJG solo trae conversiones de Google Ads (AW-378194507), así que la GA4 no recibía nada. Se carga directo `G-MXQPSS996H` (la que tenía el Webflow; `G-HHFRJLTQWH` responde 404, ya no existe), bajo el mismo Consent Mode v2. Verificado: page_view llega a analytics.google.com/g/collect.
