@@ -400,6 +400,10 @@ p strong, li strong, .lead strong { font-weight: 700; color: var(--marca); }
 .miga a { color: var(--ink-2); }
 .miga a:hover { color: var(--action); }
 .miga [aria-current] { color: var(--ink); font-weight: 500; }
+/* miga sobre fondos oscuros (navy de marca) */
+.seccion-navy .miga, .seccion-navy .miga a { color: var(--navy-ink-2); }
+.seccion-navy .miga [aria-current] { color: #fff; }
+.seccion-navy .miga li + li::before { color: var(--navy-ink-2); opacity: .7; }
 .paginacion { display: flex; gap: var(--s-2); justify-content: center; align-items: center; margin-top: var(--s-7); flex-wrap: wrap; }
 .paginacion a, .paginacion span { min-width: 2.5rem; height: 2.5rem; display: inline-grid; place-items: center; border-radius: var(--r-md); border: 1px solid var(--linea); padding-inline: var(--s-3); font-weight: 500; color: var(--ink); }
 .paginacion a:hover { border-color: var(--action); color: var(--action); }

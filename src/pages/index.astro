@@ -304,7 +304,7 @@ const confianza = [
   .garantias .anios { background: var(--grad-navy); color: #fff; align-content: center; }
   .garantias .anios b { font-size: 2rem; letter-spacing: -.02em; color: #fff; line-height: 1; }
   .garantias .anios b small { color: var(--amarillo); font-size: 1.125rem; }
-  .garantias .anios span { color: var(--azul-200); }
+  .garantias li.anios > div > span { color: var(--azul-200); } /* más específica que la regla gris de las demás tarjetas */
   :global(:root[data-theme="dark"]) .garantias .ic { background: var(--card); }
   @media (max-width: 1100px) { .garantias { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 640px) { .garantias { grid-template-columns: 1fr 1fr; } .garantias li { padding: .75rem; } .garantias .ic { width: 2.125rem; height: 2.125rem; } }

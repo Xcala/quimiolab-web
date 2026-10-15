@@ -47,6 +47,8 @@ const intro = (linea.intro_html ?? '').split(/Marcas asociadas/i)[0].replace(/^\
   .portada .wrap { position: relative; }
   .portada .wrap { padding-block: var(--s-6) var(--s-8); }
   .portada :global(.miga), .portada :global(.miga a) { color: var(--azul-200); }
+  .portada :global(.miga [aria-current]) { color: #fff; }
+  .portada :global(.miga li + li::before) { color: var(--azul-200); opacity: .7; }
   .portada h1 { color: #fff; font-size: var(--t-4xl); }
   .portada .eyebrow { color: var(--brillante); }
   .portada h1::after { content: ""; display: block; width: 3.5rem; height: .3125rem; border-radius: 999px; background: var(--campana); margin-top: var(--s-4); }
