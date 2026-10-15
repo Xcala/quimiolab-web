@@ -710,6 +710,26 @@
         "source": "/etiqueta-producto/standard-e/",
         "destination": "/productos/",
         "type": 301
+      },
+      {
+        "source": "/category/uncategorized/",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/categoria-producto/sin-categorizar/",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/author/labquimi2025/",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/author/malory/",
+        "destination": "/blog/",
+        "type": 301
       }
     ],
     "rewrites": [],

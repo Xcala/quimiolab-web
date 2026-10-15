@@ -195,7 +195,7 @@ FIJAS = {
 }
 paginas = []
 for slug, pg in pages.items():
-    if slug in FIJAS or slug.startswith("registro-sanitario"):
+    if slug in FIJAS or slug in ("molbio",) or slug.startswith("registro-sanitario"):
         paginas.append({
             "slug": slug,
             "url": FIJAS.get(slug, f"/{slug}/"),
@@ -224,7 +224,9 @@ for c in e["pcats"]:
         add(f"/categoria-producto/{c['slug']}/", f"/soluciones/{c['slug']}/")
 for junk, dst in [("/sample-page/", "/"), ("/offerings/", "/"), ("/tienda/", "/productos/"),
                   ("/carrito/", "/productos/"), ("/finalizar-compra/", "/productos/"), ("/mi-cuenta/", "/contactenos/"),
-                  ("/home/", "/"), ("/blog/", "/blog/")]:
+                  ("/home/", "/"), ("/blog/", "/blog/"),
+                  ("/category/uncategorized/", "/blog/"), ("/categoria-producto/sin-categorizar/", "/productos/"),
+                  ("/author/labquimi2025/", "/blog/"), ("/author/malory/", "/blog/")]:
     add(junk, dst)
 for t in ("producto", "producto-sd", "equipo", "standard-f", "standard-q", "standard-m", "standard-e"):
     add(f"/etiqueta-producto/{t}/", "/productos/")
