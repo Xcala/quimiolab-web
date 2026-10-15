@@ -1,0 +1,26 @@
+Respaldo de la zona DNS de quimiolab.com en GoDaddy, tomado el 2026-10-15 ANTES del cambio a Firebase Hosting.
+Si algo falla, estos son los valores originales.
+
+A      @                      15.197.225.128                         (reenvío de GoDaddy → se reemplaza)
+A      @                      3.33.251.168                           (reenvío de GoDaddy → se reemplaza)
+A      www                    15.197.225.128                         (reenvío de GoDaddy → se reemplaza)
+A      www                    3.33.251.168                           (reenvío de GoDaddy → se reemplaza)
+NS     @                      ns01.domaincontrol.com.
+NS     @                      ns02.domaincontrol.com.
+SOA    @                      ns01.domaincontrol.com.
+CNAME  autodiscover           autodiscover.outlook.com.               (correo Microsoft 365 — NO TOCAR)
+CNAME  nexus                  cname.vercel-dns.com.                   (otro servicio en Vercel — NO TOCAR)
+CNAME  selector1._domainkey   selector1-quimiolab-com._domainkey.quimiolabcom.onmicrosoft.com.   (DKIM — NO TOCAR)
+CNAME  selector2._domainkey   selector2-quimiolab-com._domainkey.quimiolabcom.onmicrosoft.com.   (DKIM — NO TOCAR)
+MX     @                      quimiolab-com.mail.protection.outlook.com. (prioridad 0)   (correo — NO TOCAR)
+MX     send                   feedback-smtp.sa-east-1.amazonses.com. (prioridad 10)      (envíos Amazon SES — NO TOCAR)
+TXT    @                      MS=ms66876403                           (verificación Microsoft — NO TOCAR)
+TXT    @                      v=spf1 include:spf.protection.outlook.com -all   (SPF — NO TOCAR)
+TXT    resend._domainkey      p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtsSslhiA6eDRHVw8v2/qWnAajVV6xLcdRlC6ZyGyMldim3ipaI0QO8ZFaqCRHio2JysjK7M/FFXjXHHkFh9Aa0eVD4qiieLn+kcgxkSliE2DHbXIoxxsXPhL2b/SFkwf6wDPWxvxIVP0gUc60E7MepZoAy/BAQF/33Eh7CtkOoQIDAQAB   (Resend — NO TOCAR)
+TXT    send                   v=spf1 include:amazonses.com ~all       (NO TOCAR)
+
+Cambio aplicado:
+A      @      199.36.158.100              (Firebase Hosting)
+TXT    @      hosting-site=quimiolab-web  (verificación Firebase)
+CNAME  www    quimiolab-web.web.app       (Firebase Hosting)
+Reenvío del dominio (GoDaddy Forwarding) → eliminado

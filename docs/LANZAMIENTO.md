@@ -17,7 +17,7 @@
 - Hosting: agregados **www.quimiolab.com** (principal) y **quimiolab.com**, **quimiolab.com.co**, **www.quimiolab.com.co** (los tres redirigen a www.quimiolab.com). Estado: «Requiere configuración» hasta que cambien los DNS.
 - Authentication → Dominios autorizados: agregados **www.quimiolab.com** y **quimiolab.com**.
 
-## Paso 3 — DNS de quimiolab.com en GoDaddy (10 min)
+## Paso 3 — DNS de quimiolab.com en GoDaddy ✅ (hecho por Claude el 15-oct; respaldo de la zona anterior en docs/dns-respaldo-quimiolab.com.txt)
 Abre https://dcc.godaddy.com/control/portfolio → **quimiolab.com** → **DNS**.
 
 1. Pestaña **Reenvío** (Forwarding): **elimina** el reenvío del dominio hacia www.quimiolab.com.co.
