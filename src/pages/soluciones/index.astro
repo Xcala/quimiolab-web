@@ -4,7 +4,7 @@ import Miga from '../../components/Miga.astro';
 import Icon from '../../components/Icon.astro';
 import { lineas, productosDeLinea, equiposDeLinea } from '../../lib/data';
 import { migas } from '../../lib/seo';
-const imgs: Record<string, string> = { 'diagnostico': '/img/diagnostico.jpg', 'diagnostico-molecular': '/img/molecular.jpg', 'investigacion': '/img/investigacion.jpg', 'point-of-care': '/img/poc.jpg' };
+const imgs: Record<string, string> = { 'diagnostico': '/img/diagnostico.webp', 'diagnostico-molecular': '/img/molecular.webp', 'investigacion': '/img/investigacion.webp', 'point-of-care': '/img/poc.webp' };
 ---
 <Base title="Soluciones por línea" description="Diagnóstico, diagnóstico molecular, investigación y point of care: encuentra equipos, reactivos y marcas según tu área de trabajo." jsonld={[migas([{ nombre: 'Soluciones', url: '/soluciones/' }])]}>
   <section class="seccion"><div class="wrap">

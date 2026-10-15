@@ -12,10 +12,10 @@ import EdLink from '../components/EdLink.astro';
 import { sitio, lineas, marcas, productos, equipos, posts, marcaPorSlug, logoMarca } from '../lib/data';
 
 const hubs: Record<string, { titulo: string; texto: string; img: string; marcas: string[] }> = {
-  'diagnostico': { titulo: 'Autoinmunidad, alergias e infecciosas', texto: 'Kits de diagnóstico avanzado con <strong>inmunoensayo, inmunofluorescencia y quimioluminiscencia</strong>.', img: '/img/diagnostico.jpg', marcas: ['aesku', 'vircell', 'binding-site'] },
-  'diagnostico-molecular': { titulo: 'Genómica y resistencia antimicrobiana', texto: 'Identificación de <strong>mutaciones, perfiles genéticos y resistencia</strong> con precisión y rapidez.', img: '/img/molecular.jpg', marcas: ['elitechgroup', 'genolution', 'tianlong'] },
-  'investigacion': { titulo: 'PCR, secuenciación y clonación', texto: 'Insumos especializados para investigación en <strong>genética, oncología y enfermedades infecciosas</strong>.', img: '/img/investigacion.jpg', marcas: ['mp-biomedicals', 'abm', 'ningbo-hls-medical'] },
-  'point-of-care': { titulo: 'Resultados al lado del paciente', texto: 'Equipos automatizados para <strong>biomarcadores clave</strong> en urgencias, atención primaria y cuidados intensivos.', img: '/img/poc.jpg', marcas: ['sd-biosensor', 'thermo-fisher'] },
+  'diagnostico': { titulo: 'Autoinmunidad, alergias e infecciosas', texto: 'Kits de diagnóstico avanzado con <strong>inmunoensayo, inmunofluorescencia y quimioluminiscencia</strong>.', img: '/img/diagnostico.webp', marcas: ['aesku', 'vircell', 'binding-site'] },
+  'diagnostico-molecular': { titulo: 'Genómica y resistencia antimicrobiana', texto: 'Identificación de <strong>mutaciones, perfiles genéticos y resistencia</strong> con precisión y rapidez.', img: '/img/molecular.webp', marcas: ['elitechgroup', 'genolution', 'tianlong'] },
+  'investigacion': { titulo: 'PCR, secuenciación y clonación', texto: 'Insumos especializados para investigación en <strong>genética, oncología y enfermedades infecciosas</strong>.', img: '/img/investigacion.webp', marcas: ['mp-biomedicals', 'abm', 'ningbo-hls-medical'] },
+  'point-of-care': { titulo: 'Resultados al lado del paciente', texto: 'Equipos automatizados para <strong>biomarcadores clave</strong> en urgencias, atención primaria y cuidados intensivos.', img: '/img/poc.webp', marcas: ['sd-biosensor', 'thermo-fisher'] },
 };
 // Equipos protagonistas del home (packshot + marca + demo)
 const destacados = ['helios-convencional', 'optilite', 'virclia-lotus', 'elite-ingenius', 'f2400-analyzer', 'b·r·a·h·m·s-kryptor-compact-plus'];
@@ -46,7 +46,8 @@ const confianza = [
 <Base title="Quimiolab · Equipos y reactivos de diagnóstico con soporte científico en Colombia" description={sitio.descripcion} imagen="/og-quimiolab.jpg" gsap editable="home">
   <!-- 1. Hero: una promesa, el buscador como acción principal y el equipo protagonista -->
   <section class="hero" data-ed-sec="hero" data-ed-label="Portada">
-    <div class="fondo"><EdImg id="home_hero_fondo" src="/img/hero.jpg" alt="Científica trabajando en un laboratorio clínico" width="1920" height="1080" loading="eager" decoding="async" fetchpriority="low" data-ed-fondo /></div>
+    {/* el fondo va desenfocado al 50 %: con media resolución (sizes 50vw) se ve igual y pesa 11 KB en celular */}
+    <div class="fondo"><EdImg id="home_hero_fondo" src="/img/hero.jpg" srcset="/img/hero-640.webp 640w, /img/hero-960.webp 960w, /img/hero-1280.webp 1280w, /img/hero-1920.webp 1920w" sizes="50vw" alt="Científica trabajando en un laboratorio clínico" width="1920" height="1080" loading="eager" fetchpriority="high" data-ed-fondo /></div>
     <div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span><canvas class="red-hero" aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="endoso hero-endoso" aria-label="Una empresa de SD Biosensor"><small>Una empresa de</small><LogoSDBiosensor label="SD Biosensor" /></div>
@@ -67,13 +68,13 @@ const confianza = [
         <LogoQLupa class="qlupa-deco q-hero" />
         <span class="brillo"></span>
         {slides.map((sl, i) => (
-          <a class={`slide${i === 0 ? ' activa' : ''}`} href={sl.url} aria-label={`${sl.nombre}: ${sl.tagline}. Ver ficha`} data-slide={i} style={`--aliado:${sl.color};--i:${i}`} aria-hidden={i === 0 ? undefined : 'true'} tabindex={i === 0 ? undefined : -1}>
+          <a class={`slide${i === 0 ? ' activa' : ''}`} href={sl.url} data-slide={i} style={`--aliado:${sl.color};--i:${i}`} aria-hidden={i === 0 ? undefined : 'true'} tabindex={i === 0 ? undefined : -1}>
             <EdImg id={`home_slide_${sl.k}_foto`} class="equipo" src={sl.img} alt="" width={sl.w} height={sl.h} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
             <span class="placa placa-hero"><img src={sl.logo} alt={sl.marca} width="160" height="48" loading={i === 0 ? 'eager' : 'lazy'} /></span>
             <span class="glass ficha-mini"><b>{sl.nombre}</b><span>{sl.tagline}</span><i>Ver ficha <Icon name="flecha" size={14} /></i></span>
           </a>
         ))}
-        <div class="puntos" role="tablist" aria-label="Elegir equipo">
+        <div class="puntos" role="radiogroup" aria-label="Elegir equipo">
           {slides.map((sl, i) => <span class="punto" style={`--i:${i}`}><input type="radio" name="hero-slide" id={`hero-slide-${i}`} value={i} data-ir={i} aria-label={sl.nombre} /><label for={`hero-slide-${i}`}><span></span></label></span>)}
         </div>
       </div>
@@ -142,7 +143,7 @@ const confianza = [
   <section class="seccion seccion-navy" id="nosotros" data-ed-sec="nosotros" data-ed-label="Nosotros y testimonios">
     <span class="patron patron-red" style="--patron-op:.08;--patron-size:28rem"></span>
     <div class="wrap nosotros">
-      <div class="foto"><EdImg id="home_nosotros_foto" src="/img/nosotros.jpg" alt="Equipo Quimiolab reunido en círculo" width="900" height="900" loading="lazy" data-parallax /><div class="sello" data-gsap="pop"><Icon name="certificado" size={40} /><div><Ed id="home_nosotros_sello_titulo" as="b">Sistema de gestión certificado</Ed><Ed id="home_nosotros_sello_texto">ICONTEC · ISO 9001</Ed></div></div></div>
+      <div class="foto"><EdImg id="home_nosotros_foto" src="/img/nosotros.webp" alt="Equipo Quimiolab reunido en círculo" width="900" height="900" loading="lazy" data-parallax /><div class="sello" data-gsap="pop"><Icon name="certificado" size={40} /><div><Ed id="home_nosotros_sello_titulo" as="b">Sistema de gestión certificado</Ed><Ed id="home_nosotros_sello_texto">ICONTEC · ISO 9001</Ed></div></div></div>
       <div>
         <Ed id="home_nosotros_eyebrow" class="eyebrow">Nosotros</Ed>
         <Ed id="home_nosotros_titulo" as="h2" data-gsap="words">Un equipo humano confiable, desde Bogotá para toda Colombia</Ed>
@@ -191,7 +192,7 @@ const confianza = [
 
   <!-- 8. Contacto -->
   <section class="seccion contacto" id="contacto" data-ed-sec="contacto" data-ed-label="Contacto">
-    <div class="fondo"><EdImg id="home_contacto_fondo" src="/img/dna.jpg" alt="" width="1920" height="1080" loading="lazy" decoding="async" data-ed-fondo /></div><div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span>
+    <div class="fondo"><EdImg id="home_contacto_fondo" src="/img/dna.webp" alt="" width="1920" height="1080" loading="lazy" decoding="async" data-ed-fondo /></div><div class="scrim"></div><span class="orbe o1"></span><span class="orbe o2 orbe-sd"></span>
     <div class="wrap">
       <div>
         <Ed id="home_contacto_eyebrow" class="eyebrow">Contáctenos</Ed>
@@ -434,7 +435,7 @@ const confianza = [
     const ir = (n: number) => {
       i = (n + slides.length) % slides.length;
       slides.forEach((s, k) => { const on = k === i; s.classList.toggle('activa', on); s.toggleAttribute('aria-hidden', !on); s.tabIndex = on ? 0 : -1; });
-      puntos.forEach((p, k) => { p.checked = k === i; p.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+      puntos.forEach((p, k) => { p.checked = k === i; });
       escena.style.setProperty('--aliado', slides[i].style.getPropertyValue('--aliado'));
     };
     const play = () => { if (reduce) return; stop(); timer = window.setInterval(() => ir(i + 1), 5000); };

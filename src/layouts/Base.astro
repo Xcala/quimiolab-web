@@ -1,8 +1,9 @@
 ---
 /**
  * Layout base: <head> completo (title, meta, canonical, OG, JSON-LD), tema claro/oscuro sin parpadeo,
- * consentimiento (Consent Mode v2) y GTM solo en producción con permiso.
+ * consentimiento (Consent Mode v2) y GTM/GA4 diferidos, solo en producción.
  */
+import '../styles/fuentes.css';
 import '../styles/global.css';
 import '../styles/motion.css';
 import Header from '../components/Header.astro';
@@ -61,9 +62,11 @@ const bloques = [organizacion(), sitioWeb(), ...jsonld];
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title="Blog científico de Quimiolab" href="/blog/rss.xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" />
+    <!-- Fuentes propias (src/styles/fuentes.css): se precargan las del primer pantallazo -->
+    <link rel="preload" href="/fuentes/poppins-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fuentes/roboto.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- el contenido publicado por el cliente llega de Firestore (scripts/contenido.ts) -->
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
     <!-- Tema: se aplica antes de pintar para evitar el parpadeo -->
     <script is:inline>
       (function () {
@@ -115,20 +118,27 @@ const bloques = [organizacion(), sitioWeb(), ...jsonld];
         }
       } catch (e) {}
     </script>
-    {!previsualizacion && sitio.gtm && (
-      <script is:inline define:vars={{ gtm: sitio.gtm }}>
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',gtm);
+    {/* GTM (Google Ads) y GA4 directo (el contenedor no trae GA4). Los eventos se encolan ya en dataLayer,
+        pero los scripts de Google se piden tras la primera interacción o 3,5 s después de cargar,
+        para no competir con el primer pantallazo en celular. Respetan el Consent Mode de arriba. */}
+    {!previsualizacion && (sitio.gtm || sitio.ga4?.length > 0) && (
+      <script is:inline define:vars={{ gtm: sitio.gtm, ga4: sitio.ga4 || [] }}>
+        dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        gtag('js', new Date());
+        ga4.forEach(function (id) { gtag('config', id); });
+        (function () {
+          var listo = false, ev = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+          function cargar() {
+            if (listo) return; listo = true;
+            ev.forEach(function (e) { removeEventListener(e, cargar, { passive: true }); });
+            [gtm && 'https://www.googletagmanager.com/gtm.js?id=' + gtm, ga4[0] && 'https://www.googletagmanager.com/gtag/js?id=' + ga4[0]].forEach(function (u) {
+              if (!u) return; var j = document.createElement('script'); j.async = true; j.src = u; document.head.appendChild(j);
+            });
+          }
+          ev.forEach(function (e) { addEventListener(e, cargar, { once: true, passive: true }); });
+          addEventListener('load', function () { setTimeout(cargar, 3500); });
+        })();
       </script>
-    )}
-    {/* GA4 directo (como en el Webflow viejo; el contenedor GTM solo trae Google Ads): respeta el Consent Mode de arriba */}
-    {!previsualizacion && sitio.ga4?.length > 0 && (
-      <>
-        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${sitio.ga4[0]}`}></script>
-        <script is:inline define:vars={{ ga4: sitio.ga4 }}>
-          gtag('js', new Date());
-          ga4.forEach(function (id) { gtag('config', id); });
-        </script>
-      </>
     )}
     {bloques.map((b) => <script type="application/ld+json" set:html={JSON.stringify(b)} />)}
   </head>

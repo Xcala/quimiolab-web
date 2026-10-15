@@ -45,7 +45,7 @@ export function clasesSeccion(clases, s) {
 export const htmlPatron = (id) => (id && id !== 'ninguno' ? `<span class="patron patron-${id}" data-ed-patron></span>` : '');
 
 /* ---------- plantillas ---------- */
-const FOTO = '/img/investigacion.jpg';
+const FOTO = '/img/investigacion.webp';
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /**

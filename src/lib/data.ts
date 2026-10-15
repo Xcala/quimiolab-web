@@ -51,10 +51,10 @@ export const equiposDeLinea = (slug: string) => equipos.filter((p) => p.lineas.i
 export const marcasConCatalogo = marcas.filter((m) => m.n_productos + m.n_equipos > 0);
 export const logoMarca = (slug: string) => {
   const conLogo: Record<string, string> = {
-    'aesku': 'png', 'binding-site': 'png', 'diapro': 'png', 'vircell': 'png', 'gold-standard': 'png', 'stratec': 'svg',
-    'diasorin': 'svg', 'meridian-bioscience': 'svg', 'thermo-fisher': 'svg', 'fujirebio': 'png', 'elitechgroup': 'png',
-    'genmark': 'png', 'genolution': 'png', 'tianlong': 'png', 'mp-biomedicals': 'png', 'macherey-nagel': 'svg',
-    'abm': 'png', 'amplyus': 'svg', 'sd-biosensor': 'png', 'ningbo-hls-medical': 'png', 'college-of-american-pathologist': 'svg',
+    'aesku': 'webp', 'binding-site': 'webp', 'diapro': 'webp', 'vircell': 'webp', 'gold-standard': 'webp', 'stratec': 'svg',
+    'diasorin': 'svg', 'meridian-bioscience': 'svg', 'thermo-fisher': 'svg', 'fujirebio': 'webp', 'elitechgroup': 'webp',
+    'genmark': 'webp', 'genolution': 'webp', 'tianlong': 'webp', 'mp-biomedicals': 'webp', 'macherey-nagel': 'svg',
+    'abm': 'webp', 'amplyus': 'svg', 'sd-biosensor': 'webp', 'ningbo-hls-medical': 'webp', 'college-of-american-pathologist': 'svg',
   };
   return conLogo[slug] ? `/marcas/${slug}.${conLogo[slug]}` : null;
 };

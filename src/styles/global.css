@@ -15,6 +15,7 @@
   --sd-500: #004A98;     /* Azul SD (solo orbe de portada/cierre o SD como marca representada) */
   --navy-600: #003087;   /* Azul corporativo (manual) */
   --navy-500: #0B4AA8;
+  --azul-600: #0074A8;   /* Azul Quimiolab oscurecido: texto AA sobre blanco y tintes (5,2:1) */
   --azul-500: #0097D6;   /* Azul Quimiolab — el del logo */
   --azul-400: #26AEE6;
   --azul-300: #7FD4FF;
@@ -32,8 +33,8 @@
   --error-500: #C8312B; --error-100: #FDE3E1;
 
   /* Tipografía */
-  --f-display: Poppins, "Helvetica Neue", Arial, sans-serif;
-  --f-body: Roboto, "Helvetica Neue", Arial, sans-serif;
+  --f-display: Poppins, "Poppins Respaldo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: Roboto, "Roboto Respaldo", "Helvetica Neue", Arial, sans-serif;
   --t-xs: 0.75rem;   /* 12 */
   --t-sm: 0.875rem;  /* 14 */
   --t-md: 1rem;      /* 16 */
@@ -116,8 +117,8 @@
   --ink-2: var(--ink-500);          /* texto secundario */
   --ink-3: var(--ink-300);          /* texto terciario / placeholders */
   --marca: var(--navy-800);         /* titulares de marca sobre claro */
-  --action: var(--azul-500);        /* enlaces, acentos */
-  --action-hover: #0088C2;
+  --action: var(--azul-600);        /* enlaces, eyebrows, acentos (el 500 no llega a AA como texto) */
+  --action-hover: #005E89;
   --action-ink: var(--blanco);      /* texto sobre --action */
   --btn: var(--azul-500);
   --btn-ink: var(--blanco);

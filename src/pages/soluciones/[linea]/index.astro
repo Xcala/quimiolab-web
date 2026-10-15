@@ -11,7 +11,7 @@ const { linea } = Astro.props;
 const productos = productosDeLinea(linea.slug);
 const equipos = equiposDeLinea(linea.slug);
 const marcasLinea = marcas.filter((m) => m.lineas.includes(linea.slug));
-const imgs: Record<string, string> = { 'diagnostico': '/img/diagnostico.jpg', 'diagnostico-molecular': '/img/molecular.jpg', 'investigacion': '/img/investigacion.jpg', 'point-of-care': '/img/poc.jpg' };
+const imgs: Record<string, string> = { 'diagnostico': '/img/diagnostico.webp', 'diagnostico-molecular': '/img/molecular.webp', 'investigacion': '/img/investigacion.webp', 'point-of-care': '/img/poc.webp' };
 const patrones: Record<string, string> = { 'diagnostico': 'patron-microplaca', 'diagnostico-molecular': 'patron-adn', 'investigacion': 'patron-red', 'point-of-care': 'patron-cromatograma' };
 // Descripción de portada escrita a mano (la del CMS es un pegote de los kickers de la página vieja)
 const descripciones: Record<string, string> = {

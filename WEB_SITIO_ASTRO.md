@@ -223,3 +223,11 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 ### 2026-10-15 — Search Console y Analytics
 - Search Console (cuenta nicolas@braindy.co): propiedades de dominio `quimiolab.com` y `quimiolab.com.co` verificadas por TXT (GoDaddy y ColombiaHosting). Sitemap `https://www.quimiolab.com/sitemap-index.xml` enviado; `/sitemap.xml` y `/sitemap_index.xml` redirigen a él. Cambio de dirección quimiolab.com.co → quimiolab.com confirmado el 15-oct (validación 301 OK), tras emitir Firebase el certificado del .com.co.
 - Analytics: el contenedor GTM-PHGTFJG solo trae conversiones de Google Ads (AW-378194507), así que la GA4 no recibía nada. Se carga directo `G-MXQPSS996H` (la que tenía el Webflow; `G-HHFRJLTQWH` responde 404, ya no existe), bajo el mismo Consent Mode v2. Verificado: page_view llega a analytics.google.com/g/collect.
+
+### 2026-10-15 — Rendimiento en celular (PageSpeed)
+- Home móvil: rendimiento 65 → 91–93, accesibilidad 88 → 100 (LCP 7,8 s → ~2,8 s, FCP 3,2 s → 1,4 s, CLS 0). Ficha de producto 100, marca 99.
+- Fuentes autoalojadas en `public/fuentes/` (`src/styles/fuentes.css`, solo latin; Roboto variable en un archivo) con preload y respaldos de métricas ajustadas (sin salto al cambiar la fuente). Fuera Google Fonts.
+- Fondo del hero con `srcset` WebP 640–1920 y `sizes="50vw"` (va desenfocado al 50 %) y `fetchpriority="high"`; `EdImg` acepta srcset/sizes y los omite si el cliente cambió la foto.
+- GTM y GA4 se piden tras la primera interacción o 3,5 s después de `load` (los eventos se encolan antes).
+- Logos de aliados y fotos de líneas en WebP (`logoMarca` devuelve .webp; los PNG/JPG originales se conservan).
+- Accesibilidad: `--action` en claro pasa a `--azul-600` #0074A8 (texto AA; `--azul-500` sigue siendo el del logo para fondos/decoración); puntos del carrusel como `radiogroup` sin `aria-selected`; slides sin aria-label distinto al texto visible.
