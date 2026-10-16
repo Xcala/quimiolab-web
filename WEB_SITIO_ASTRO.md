@@ -231,3 +231,8 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 - GTM y GA4 se piden tras la primera interacción o 3,5 s después de `load` (los eventos se encolan antes).
 - Logos de aliados y fotos de líneas en WebP (`logoMarca` devuelve .webp; los PNG/JPG originales se conservan).
 - Accesibilidad: `--action` en claro pasa a `--azul-600` #0074A8 (texto AA; `--azul-500` sigue siendo el del logo para fondos/decoración); puntos del carrusel como `radiogroup` sin `aria-selected`; slides sin aria-label distinto al texto visible.
+
+### 2026-10-16 — Firma de correo y tarjeta virtual del equipo
+- `/admin/firmas/` y `/admin/tarjeta/` (noindex, también bloqueadas en robots): HTML autónomos de la skill `firma-y-tarjeta-virtual` con marca Quimiolab (logo navy/blanco, acento #0097D6, PBX, dirección, lema = tagline, vCard con razón social). Se regeneran con `node scripts/firmas_tarjeta.mjs`. Datos en el navegador de cada persona + copia `.quimiolab.json`; sin Firebase.
+- Botones **Firmas** y **Tarjeta virtual** en la cabecera del panel `/admin/`. Guía para el equipo: `docs/firmas-y-tarjeta.md`.
+- Pendiente con el cliente: aviso legal oficial (hoy uno genérico) y probar la firma pegada en Outlook de escritorio.

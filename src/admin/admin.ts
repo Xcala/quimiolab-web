@@ -213,10 +213,13 @@ function montar() {
   (Object.values(TIPOS)).forEach((t) => { const a = h('a', '', t.nombre); a.setAttribute('href', `#/${t.id}`); a.dataset.tipo = t.id; nav.append(a); });
   const der = h('div', 'adm-der');
   const paginas = h('a', 'adm-btn adm-btn-claro', `${I.lapiz}<span>Editar páginas</span>`); paginas.setAttribute('href', '/?edit'); paginas.title = 'Inicio, Nosotros y Contáctenos se editan sobre la página'; paginas.dataset.tour = 'paginas';
+  // firma de correo y tarjeta virtual del equipo (public/admin/firmas|tarjeta, generadas con scripts/firmas_tarjeta.mjs)
+  const firmas = h('a', 'adm-btn adm-btn-claro', '<span>Firmas</span>'); firmas.setAttribute('href', '/admin/firmas/'); firmas.title = 'Firma de correo del equipo';
+  const tarjeta = h('a', 'adm-btn adm-btn-claro', '<span>Tarjeta virtual</span>'); tarjeta.setAttribute('href', '/admin/tarjeta/'); tarjeta.title = 'Tarjeta de presentación con QR';
   const ayuda = boton('adm-btn adm-btn-claro adm-btn-ic', '<b>?</b>', 'Ver el recorrido de esta pantalla'); ayuda.addEventListener('click', () => recorridoActual?.());
   const quien = h('span', 'adm-quien', esc(usuario));
   const salir = boton('adm-btn adm-btn-claro', 'Salir'); salir.addEventListener('click', () => (window as any).__salirAdmin?.() ?? (location.href = '/'));
-  der.append(ayuda, paginas, quien, salir);
+  der.append(ayuda, paginas, firmas, tarjeta, quien, salir);
   cab.append(nav, der);
   const aviso = h('div', 'adm-aviso', '<b>Cómo se publica:</b> lo que publiques aquí queda guardado al instante y aparece en el sitio con la siguiente actualización (la hace Braindy; pronto será automática).');
   cuerpo = h('main', 'adm-cuerpo');
