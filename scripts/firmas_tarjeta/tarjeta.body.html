@@ -1,0 +1,208 @@
+<body>
+
+<header class="cab">
+  <span class="cab-patron"></span>
+  <div class="cab-in">
+    <img class="cab-logo" src="{{LOGO_BLANCO}}" alt="Quimiolab" width="158" height="26">
+    <div>
+      <p class="eyebrow">Activos digitales del equipo</p>
+      <h1>Tarjeta virtual</h1>
+      <p class="bajada">Elige a la persona, escoge un estilo y descarga. La tarjeta trae un <b>QR con el contacto</b>
+        listo para guardarlo en el celular.</p>
+    </div>
+    <a class="cab-otro" href="/admin/firmas/">Firma de correo →</a>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- ─────────────── pasos ─────────────── -->
+  <div class="izq">
+    <div class="modos">
+      <button class="modo on" type="button" data-modo="ajustes">Diseñar</button>
+      <button class="modo" type="button" data-modo="editor">Edición libre <small>· avanzado</small></button>
+    </div>
+
+    <div id="panel-ajustes">
+      <section class="panel">
+        <h2><span class="num">1</span> ¿Para quién es?</h2>
+        <p class="hint">Elige a la persona o agrégala. Sus datos se guardan en este computador.</p>
+        <div class="fila">
+          <select id="sel-miembro" aria-label="Persona"></select>
+          <button class="icono-btn" type="button" id="b-editar" title="Editar sus datos" aria-label="Editar sus datos">&#9998;</button>
+          <button class="icono-btn peligro" type="button" id="b-borrar" title="Eliminar" aria-label="Eliminar">&#128465;</button>
+        </div>
+        <div class="ficha" id="ficha"></div>
+        <button class="btn btn-lleno ancho" type="button" id="b-agregar">+ Agregar persona</button>
+      </section>
+
+      <section class="panel">
+        <h2><span class="num">2</span> Estilo</h2>
+        <p class="hint">Un clic y queda con el diseño de Quimiolab.</p>
+        <div class="estilos">
+          <button class="estilo" type="button" data-visual="marca"><span class="mini mini-marca"></span><b>Quimiolab 2026</b><small>Degradado, orbes y patrón</small></button>
+          <button class="estilo" type="button" data-visual="claro"><span class="mini mini-claro"></span><b>Claro</b><small>Fondo blanco con azul</small></button>
+          <button class="estilo" type="button" data-visual="clasico"><span class="mini mini-plano"></span><b>Plano</b><small>Un solo color</small></button>
+        </div>
+
+        <div id="caja-patron">
+          <p class="rotulo">Patrón de fondo</p>
+          <div class="patrones">{{PATRONES}}</div>
+        </div>
+        <div id="caja-color" style="display:none;">
+          <p class="rotulo">Color de fondo</p>
+          <div class="fila"><input type="color" id="c-principal" value="#001A4D" aria-label="Color de fondo"><span class="nota" id="c-hex" style="margin:0;">#001A4D</span></div>
+        </div>
+
+        <p class="rotulo">Color de acento</p>
+        <div class="acentos">{{ACENTOS}}</div>
+
+        <label class="check"><input type="checkbox" id="c-qlupa"> Q-lupa de fondo</label>
+        <label class="check"><input type="checkbox" id="c-endoso"> «Una empresa de SD Biosensor»</label>
+
+        <div class="marca-todo">
+          <p>¿Se movió algo? Deja todo como lo define la marca.</p>
+          <button class="btn chico" type="button" id="b-marca">Aplicar todo</button>
+        </div>
+      </section>
+
+      <details class="panel">
+        <summary><h2>Más ajustes</h2><small>Tamaños, nombre, logo y QR</small></summary>
+        <input type="checkbox" id="c-invertido" hidden>
+        <div class="ctrl">
+          <label>Estilo del nombre</label>
+          <select id="c-caso">
+            <option value="mayus">MAYÚSCULAS</option>
+            <option value="titulo">Estilo Título</option>
+            <option value="minus">minúsculas</option>
+            <option value="tal-cual">Como lo escribí</option>
+          </select>
+        </div>
+        <div class="ctrl">
+          <label>El QR contiene</label>
+          <select id="c-qr-tipo">
+            <option value="vcard">El contacto completo (recomendado)</option>
+            <option value="web">El sitio web</option>
+            <option value="correo">Su correo</option>
+          </select>
+        </div>
+        <div class="ctrl"><label>Tamaño de los textos <span class="val" id="v-fuente">1.00x</span></label>
+          <input type="range" id="c-fuente" min="0.80" max="1.30" step="0.01" value="1"></div>
+        <div class="ctrl"><label>Tamaño de la foto <span class="val" id="v-foto">100%</span></label>
+          <input type="range" id="c-foto" min="60" max="140" step="1" value="100"></div>
+        <div class="ctrl"><label>Tamaño del logo <span class="val" id="v-logo">100%</span></label>
+          <input type="range" id="c-logo" min="60" max="150" step="1" value="100"></div>
+        <div class="ctrl"><label>Tamaño del QR <span class="val" id="v-qr">100%</span></label>
+          <input type="range" id="c-qr" min="60" max="145" step="1" value="100"></div>
+        <div class="ctrl">
+          <label>Logo de la tarjeta</label>
+          <div class="fila" style="gap:10px;">
+            <img id="logo-mini" src="{{LOGO_COLOR}}" alt="" style="height:24px;width:auto;object-fit:contain;">
+            <input type="file" id="c-logo-archivo" accept="image/png,image/jpeg,image/svg+xml" style="font-size:12px;flex:1;">
+          </div>
+          <button class="btn chico" type="button" id="b-logo-reset" style="margin-top:8px;">Volver al logo de marca</button>
+          <p class="nota" id="aviso-logo" style="margin:8px 0 0;">Si subes uno propio, se usa en las dos variantes.</p>
+        </div>
+        <button class="btn ancho" type="button" id="b-reset" style="margin-top:14px;">Restablecer todo</button>
+      </details>
+    </div>
+
+    <!-- ── edición libre ── -->
+    <div class="panel" id="panel-editor" style="display:none;">
+      <h2>Capas</h2>
+      <p class="hint">La de arriba está al frente. Haz clic para seleccionar; el círculo la muestra u oculta.</p>
+      <ul id="lista-capas"></ul>
+      <p class="rotulo">Propiedades</p>
+      <div id="panel-props"></div>
+      <div class="aviso" style="margin-top:18px;">
+        <b>Atajos:</b> flechas para mover · Shift+flechas para mover rápido · Supr para borrar · Ctrl+D duplica ·
+        Ctrl+Z deshace · Shift al redimensionar mantiene la proporción · Alt al arrastrar ignora las guías.
+      </div>
+    </div>
+
+    <!-- ── guardado ── -->
+    <section class="panel" id="panel-guardado">
+      <h2>Tu trabajo</h2>
+      <div id="g-estado" class="estado-guardado">Guardado en este navegador</div>
+      <details style="margin-top:10px;">
+        <summary class="btn-enlace" style="cursor:pointer;font-weight:700;color:var(--azul-600);">Guardar una copia o abrirla en otro computador</summary>
+        <div class="ctrl">
+          <label style="display:block;">¿Dónde guardo los cambios?</label>
+          <select id="g-destino">
+            <option value="ambos">En el navegador y en un archivo (recomendado)</option>
+            <option value="navegador">Solo en este navegador</option>
+            <option value="archivo">Solo en un archivo del computador</option>
+          </select>
+        </div>
+        <div id="caja-archivo">
+          <div class="botonera">
+            <button class="btn" type="button" id="g-vincular">Elegir archivo en el computador</button>
+            <button class="btn" type="button" id="g-desvincular" style="flex:0 0 auto;">Soltar</button>
+          </div>
+        </div>
+        <div class="botonera">
+          <button class="btn" type="button" id="g-descargar">Descargar copia</button>
+          <label class="rotulo-archivo" for="g-abrir">Abrir una copia</label>
+          <input type="file" id="g-abrir" accept=".json,application/json" class="archivo-oculto">
+        </div>
+        <p class="nota" style="margin:12px 0 0;">El archivo <b>.quimiolab.json</b> lleva todo: el equipo, las fotos y el diseño.</p>
+      </details>
+    </section>
+  </div>
+
+  <!-- ─────────────── vista previa ─────────────── -->
+  <div class="der">
+    <div class="vista-cab">
+      <div class="tabs">
+        <button class="tab on" type="button" data-estilo="foto">Con foto</button>
+        <button class="tab" type="button" data-estilo="sinfoto">Sin foto</button>
+      </div>
+      <span class="chip" id="chip-estilo">ESTILO QUIMIOLAB 2026</span>
+    </div>
+
+    <div class="barra" id="barra-editor" style="display:none;">
+      <span class="etiqueta">AGREGAR</span>
+      <button class="btn chico" type="button" data-agregar="texto">Texto</button>
+      <button class="btn chico" type="button" data-agregar="rect">Rectángulo</button>
+      <button class="btn chico" type="button" data-agregar="elipse">Círculo</button>
+      <button class="btn chico" type="button" data-agregar="linea">Línea</button>
+      <button class="btn chico" type="button" data-agregar="imagen">Imagen</button>
+      <span class="sep"></span>
+      <button class="btn chico" type="button" id="b-deshacer" title="Ctrl+Z">&#8630; Deshacer</button>
+      <button class="btn chico" type="button" id="b-rehacer" title="Ctrl+Y">&#8631; Rehacer</button>
+      <span class="sep"></span>
+      <button class="btn chico peligro" type="button" id="b-plantilla">Volver a la plantilla</button>
+    </div>
+
+    <div class="lienzo-caja">
+      <span id="rotulo-preview" hidden></span>
+      <div class="aviso editado" id="aviso-editado">
+        <b>Diseño personalizado.</b>&nbsp;Ya no coincide con la plantilla. «Volver a la plantilla» lo devuelve al original.
+      </div>
+      <div class="escenario"><canvas id="lienzo" width="620" height="1150"></canvas></div>
+      <div class="descargas">
+        <button class="btn btn-lleno grande" type="button" id="b-png">Descargar imagen (PNG)</button>
+        <button class="btn" type="button" id="b-vcf">Descargar contacto (.vcf)</button>
+        <button class="btn btn-enlace" type="button" id="b-probar">¿Qué lee el QR?</button>
+        <p class="nota">La imagen sale a 2480 px de ancho: sirve para WhatsApp, redes e impresión.</p>
+        <div id="salida-prueba"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" class="dlg">
+    <h3 id="dlg-titulo">Nueva persona</h3>
+    <div class="campo"><label for="d-nombre">Nombre completo</label><input type="text" id="d-nombre" required></div>
+    <div class="campo"><label for="d-cargo">Cargo</label><input type="text" id="d-cargo"></div>
+    <div class="campo"><label for="d-correo">Correo</label><input type="text" id="d-correo"></div>
+    <div class="campo"><label for="d-cel">Celular</label><input type="text" id="d-cel"></div>
+    <div class="campo"><label for="d-ciudad">Ciudad</label><input type="text" id="d-ciudad" value="Bogotá"></div>
+    <div class="campo"><label for="d-foto">Foto (cuadrada, de frente)</label><input type="file" id="d-foto" accept="image/*" style="font-size:12.5px;"></div>
+    <div class="pie">
+      <button class="btn" type="button" id="d-cancelar">Cancelar</button>
+      <button class="btn btn-lleno" type="button" id="d-guardar">Guardar</button>
+    </div>
+  </form>
+</dialog>
+

@@ -12,7 +12,7 @@ También se abren desde el panel `/admin/` (botones **Firmas** y **Tarjeta virtu
 
 1. Abre la página de firmas y escribe **nombre, cargo, celular y correo**. PBX, dirección, web, frase y aviso ya vienen con los datos de Quimiolab.
 2. Escribe tu **extensión** si la tienes (se suma al PBX). Lo que dejes vacío no aparece en la firma.
-3. Elige el diseño: **Institucional** (sirve para todos), **Con foto y QR** (comerciales) o **Compacta**.
+3. Elige el diseño: **Institucional** (sirve para todos), **Con foto y QR** (comerciales) o **Compacta**. La **banda Quimiolab** (degradado navy, patrón y «Una empresa de SD Biosensor») ya viene puesta; puedes cambiar el patrón, el color de acento o ponerla arriba. **Aplicar todo** deja los tres diseños como define la marca.
 4. Presiona **Copiar firma** y pégala con `Ctrl + V`:
    - **Outlook de escritorio:** Archivo → Opciones → Correo → Firmas → Nueva → pegar en el recuadro → elegir como predeterminada.
    - **Outlook web:** engranaje → Correo → Redactar y responder → Firma → pegar → Guardar.
@@ -22,10 +22,10 @@ En el celular las apps solo aceptan texto: deja ahí una firma corta escrita a m
 
 ## Tarjeta virtual
 
-1. En **Miembros de equipo**, presiona **+ Agregar** y llena nombre, cargo, correo y celular. Sube la foto si vas a usar la versión **con foto**.
-2. Ajusta lo necesario (tamaño de foto, logo, QR). **El QR contiene** el contacto completo (vCard) por defecto: al escanearlo, el celular ofrece guardar el contacto.
-3. **Descargar PNG** para compartir por WhatsApp o redes; **Descargar vCard (.vcf)** para enviar el contacto. **Probar QR** muestra lo que lee el código.
-4. **Editor libre** permite mover y cambiar cualquier elemento; **Volver a la plantilla** deshace todo.
+1. En **¿Para quién es?**, presiona **+ Agregar persona** y llena nombre, cargo, correo y celular. Sube la foto si vas a usar la versión **con foto**.
+2. Elige el **estilo**: Quimiolab 2026 (degradado, orbes y patrón), Claro o Plano; luego el patrón y el color de acento. **Aplicar todo** vuelve al estilo de marca. Tamaños, logo y contenido del QR están en **Más ajustes**. **El QR contiene** el contacto completo (vCard) por defecto: al escanearlo, el celular ofrece guardar el contacto.
+3. **Descargar imagen (PNG)** para WhatsApp o redes; **Descargar contacto (.vcf)** para enviar el contacto. **¿Qué lee el QR?** muestra lo que contiene el código.
+4. **Edición libre** (avanzado) permite mover y cambiar cualquier elemento; **Volver a la plantilla** deshace todo.
 
 ## Guardar el trabajo
 

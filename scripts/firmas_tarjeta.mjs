@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { homedir } from 'node:os';
 import vm from 'node:vm';
 import sharp from 'sharp';
+import { marcaFirma, marcaTarjeta } from './firmas_tarjeta/marca.mjs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const origen = join(homedir(), '.claude/skills/firma-y-tarjeta-virtual/assets/originales-html');
@@ -70,7 +71,7 @@ const cambiarImagen = (s, marcador, nueva) => {
 };
 const imagenTras = (s, marcador) => { const ini = s.indexOf('data:image/png;base64,', s.indexOf(marcador)); return s.slice(ini, s.indexOf('"', ini)); };
 const comunes = (s) => {
-  for (const [de, a] of [['"ga_firmas_archivo', '"ql_firmas_archivo'], ['"ga_tarjeta_archivo', '"ql_tarjeta_archivo'], ['.ga.json', '.quimiolab.json'], ['#01236B', NAVY], ['#01236b', NAVY], ['#FF8811', ACENTO], ['#e87a08', ACENTO_HOVER]]) s = s.split(de).join(a);
+  for (const [de, a] of [['"ga_firmas_archivo', '"ql_firmas_archivo'], ['"ga_tarjeta_archivo', '"ql_tarjeta_archivo'], ['.ga.json', '.quimiolab.json'], ['PoppinsGA', 'PoppinsQL'], ['#01236B', NAVY], ['#01236b', NAVY], ['#FF8811', ACENTO], ['#e87a08', ACENTO_HOVER]]) s = s.split(de).join(a);
   s = s.split('del Grupo Alternativas').join('de Quimiolab').split('Grupo Alternativas').join('Quimiolab');
   s = s.split('nombre@grupoalternativas.com').join('nombre@quimiolab.com').split('https://grupoalternativas.com').join(WEB_URL).split('grupoalternativas.com').join(WEB);
   // la página es una herramienta interna: que no la indexen
@@ -109,6 +110,11 @@ t = cambiar(t, '"ORG:Grupo Alternativas"', `"ORG:${sitio.razon_social}"`);
 t = cambiar(t, '"TEL;TYPE=WORK:+57 601 746 0503"', `"TEL;TYPE=WORK:${PBX_VCARD}"`);
 t = cambiar(t, '"ADR;TYPE=WORK:;;Calle 79 B N° 8 - 21;"', '"ADR;TYPE=WORK:;;Calle 77 # 28B-13 Santa Sofía;"');
 t = comunes(t);
+
+/* ── sistema visual de quimiolab.com y panel por pasos (scripts/firmas_tarjeta/) ── */
+const logoBlanco600 = await logo('#FFFFFF', 600);
+f = marcaFirma(f, { logoBlanco: logoBlanco600, logoColor: logoColor600, foto: imagenTras(f, '  foto: "') });
+t = marcaTarjeta(t, { logoBlanco: logoBlanco600, logoColor: logoColor600 });
 
 for (const [carpeta, html] of [['firmas', f], ['tarjeta', t]]) {
   if (/grupo ?alternativas/i.test(html)) throw new Error(`Quedó texto de Grupo Alternativas en ${carpeta}`);

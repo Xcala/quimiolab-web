@@ -1,0 +1,53 @@
+/* Firma de correo: pasos a la izquierda, vista previa fija a la derecha */
+.layout{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:24px;max-width:1420px;margin:0 auto;padding:24px 20px 70px;align-items:start;}
+@media(max-width:1000px){.layout{grid-template-columns:1fr;}}
+.layout>*{min-width:0;}
+.der{position:sticky;top:16px;}
+@media(max-width:1000px){.der{position:static;}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.grid2 .todo{grid-column:1/-1;}
+@media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+details.sub{border-top:1px solid var(--linea);margin-top:16px;padding-top:12px;}
+details.sub>summary{cursor:pointer;font-weight:700;color:var(--azul-600);font-size:14px;list-style:none;}
+details.sub>summary::-webkit-details-marker{display:none;}
+details.sub>summary::before{content:"+ ";}
+details.sub[open]>summary::before{content:"– ";}
+details.sub>summary small{color:var(--ink-2);font-weight:400;}
+details.sub[open]>summary{margin-bottom:12px;}
+.foto-row{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap;}
+.foto-row img{width:52px;height:52px;object-fit:cover;border:1px solid var(--linea);border-radius:50%;background:#fff;}
+.foto-row label{margin-bottom:4px;}
+.estilo .mini{height:48px;background:#fff;border:1px solid var(--linea);}
+.mini-logo::before,.mini-foto::before,.mini-apilada::before{content:"";position:absolute;background:var(--navy);border-radius:3px;}
+.mini-logo::before{left:8px;top:16px;width:26px;height:8px;}
+.mini-logo::after,.mini-foto::after{content:"";position:absolute;left:42px;top:10px;width:3px;height:28px;background:var(--azul);}
+.mini-foto::before{left:9px;top:9px;width:26px;height:26px;border-radius:50%;background:var(--nube);}
+.mini-apilada::before{left:8px;top:8px;width:30px;height:7px;}
+.mini-apilada::after{content:"";position:absolute;left:8px;top:20px;width:60%;height:3px;background:var(--azul);}
+.segmento{display:flex;gap:4px;background:var(--canvas);border:1px solid var(--linea);border-radius:999px;padding:4px;}
+.segmento button{flex:1;padding:8px 10px;border:0;border-radius:999px;background:transparent;cursor:pointer;font-size:13px;font-weight:700;color:var(--ink-2);}
+.segmento button.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,26,77,.12);}
+#caja-banda{margin-top:10px;padding:12px 14px;background:var(--canvas);border-radius:14px;}
+#caja-banda .rotulo{margin-top:12px;}
+.lienzo-caja{background:#fff;border:1px solid var(--linea);border-radius:20px;padding:18px;margin-bottom:16px;}
+.vista-cab{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;}
+.vista-cab strong{font-family:var(--f-display);color:var(--navy);}
+.preview{border:1px solid var(--linea);border-radius:14px;padding:26px;background:#fff;overflow-x:auto;
+  box-shadow:inset 0 0 0 6px var(--canvas);}
+.descargas{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px;}
+#codigo{display:none;max-height:280px;}
+ul.piezas{list-style:none;margin:0;padding:0;border:1px solid var(--linea);border-radius:11px;}
+.pieza{display:flex;align-items:center;gap:6px;padding:7px 9px;border-bottom:1px solid var(--linea);font-size:13px;}
+.pieza:last-child{border-bottom:0;}
+.pieza.apagada{color:#9AA5B8;}
+.pieza .nom{flex:1;}
+.pieza .mini{width:24px;height:24px;border:1px solid var(--linea);background:#fff;border-radius:7px;cursor:pointer;font-size:9px;line-height:1;color:var(--ink-2);padding:0;display:inline-block;}
+.pieza .mini:hover{background:var(--hielo);}
+.pieza .ver{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--ink-2);margin:0;cursor:pointer;}
+.tabs{display:flex;gap:6px;margin:6px 0 12px;flex-wrap:wrap;}
+.tab{padding:8px 14px;border:1px solid var(--linea);border-radius:999px;font-size:13px;cursor:pointer;background:#fff;color:var(--ink-2);font-weight:700;}
+.tab.on{background:var(--grad-navy);color:#fff;border-color:var(--navy);}
+.paso{display:none;}
+.paso.on{display:block;}
+ol{padding-left:20px;margin:6px 0 0;}
+ol li{font-size:14px;line-height:1.8;}

@@ -1,0 +1,216 @@
+<body>
+
+<header class="cab">
+  <span class="cab-patron"></span>
+  <div class="cab-in">
+    <img class="cab-logo" src="{{LOGO_BLANCO}}" alt="Quimiolab" width="158" height="26">
+    <div>
+      <p class="eyebrow">Activos digitales del equipo</p>
+      <h1>Firma de correo</h1>
+      <p class="bajada">Escribe tus datos, elige un diseño y presiona <b>Copiar firma</b>. Luego pégala en Outlook o Gmail:
+        no hay que descargar nada.</p>
+    </div>
+    <a class="cab-otro" href="/admin/tarjeta/">Tarjeta virtual →</a>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- ─────────────── pasos ─────────────── -->
+  <div class="izq">
+    <section class="panel">
+      <h2><span class="num">1</span> Tus datos</h2>
+      <p class="hint">Los datos de la empresa ya vienen listos; llena los tuyos. Lo que dejes vacío no aparece.</p>
+      <div class="grid2">
+        <div class="todo"><label for="f-nombre">Nombre completo</label><input type="text" id="f-nombre"></div>
+        <div class="todo"><label for="f-cargo">Cargo</label><input type="text" id="f-cargo"></div>
+        <div><label for="f-cel">Celular</label><input type="text" id="f-cel"></div>
+        <div><label for="f-ext">Extensión</label><input type="text" id="f-ext" placeholder="Ej.: 105"></div>
+        <div class="todo"><label for="f-correo">Correo</label><input type="text" id="f-correo"></div>
+      </div>
+      <div class="foto-row" id="fila-foto">
+        <img id="foto-mini" src="{{FOTO}}" alt="">
+        <div style="flex:1;min-width:180px;">
+          <label for="f-foto">Tu foto <span class="nota">(para el diseño «Con foto»)</span></label>
+          <input type="file" id="f-foto" accept="image/*" style="font-size:13px;">
+        </div>
+        <button class="btn chico" type="button" id="quitar-foto">Quitar</button>
+      </div>
+
+      <details class="sub">
+        <summary>Datos de la empresa <small>· PBX, dirección, web, frase y aviso</small></summary>
+        <div class="grid2">
+          <div><label for="f-empresa">Empresa</label><input type="text" id="f-empresa"></div>
+          <div><label for="f-pbx">PBX</label><input type="text" id="f-pbx"></div>
+          <div class="todo"><label for="f-direccion">Dirección</label><input type="text" id="f-direccion"></div>
+          <div><label for="f-web">Sitio web (texto)</label><input type="text" id="f-web"></div>
+          <div><label for="f-webUrl">Sitio web (enlace)</label><input type="text" id="f-webUrl"></div>
+          <div class="todo"><label for="f-lema">Frase de marca</label><input type="text" id="f-lema"></div>
+          <div class="todo"><label for="f-aviso">Aviso legal <span class="nota">(se activa en «Más ajustes»)</span></label><input type="text" id="f-aviso"></div>
+          <div class="todo"><label for="f-qr">A dónde lleva el código QR</label><input type="text" id="f-qr"></div>
+        </div>
+        <div class="foto-row">
+          <img id="logo-mini" src="{{LOGO_COLOR}}" alt="" style="width:auto;height:30px;border-radius:6px;object-fit:contain;padding:5px 8px;">
+          <div style="flex:1;min-width:180px;">
+            <label for="f-logo-archivo">Otro logo <span class="nota">(opcional)</span></label>
+            <input type="file" id="f-logo-archivo" accept="image/png,image/jpeg" style="font-size:13px;">
+          </div>
+          <button class="btn chico" type="button" id="quitar-logo">Logo de marca</button>
+          <span class="nota" id="aviso-logo"></span>
+        </div>
+        <button class="btn chico" type="button" id="f-restaurar" style="margin-top:14px;">Restaurar los datos oficiales</button>
+      </details>
+
+      <details class="sub">
+        <summary>Líneas extra <small>· LinkedIn, horario, lo que necesites</small></summary>
+        <div class="grid2">
+          <div><label for="f-extra1">Línea extra 1</label><input type="text" id="f-extra1" placeholder="linkedin.com/in/tu-perfil"></div>
+          <div><label for="f-extra1Icono">Su ícono</label><select id="f-extra1Icono"><option value="cel">Teléfono</option><option value="correo">Correo</option><option value="direccion">Ubicación</option><option value="web">Globo</option></select></div>
+          <div><label for="f-extra2">Línea extra 2</label><input type="text" id="f-extra2"></div>
+          <div><label for="f-extra2Icono">Su ícono</label><select id="f-extra2Icono"><option value="cel">Teléfono</option><option value="correo">Correo</option><option value="direccion">Ubicación</option><option value="web">Globo</option></select></div>
+        </div>
+        <p class="nota" style="margin:10px 0 0;">Para que aparezcan, enciéndelas en «Más ajustes» → Líneas de contacto.</p>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2><span class="num">2</span> Diseño</h2>
+      <div class="estilos">
+        <button class="estilo" type="button" data-estructura="logo"><span class="mini mini-logo"></span><b>Institucional</b><small>Logo y datos</small></button>
+        <button class="estilo" type="button" data-estructura="foto"><span class="mini mini-foto"></span><b>Con foto y QR</b><small>Para comerciales</small></button>
+        <button class="estilo" type="button" data-estructura="apilada"><span class="mini mini-apilada"></span><b>Compacta</b><small>En una columna</small></button>
+      </div>
+
+      <p class="rotulo">Banda de marca</p>
+      <label class="check" style="margin-top:0;"><input type="checkbox" id="d-banda"> Banda Quimiolab: degradado navy y patrón</label>
+      <div id="caja-banda">
+        <div class="segmento">
+          <button type="button" data-banda-pos="abajo">Abajo</button>
+          <button type="button" data-banda-pos="arriba">Arriba</button>
+        </div>
+        <p class="rotulo">Patrón</p>
+        <div class="patrones">{{PATRONES}}</div>
+        <label class="check"><input type="checkbox" id="d-banda-lema"> Frase de marca en la banda</label>
+        <label class="check"><input type="checkbox" id="d-endoso"> «Una empresa de SD Biosensor»</label>
+      </div>
+
+      <p class="rotulo">Color de acento</p>
+      <div class="acentos">{{ACENTOS}}</div>
+
+      <p class="rotulo">Tipografía del texto</p>
+      <div class="segmento">
+        <button type="button" data-tipografia="segura">Arial · segura</button>
+        <button type="button" data-tipografia="marca">Poppins y Roboto</button>
+      </div>
+      <p class="nota" id="nota-tipo" style="margin:8px 0 0;"></p>
+
+      <div class="marca-todo">
+        <p>Deja los tres diseños como los define la marca.</p>
+        <button class="btn chico" type="button" id="b-marca">Aplicar todo</button>
+      </div>
+    </section>
+
+    <details class="panel">
+      <summary><h2>Más ajustes</h2><small>Orden, tamaños y pie</small></summary>
+      <p class="rotulo">Encabezado</p>
+      <ul class="piezas" id="lista-encabezado"></ul>
+      <p class="rotulo">Líneas de contacto</p>
+      <ul class="piezas" id="lista-contactos"></ul>
+      <p class="nota" style="margin:8px 0 0;">Las flechas cambian el orden; la casilla las muestra u oculta.</p>
+      <div class="ctrl">
+        <label for="f-caso">Cómo se escribe el nombre</label>
+        <select id="f-caso">
+          <option value="tal-cual">Como lo escribí</option>
+          <option value="mayus">MAYÚSCULAS</option>
+          <option value="titulo">Estilo Título</option>
+          <option value="minus">minúsculas</option>
+        </select>
+      </div>
+      <div class="ctrl"><label>Otro color de acento <span class="val" id="v-acento">#0097D6</span></label>
+        <input type="color" id="d-acento" value="#0097D6"></div>
+      <div class="ctrl"><label>Tamaño del texto <span class="val" id="v-escala">1.00x</span></label>
+        <input type="range" id="d-escala" min="0.85" max="1.20" step="0.01" value="1"></div>
+      <div class="ctrl"><label>Ancho del logo <span class="val" id="v-logo-ancho">150 px</span></label>
+        <input type="range" id="d-logo-ancho" min="110" max="220" step="5" value="150"></div>
+      <div class="ctrl" id="caja-foto"><label>Tamaño de la foto <span class="val" id="v-foto-lado">120 px</span></label>
+        <input type="range" id="d-foto-lado" min="80" max="170" step="5" value="120"></div>
+      <div id="caja-pie">
+        <p class="rotulo">Pie de la firma</p>
+        <label class="check"><input type="checkbox" id="d-pie-logo"> Logo en el pie</label>
+        <label class="check"><input type="checkbox" id="d-pie-qr"> Código QR</label>
+        <label class="check"><input type="checkbox" id="d-lema"> Frase de marca</label>
+      </div>
+      <button class="btn ancho" type="button" id="d-reset" style="margin-top:16px;">Volver al diseño original</button>
+    </details>
+
+    <section class="panel">
+      <h2>Tu trabajo</h2>
+      <div id="g-estado" class="estado-guardado">Guardado en este navegador</div>
+      <details style="margin-top:10px;">
+        <summary class="btn-enlace" style="cursor:pointer;font-weight:700;color:var(--azul-600);">Guardar una copia o abrirla en otro computador</summary>
+        <div class="ctrl">
+          <label for="g-destino" style="display:block;">¿Dónde guardo los cambios?</label>
+          <select id="g-destino">
+            <option value="ambos">En el navegador y en un archivo (recomendado)</option>
+            <option value="navegador">Solo en este navegador</option>
+            <option value="archivo">Solo en un archivo del computador</option>
+          </select>
+        </div>
+        <div id="caja-archivo">
+          <div class="botonera">
+            <button class="btn" type="button" id="g-vincular">Elegir archivo en el computador</button>
+            <button class="btn" type="button" id="g-desvincular" style="flex:0 0 auto;">Soltar</button>
+          </div>
+        </div>
+        <div class="botonera">
+          <button class="btn" type="button" id="g-descargar">Descargar copia</button>
+          <label class="rotulo-archivo" for="g-abrir">Abrir una copia</label>
+          <input type="file" id="g-abrir" accept=".json,application/json" class="archivo-oculto">
+        </div>
+        <p class="nota" style="margin:12px 0 0;">El archivo <b>.quimiolab.json</b> lleva tus datos, la foto y los tres diseños.</p>
+      </details>
+    </section>
+  </div>
+
+  <!-- ─────────────── vista previa ─────────────── -->
+  <div class="der">
+    <div class="lienzo-caja">
+      <div class="vista-cab"><strong id="titulo-diseno">Institucional</strong><span class="nota" id="medida" style="margin:0;"></span></div>
+      <div class="preview"><div id="vista"></div></div>
+      <div class="descargas">
+        <button class="btn btn-lleno grande" type="button" id="b-copiar">Copiar firma</button>
+        <button class="btn btn-enlace" type="button" id="b-codigo">Ver el código HTML</button>
+        <span class="nota" id="aviso-copia" style="margin:0;"></span>
+      </div>
+      <pre id="codigo"></pre>
+    </div>
+
+    <section class="panel">
+      <h2><span class="num">3</span> Pégala en tu correo</h2>
+      <div class="tabs">
+        <button class="tab on" type="button" data-paso="outlook">Outlook de escritorio</button>
+        <button class="tab" type="button" data-paso="web">Outlook web</button>
+        <button class="tab" type="button" data-paso="gmail">Gmail</button>
+        <button class="tab" type="button" data-paso="movil">Celular</button>
+      </div>
+      <div class="paso on" id="p-outlook"><ol>
+        <li>En Outlook ve a <strong>Archivo &gt; Opciones &gt; Correo &gt; Firmas</strong>.</li>
+        <li>Presiona <strong>Nueva</strong>, ponle un nombre y acepta.</li>
+        <li>Haz clic en el recuadro grande y pega con <kbd>Ctrl</kbd> + <kbd>V</kbd>.</li>
+        <li>En <strong>Elegir firma predeterminada</strong> selecciónala para mensajes nuevos y respuestas.</li>
+        <li>Acepta y envíate un correo de prueba.</li></ol></div>
+      <div class="paso" id="p-web"><ol>
+        <li>Entra a <strong>Configuración</strong> (el engranaje) → <strong>Correo</strong> → <strong>Redactar y responder</strong>.</li>
+        <li>Crea una firma nueva y pega con <kbd>Ctrl</kbd> + <kbd>V</kbd>.</li>
+        <li>Úsala en mensajes nuevos y respuestas. Guarda.</li></ol></div>
+      <div class="paso" id="p-gmail"><ol>
+        <li><strong>Configuración &gt; Ver toda la configuración &gt; General</strong>.</li>
+        <li>En <strong>Firma</strong> crea una nueva y pega con <kbd>Ctrl</kbd> + <kbd>V</kbd>.</li>
+        <li>Baja hasta <strong>Guardar cambios</strong>.</li></ol></div>
+      <div class="paso" id="p-movil"><ol>
+        <li>Las apps del celular solo aceptan texto: escribe ahí una firma corta (nombre, cargo, celular).</li>
+        <li>Deja la firma con diseño para el computador.</li></ol></div>
+      <p class="nota" style="margin:12px 0 0;">¿Algo se ve corrido? Toma un pantallazo del correo <b>recibido</b> y envíalo a Braindy.</p>
+    </section>
+  </div>
+</div>
+
