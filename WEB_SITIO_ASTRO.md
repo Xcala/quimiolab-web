@@ -247,3 +247,7 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 - Daniela (vía César/un cliente): la ficha de **STANDARD M10 CT/NG** decía «Registro sanitario INVIMA» y según la matriz aún no lo tiene. La frase estaba fija en todas las fichas.
 - Nuevo campo **Registro sanitario INVIMA** en el panel `/admin/` (Productos y equipos). La ficha lo muestra con el número solo si está lleno; si no, dice «Trazabilidad de lote y documentación técnica». El inicio pasa de «en todos los productos y equipos» a «vigente, indicado en cada ficha»; llms.txt ya no afirma INVIMA en general (llms-full lo incluye por producto cuando existe).
 - Pendiente con Quimiolab: cargar en el panel los números de registro de la matriz.
+
+### 2026-10-16 — Registros sanitarios (QR): 6 de 6
+- Faltaba **serial M05N10BAC0002** (GlucoNavii, publicado en el WordPress el 15-oct después de la importación). Importado; las 6 páginas de registro responden 200 en www.quimiolab.com y por quimiolab.com.co (lo que abren los QR).
+- `scripts/importar_paginas_wp.mjs` acepta `WP_IP=190.8.176.146` para leer el WordPress viejo, porque el dominio .com.co ya apunta a Firebase. Lo que se publique de ahora en adelante en el WordPress **no** llega solo al sitio: hay que importarlo (o crear el registro en el panel cuando exista esa opción).

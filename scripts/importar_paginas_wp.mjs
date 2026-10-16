@@ -3,23 +3,39 @@
 // Descarga sus imágenes a public/media/ en WebP para que no dependan del WordPress.
 //   node scripts/importar_paginas_wp.mjs            → todos los registros sanitarios + EXTRA
 //   node scripts/importar_paginas_wp.mjs slug1 slug2 → solo esos
+// Desde el lanzamiento quimiolab.com.co apunta a Firebase: para leer el WordPress viejo usa su IP,
+//   WP_IP=190.8.176.146 node scripts/importar_paginas_wp.mjs
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
+import https from 'node:https';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const WP = 'https://www.quimiolab.com.co/wp-json/wp/v2';
+// con WP_IP, las peticiones a quimiolab.com.co van directo al servidor del WordPress (mismo nombre, otra IP)
+const IP_WP = process.env.WP_IP;
+const pedir = (url) => {
+  const u = new URL(url);
+  if (!IP_WP || !/quimiolab.com.co$/.test(u.hostname)) return fetch(url, { signal: AbortSignal.timeout(60000) });
+  return new Promise((ok, mal) => {
+    const req = https.get(u, { lookup: (_h, o, cb) => (o && o.all ? cb(null, [{ address: IP_WP, family: 4 }]) : cb(null, IP_WP, 4)) }, (r) => {
+      const trozos = []; r.on('data', (c) => trozos.push(c));
+      r.on('end', () => { const b = Buffer.concat(trozos); ok({ ok: r.statusCode < 300, status: r.statusCode, json: async () => JSON.parse(b.toString('utf8')), arrayBuffer: async () => b }); });
+    });
+    req.on('error', mal); req.setTimeout(60000, () => req.destroy(new Error('tiempo agotado ' + url)));
+  });
+};
 const EXTRA = ['molbio']; // páginas raíz con contenido propio que no son marca del catálogo
 const archivo = join(raiz, 'src', 'data', 'paginas.json');
 const paginas = JSON.parse(readFileSync(archivo, 'utf8'));
 const decodificar = (s) => s.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#039;|&rsquo;|&lsquo;/g, "'").replace(/&nbsp;/g, ' ').replace(/&ndash;/g, '–').replace(/&mdash;/g, '—');
-const json = async (u) => { const r = await fetch(u, { signal: AbortSignal.timeout(30000) }); if (!r.ok) throw new Error(`HTTP ${r.status} ${u}`); return r.json(); };
+const json = async (u) => { const r = await pedir(u); if (!r.ok) throw new Error(`HTTP ${r.status} ${u}`); return r.json(); };
 
 async function todosLosRegistros() {
   const out = []; for (let p = 1; p < 20; p++) {
-    const r = await fetch(`${WP}/pages?per_page=100&page=${p}&_fields=slug`); if (!r.ok) break;
+    const r = await pedir(`${WP}/pages?per_page=100&page=${p}&_fields=slug`); if (!r.ok) break;
     const a = await r.json(); if (!a.length) break; out.push(...a.map((x) => x.slug).filter((s) => s.startsWith('registro-sanitario'))); if (a.length < 100) break;
   }
   return out;
@@ -32,7 +48,7 @@ async function imagenLocal(url) {
   const nombre = `${base}-${createHash('md5').update(limpio).digest('hex').slice(0, 8)}.webp`;
   const destino = join(raiz, 'public', 'media', nombre);
   if (!existsSync(destino)) {
-    const r = await fetch(limpio, { signal: AbortSignal.timeout(60000) }); if (!r.ok) throw new Error(`imagen ${r.status} ${limpio}`);
+    const r = await pedir(limpio); if (!r.ok) throw new Error(`imagen ${r.status} ${limpio}`);
     await sharp(Buffer.from(await r.arrayBuffer())).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 }).toFile(destino);
   }
   return `/media/${nombre}`;
