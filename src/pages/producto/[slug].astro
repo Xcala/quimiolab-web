@@ -19,6 +19,8 @@ const original = /-\d+$/.test(item.slug) ? catalogo.find((x) => x.slug === item.
 const descripcion = item.resumen ? (item.resumen.toLowerCase().includes(item.nombre.toLowerCase()) ? item.resumen : `${item.nombre}: ${item.resumen}`) : `${item.nombre}${marca ? ` de ${marca.nombre}` : ''}, distribuido en Colombia por Quimiolab con soporte técnico y científico. Solicita tu cotización.`;
 const rutaMigas = [{ nombre: item.es_equipo ? 'Equipos' : 'Productos', url: item.es_equipo ? '/equipos/' : '/productos/' }, ...(marca ? [{ nombre: marca.nombre, url: marca.url }] : []), { nombre: item.nombre, url: item.url }];
 const otrasImagenes = item.imagenes.slice(1, 5);
+// el registro INVIMA solo se afirma si el producto lo tiene (campo del panel /admin/); muchos aún no lo tienen
+const invima = String((item as any).invima ?? '').trim();
 ---
 <Base title={`${item.nombre}${marca ? ` · ${marca.nombre}` : ''}`} description={descripcion.length < 90 ? `${descripcion} Distribuido en Colombia por Quimiolab con soporte técnico y científico. Cotiza en línea.` : descripcion} canonical={original?.url} tipo="product" imagen={item.imagen?.src} jsonld={[migas(rutaMigas), productoLd(item)]}>
   <article class="ficha" style={marca ? `--aliado:${marca.color}` : undefined}>
@@ -54,7 +56,9 @@ const otrasImagenes = item.imagenes.slice(1, 5);
       <div class="glass intro">
         {item.resumen_html ? <div class="prosa resumen" set:html={item.resumen_html} /> : <p class="prosa resumen">{descripcion}</p>}
         <ul class="garantias">
-          <li><Icon name="escudo" size={18} /> <span>Registro sanitario <b>INVIMA</b> y trazabilidad de lote</span></li>
+          {invima
+            ? <li><Icon name="escudo" size={18} /> <span>Registro sanitario <b>INVIMA</b> {invima}</span></li>
+            : <li><Icon name="escudo" size={18} /> <span>Trazabilidad de lote y <b>documentación técnica</b></span></li>}
           <li><Icon name="usuarios" size={18} /> <span>Acompañamiento <b>científico</b> en la implementación</span></li>
           <li><Icon name="equipo" size={18} /> <span>Soporte técnico <b>local</b> en Colombia</span></li>
         </ul>

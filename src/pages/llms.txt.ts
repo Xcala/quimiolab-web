@@ -4,7 +4,7 @@ import { marcas, lineas, equipos, productos, posts, sitio } from '../lib/data';
 export const GET: APIRoute = () => new Response(`# Quimiolab
 > ${sitio.descripcion}
 
-Quimiolab (${sitio.razon_social}, NIT ${sitio.nit}) es una empresa colombiana con sede en Bogotá, fundada en 1996 y parte de SD Biosensor. Representa en Colombia ${marcas.length} marcas de diagnóstico in vitro y ofrece ${equipos.length} equipos y ${productos.length} productos (reactivos, pruebas rápidas, controles y consumibles) para laboratorios clínicos, hospitales, bancos de sangre y centros de investigación. Incluye registro sanitario INVIMA, instalación, capacitación, soporte técnico local y acompañamiento científico. El sitio es catálogo y cotización: no hay venta en línea ni precios publicados.
+Quimiolab (${sitio.razon_social}, NIT ${sitio.nit}) es una empresa colombiana con sede en Bogotá, fundada en 1996 y parte de SD Biosensor. Representa en Colombia ${marcas.length} marcas de diagnóstico in vitro y ofrece ${equipos.length} equipos y ${productos.length} productos (reactivos, pruebas rápidas, controles y consumibles) para laboratorios clínicos, hospitales, bancos de sangre y centros de investigación. Incluye instalación, capacitación, soporte técnico local y acompañamiento científico. El sitio es catálogo y cotización: no hay venta en línea ni precios publicados.
 
 - Sitio oficial: ${sitio.url}/ (quimiolab.com.co redirige aquí)
 - Catálogo completo con descripciones: ${sitio.url}/llms-full.txt

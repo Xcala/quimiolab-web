@@ -4,12 +4,12 @@ import { marcas, lineas, equipos, productos, posts, sitio, marcaPorSlug } from '
 const limpio = (t: unknown) => String(t ?? '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 const item = (p: (typeof productos)[number] | (typeof equipos)[number]) => {
   const marca = marcaPorSlug(p.marca)?.nombre;
-  return `### [${p.nombre}](${sitio.url}${p.url})\n${marca ? `Marca: ${marca}. ` : ''}${limpio(p.resumen)}`.trim();
+  return `### [${p.nombre}](${sitio.url}${p.url})\n${marca ? `Marca: ${marca}. ` : ''}${(p as any).invima ? `Registro sanitario INVIMA ${(p as any).invima}. ` : ''}${limpio(p.resumen)}`.trim();
 };
 export const GET: APIRoute = () => new Response(`# Quimiolab — catálogo completo
 > ${sitio.descripcion}
 
-Quimiolab es una empresa colombiana (Bogotá, fundada en 1996, parte de SD Biosensor) que representa marcas de diagnóstico in vitro en Colombia, con registro sanitario INVIMA, soporte técnico local y acompañamiento científico. Solo catálogo y cotización: precios y disponibilidad se piden en ${sitio.url}/contactenos/, por WhatsApp (+${sitio.whatsapp}) o al correo ${sitio.correo_formularios}.
+Quimiolab es una empresa colombiana (Bogotá, fundada en 1996, parte de SD Biosensor) que representa marcas de diagnóstico in vitro en Colombia, con soporte técnico local y acompañamiento científico. Solo catálogo y cotización: precios y disponibilidad se piden en ${sitio.url}/contactenos/, por WhatsApp (+${sitio.whatsapp}) o al correo ${sitio.correo_formularios}.
 
 ## Soluciones
 ${lineas.map((l) => `### [${l.nombre}](${sitio.url}${l.url})\n${limpio(l.descripcion)}`).join('\n\n')}

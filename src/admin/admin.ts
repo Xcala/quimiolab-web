@@ -44,6 +44,7 @@ const TIPOS: Record<TipoId, Tipo> = {
       { k: 'es_equipo', t: 'check', label: 'Es un equipo (analizador)', ayuda: 'Los equipos salen en «Equipos» y tienen botón de demostración.' },
       { k: 'marca', t: 'marca', label: 'Marca', req: true },
       { k: 'lineas', t: 'lineas', label: 'Líneas de solución', ayuda: 'En qué líneas aparece. Puede ser más de una.' },
+      { k: 'invima', t: 'texto', label: 'Registro sanitario INVIMA', max: 80, ayuda: 'El número de registro, tal como aparece en la matriz. Si el producto aún no tiene registro, déjalo vacío: la ficha no dirá «INVIMA».' },
       { k: 'imagen', t: 'imagen', label: 'Foto del producto', ayuda: 'Ideal: fondo blanco, cuadrada.' },
       { k: 'resumen_html', t: 'rico', label: 'Descripción corta', ayuda: 'Lo primero que se lee en la ficha y en Google. Dos o tres frases.' },
       { k: 'descripcion_html', t: 'rico', label: 'Descripción completa', ayuda: 'Características, especificaciones, presentaciones…' },
