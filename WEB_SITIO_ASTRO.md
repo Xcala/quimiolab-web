@@ -262,3 +262,6 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 - La doctora vio que el carrusel arrancaba con el Helios (verde AESKU). Ahora la primera diapositiva es **Quimiolab**: Q-lupa blanca con el logo blanco dentro del círculo y ficha «Una empresa de SD Biosensor» → /nosotros/; luego los 5 equipos. Dura 8 s la primera vez (la entrada del hero tarda ~5 s). Rotación sin JS ajustada a 6 diapositivas.
 - Sin cifras en el hero (la doctora pidió no poner «26 marcas»): «Marcas líderes en diagnóstico…» y «Ver todos los equipos». La sección de cifras más abajo sigue con el conteo automático.
 - Se descartó la foto de Dani/Danilo que se mencionó: Nicolas prefirió algo genérico de Quimiolab.
+
+### 2026-10-19 — Franja azul superior en celular
+- En 390 px el teléfono y el correo se partían en dos líneas con mucho aire (85 px de alto). Ahora van en una sola línea centrada (32 px), sin la palabra «PBX» en celular. Los enlaces secundarios (Trabaja con nosotros, Línea de Transparencia, Vinculación) se ocultan hasta 1024 px —están en el pie— para que en tablet tampoco se parta (36 px en 768, 1100 y 1366).

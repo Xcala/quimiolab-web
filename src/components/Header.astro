@@ -16,7 +16,7 @@ const menu = [
 <div class="barra-superior">
   <div class="wrap">
     <div class="grupo">
-      <a href={`tel:${sitio.pbx_tel}`}><Icon name="telefono" size={14} /> PBX {sitio.pbx}</a>
+      <a href={`tel:${sitio.pbx_tel}`}><Icon name="telefono" size={14} /> <span class="rotulo-pbx">PBX </span>{sitio.pbx}</a>
       <a href={`mailto:${sitio.correo}`}><Icon name="correo" size={14} /> {sitio.correo}</a>
     </div>
     <div class="grupo secundario">
@@ -60,7 +60,15 @@ const menu = [
   .barra-superior .grupo { display: flex; gap: var(--s-5); flex-wrap: wrap; }
   .barra-superior a { color: inherit; display: inline-flex; align-items: center; gap: var(--s-1); padding-block: .25rem; }
   .barra-superior a:hover { color: #fff; }
-  @media (max-width: 760px) { .barra-superior .secundario { display: none; } }
+  /* los enlaces secundarios también están en el pie: se ocultan antes de que la franja se parta en dos líneas */
+  @media (max-width: 1024px) { .barra-superior .secundario { display: none; } }
+  /* celular: teléfono y correo en una sola línea compacta y centrada (antes se partían en dos con mucho aire) */
+  @media (max-width: 520px) {
+    .barra-superior .wrap { justify-content: center; min-height: 2rem; }
+    .barra-superior .grupo { gap: var(--s-4); row-gap: 0; flex-wrap: nowrap; justify-content: center; font-size: var(--t-xs); }
+    .barra-superior a { white-space: nowrap; }
+    .barra-superior .rotulo-pbx { display: none; }
+  }
 
   .cabecera-sitio { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--navy) 90%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--navy-linea); color: #fff; }
   .cabecera-sitio .wrap { display: flex; align-items: center; gap: var(--s-6); min-height: 4.75rem; }
