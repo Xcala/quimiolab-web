@@ -32,8 +32,11 @@ const catalogoTodo = fusionar([...baseProductos, ...baseEquipos] as Producto[], 
   return { familia: [], lineas: [], resumen: '', resumen_html: '', descripcion_html: '', slug_wp: x.slug, es_equipo: false, ...x,
     url: `/producto/${x.slug}/`, marca_nombre: marcas.find((m) => m.slug === x.marca)?.nombre ?? x.marca_nombre ?? '', imagen, imagenes: imagen ? [imagen, ...resto] : resto };
 });
-const productos = catalogoTodo.filter((p) => !p.es_equipo);
-const equipos = catalogoTodo.filter((p) => p.es_equipo) as Equipo[];
+// retirados del catálogo a pedido de Quimiolab (no los tienen ni tendrán); su URL redirige a la marca (redirects.csv)
+const RETIRADOS = ['b·r·a·h·m·s-kryptor-gold'];
+const vigentes = catalogoTodo.filter((p) => !RETIRADOS.includes(p.slug));
+const productos = vigentes.filter((p) => !p.es_equipo);
+const equipos = vigentes.filter((p) => p.es_equipo) as Equipo[];
 // conteos de cada marca según el catálogo ya combinado
 marcas = marcas.map((m) => ({ ...m, n_productos: productos.filter((p) => p.marca === m.slug).length, n_equipos: equipos.filter((p) => p.marca === m.slug).length }));
 const posts: Post[] = fusionar(basePosts, C.posts, (x) => ({ imagen: null, contenido_html: '', resumen: '', url_wp: '', modificado: x.fecha, ...x, url: `/blog/${x.slug}/` }))
@@ -53,7 +56,7 @@ export const logoMarca = (slug: string) => {
   const conLogo: Record<string, string> = {
     'aesku': 'webp', 'binding-site': 'webp', 'diapro': 'webp', 'vircell': 'webp', 'gold-standard': 'webp', 'stratec': 'svg',
     'diasorin': 'svg', 'meridian-bioscience': 'svg', 'thermo-fisher': 'svg', 'fujirebio': 'webp', 'elitechgroup': 'webp',
-    'genmark': 'webp', 'genolution': 'webp', 'tianlong': 'webp', 'mp-biomedicals': 'webp', 'macherey-nagel': 'svg',
+    'genmark': 'webp', 'genolution': 'webp', 'abclonal': 'webp', 'tianlong': 'webp', 'mp-biomedicals': 'webp', 'macherey-nagel': 'svg',
     'abm': 'webp', 'amplyus': 'svg', 'sd-biosensor': 'webp', 'ningbo-hls-medical': 'webp', 'college-of-american-pathologist': 'svg',
   };
   return conLogo[slug] ? `/marcas/${slug}.${conLogo[slug]}` : null;

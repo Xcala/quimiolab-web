@@ -1380,6 +1380,16 @@
         "source": "/sitemap_index.xml",
         "destination": "/sitemap-index.xml",
         "type": 301
+      },
+      {
+        "source": "/producto/b%C2%B7r%C2%B7a%C2%B7h%C2%B7m%C2%B7s-kryptor-gold/",
+        "destination": "/marcas/thermo-fisher/",
+        "type": 301
+      },
+      {
+        "source": "/producto/b·r·a·h·m·s-kryptor-gold/",
+        "destination": "/marcas/thermo-fisher/",
+        "type": 301
       }
     ],
     "rewrites": [],

@@ -251,3 +251,9 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 ### 2026-10-16 — Registros sanitarios (QR): 6 de 6
 - Faltaba **serial M05N10BAC0002** (GlucoNavii, publicado en el WordPress el 15-oct después de la importación). Importado; las 6 páginas de registro responden 200 en www.quimiolab.com y por quimiolab.com.co (lo que abren los QR).
 - `scripts/importar_paginas_wp.mjs` acepta `WP_IP=190.8.176.146` para leer el WordPress viejo, porque el dominio .com.co ya apunta a Firebase. Lo que se publique de ahora en adelante en el WordPress **no** llega solo al sitio: hay que importarlo (o crear el registro en el panel cuando exista esa opción).
+
+### 2026-10-19 — Ajustes de Danilo (vía Daniela)
+- **B·R·A·H·M·S KRYPTOR GOLD** retirado (no lo tienen ni tendrán): lista `RETIRADOS` en `src/lib/data.ts` y su URL redirige 301 a /marcas/thermo-fisher/.
+- **GenMark**: la marca que representan es **GENMARK Sağlık Ürünleri** (Turquía), no GenMark Dx (Roche); logo nuevo tomado del WordPress (`genmark-logo-nuevo.jpg`, sep-2025). Ojo: la descripción de la marca aún habla de diagnóstico molecular multiplexado (texto de GenMark Dx): confirmar con ellos.
+- **ABclonal**: logo oficial (del WordPress, `logo-abcclonal.jpg`); antes salía solo el nombre.
+- Pendiente a futuro: agregar Genematrix, Lituo y otras marcas en revisión.
