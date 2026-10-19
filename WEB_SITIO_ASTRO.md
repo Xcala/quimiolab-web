@@ -257,3 +257,8 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 - **GenMark**: la marca que representan es **GENMARK Sağlık Ürünleri** (Turquía), no GenMark Dx (Roche); logo nuevo tomado del WordPress (`genmark-logo-nuevo.jpg`, sep-2025). Ojo: la descripción de la marca aún habla de diagnóstico molecular multiplexado (texto de GenMark Dx): confirmar con ellos.
 - **ABclonal**: logo oficial (del WordPress, `logo-abcclonal.jpg`); antes salía solo el nombre.
 - Pendiente a futuro: agregar Genematrix, Lituo y otras marcas en revisión.
+
+### 2026-10-19 — Hero: abre con Quimiolab (pedido de Leidy en la reunión del 16-oct)
+- La doctora vio que el carrusel arrancaba con el Helios (verde AESKU). Ahora la primera diapositiva es **Quimiolab**: Q-lupa blanca con el logo blanco dentro del círculo y ficha «Una empresa de SD Biosensor» → /nosotros/; luego los 5 equipos. Dura 8 s la primera vez (la entrada del hero tarda ~5 s). Rotación sin JS ajustada a 6 diapositivas.
+- Sin cifras en el hero (la doctora pidió no poner «26 marcas»): «Marcas líderes en diagnóstico…» y «Ver todos los equipos». La sección de cifras más abajo sigue con el conteo automático.
+- Se descartó la foto de Dani/Danilo que se mencionó: Nicolas prefirió algo genérico de Quimiolab.

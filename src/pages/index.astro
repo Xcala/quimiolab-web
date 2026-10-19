@@ -6,6 +6,7 @@ import FranjaMarcas from '../components/FranjaMarcas.astro';
 import FormularioContacto from '../components/FormularioContacto.astro';
 import LogoSDBiosensor from '../components/LogoSDBiosensor.astro';
 import LogoQLupa from '../components/LogoQLupa.astro';
+import LogoQuimiolab from '../components/LogoQuimiolab.astro';
 import Ed from '../components/Ed.astro';
 import EdImg from '../components/EdImg.astro';
 import EdLink from '../components/EdLink.astro';
@@ -29,7 +30,10 @@ const heroEquipos = [
   { slug: 'elite-ingenius', k: 'elite', img: '/img/equipos/elite-ingenius.webp', w: 544, h: 463, tagline: 'PCR en tiempo real, de la muestra al resultado', color: '#74C043' },
   { slug: 'b·r·a·h·m·s-kryptor-compact-plus', k: 'kryptor', img: '/img/equipos/kryptor-compact-plus.webp', w: 505, h: 458, tagline: 'Inmunoensayo TRACE® para biomarcadores críticos', color: '#EF4135' },
 ];
-const slides = heroEquipos.map((h) => { const e = equipos.find((x) => x.slug === h.slug); const m = e ? marcaPorSlug(e.marca) : undefined; return { ...h, nombre: e?.nombre ?? h.slug, url: e?.url ?? '/equipos/', marca: m?.nombre ?? '', logo: e ? logoMarca(e.marca) : '', color: m?.color ?? h.color }; });
+// el carrusel abre con Quimiolab (Q-lupa blanca, logo y endoso) y luego los equipos — pedido de Leidy, 16-oct-2026
+const slideMarca = { k: 'quimiolab', esMarca: true, marca: '', nombre: 'Quimiolab', tagline: 'Una empresa de SD Biosensor · diagnóstico in vitro en Colombia', url: '/nosotros/', color: '#FFFFFF', img: '', w: 0, h: 0, logo: '' };
+const slidesEquipos = heroEquipos.map((h) => { const e = equipos.find((x) => x.slug === h.slug); const m = e ? marcaPorSlug(e.marca) : undefined; return { ...h, nombre: e?.nombre ?? h.slug, url: e?.url ?? '/equipos/', marca: m?.nombre ?? '', logo: e ? logoMarca(e.marca) : '', color: m?.color ?? h.color, esMarca: false }; });
+const slides = [slideMarca, ...slidesEquipos];
 const testimonios = [
   { k: 'vid', texto: 'Siempre hemos tenido un excelente acompañamiento de parte del asesor comercial así como de la parte científica.', quien: 'Santiago Estrada Mesa', cargo: 'Director · Fundación Organización VID', ini: 'SE' },
   { k: 'rvg', texto: 'Tienen un muy buen servicio y excelente oportunidad en respuesta, esperamos seguir contando con ustedes como proveedor.', quien: 'Alexander Acuña Fonseca', cargo: 'Auxiliar de Compras · RVG IPS Ltda.', ini: 'AA' },
@@ -53,7 +57,7 @@ const confianza = [
       <div class="endoso hero-endoso" aria-label="Una empresa de SD Biosensor"><small>Una empresa de</small><LogoSDBiosensor label="SD Biosensor" /></div>
       <div class="texto">
         <Ed id="home_hero_titulo" as="h1" data-gsap="words" data-gsap-hide>La ciencia detrás de <em>cada resultado</em></Ed>
-        <Ed id="home_hero_lead" as="p" class="lead" data-gsap="rise" data-gsap-hide><strong>{marcas.length} marcas</strong> en diagnóstico clínico, biología molecular, investigación y point of care, con <strong>soporte técnico local</strong> en Colombia.</Ed>
+        <Ed id="home_hero_lead" as="p" class="lead" data-gsap="rise" data-gsap-hide><strong>Marcas líderes</strong> en diagnóstico clínico, biología molecular, investigación y point of care, con <strong>soporte técnico local</strong> en Colombia.</Ed>
         <form class="buscador" role="search" data-gsap="rise" data-gsap-hide action="/buscar/" method="get">
           <Icon name="buscar" size={20} />
           <input id="buscar-home" name="q" type="search" placeholder="Busca un equipo, reactivo o marca… ej. VirClia, Freelite" aria-label="Buscar en el catálogo" />
@@ -61,20 +65,26 @@ const confianza = [
         </form>
         <div class="cta" data-gsap="rise" data-gsap-hide>
           <EdLink id="home_hero_btn_cotizar" class="btn btn-primario btn-lg" href="/contactenos/?tema=cotizacion"><Icon name="cotizar" size={18} /> <Ed id="home_hero_btn_cotizar">Solicitar cotización</Ed></EdLink>
-          <EdLink id="home_hero_btn_equipos" class="btn btn-enlace enlace-claro" href="/equipos/"><Ed id="home_hero_btn_equipos">Ver los {equipos.length} equipos</Ed> <Icon name="flecha" size={16} /></EdLink>
+          <EdLink id="home_hero_btn_equipos" class="btn btn-enlace enlace-claro" href="/equipos/"><Ed id="home_hero_btn_equipos">Ver todos los equipos</Ed> <Icon name="flecha" size={16} /></EdLink>
         </div>
       </div>
-      <div class="escena" data-gsap="pop" data-gsap-hide aria-roledescription="carrusel" aria-label="Equipos principales" style={`--n:${slides.length};${slides.map((sl, i) => `--c${i}:${sl.color}`).join(';')}`}>
+      <div class="escena" data-gsap="pop" data-gsap-hide aria-roledescription="carrusel" aria-label="Quimiolab y sus equipos principales" style={`--n:${slides.length};${slides.map((sl, i) => `--c${i}:${sl.color}`).join(';')}`}>
         <LogoQLupa class="qlupa-deco q-hero" />
         <span class="brillo"></span>
         {slides.map((sl, i) => (
           <a class={`slide${i === 0 ? ' activa' : ''}`} href={sl.url} data-slide={i} style={`--aliado:${sl.color};--i:${i}`} aria-hidden={i === 0 ? undefined : 'true'} tabindex={i === 0 ? undefined : -1}>
-            <EdImg id={`home_slide_${sl.k}_foto`} class="equipo" src={sl.img} alt="" width={sl.w} height={sl.h} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
-            <span class="placa placa-hero"><img src={sl.logo} alt={sl.marca} width="160" height="48" loading={i === 0 ? 'eager' : 'lazy'} /></span>
-            <span class="glass ficha-mini"><b>{sl.nombre}</b><span>{sl.tagline}</span><i>Ver ficha <Icon name="flecha" size={14} /></i></span>
+            {sl.esMarca ? (
+              <span class="sello-marca"><LogoQuimiolab class="sello-logo" label="Quimiolab" /></span>
+            ) : (
+              <>
+                <EdImg id={`home_slide_${sl.k}_foto`} class="equipo" src={sl.img} alt="" width={sl.w} height={sl.h} loading={i === 1 ? 'eager' : 'lazy'} decoding="async" />
+                <span class="placa placa-hero"><img src={sl.logo} alt={sl.marca} width="160" height="48" loading={i === 1 ? 'eager' : 'lazy'} /></span>
+              </>
+            )}
+            <span class="glass ficha-mini"><b>{sl.nombre}</b><span>{sl.tagline}</span><i>{sl.esMarca ? 'Conócenos' : 'Ver ficha'} <Icon name="flecha" size={14} /></i></span>
           </a>
         ))}
-        <div class="puntos" role="radiogroup" aria-label="Elegir equipo">
+        <div class="puntos" role="radiogroup" aria-label="Elegir diapositiva">
           {slides.map((sl, i) => <span class="punto" style={`--i:${i}`}><input type="radio" name="hero-slide" id={`hero-slide-${i}`} value={i} data-ir={i} aria-label={sl.nombre} /><label for={`hero-slide-${i}`}><span></span></label></span>)}
         </div>
       </div>
@@ -249,13 +259,16 @@ const confianza = [
   .slide { position: absolute; inset: 0; display: block; color: #fff; opacity: 0; visibility: hidden; transition: opacity var(--dur-4) var(--ease-in-out), visibility var(--dur-4); }
   .slide.activa { opacity: 1; visibility: visible; }
   /* Sin JS: rotación por CSS (5 s por equipo). Con JS, .escena.js toma el control. */
-  @keyframes desfile { 0%, 3% { opacity: 0; visibility: hidden; } 6%, 20% { opacity: 1; visibility: visible; } 23%, 100% { opacity: 0; visibility: hidden; } }
+  @keyframes desfile { 0%, 2% { opacity: 0; visibility: hidden; } 4%, 16% { opacity: 1; visibility: visible; } 18.5%, 100% { opacity: 0; visibility: hidden; } }
   .escena:not(.js) .slide { animation: desfile calc(var(--n) * 5s) infinite; animation-delay: calc(var(--i) * 5s - 0.75s); }
   .escena:not(.js) .slide.activa { opacity: 0; visibility: hidden; }
   @media (prefers-reduced-motion: reduce) { .escena:not(.js) .slide { animation: none; } .escena:not(.js) .slide.activa { opacity: 1; visibility: visible; } }
   .slide :global(.equipo) { position: absolute; left: 50%; top: 50%; max-width: 72%; max-height: 62%; width: auto; height: auto; transform: translate(-50%, -48%) scale(.96); filter: drop-shadow(0 30px 40px rgba(0,10,40,.45)); transition: transform var(--dur-4) var(--ease-out); }
   .slide.activa :global(.equipo) { transform: translate(-50%, -48%) scale(1); }
   .slide:hover :global(.equipo) { transform: translate(-50%, -50%) scale(1.03); }
+  /* slide de Quimiolab: Q-lupa blanca y el logo blanco dentro del círculo (el endoso ya va en la cabecera y en la ficha) */
+  .sello-marca { position: absolute; left: 46.5%; top: 44.5%; transform: translate(-50%, -50%); width: 40%; color: #fff; filter: drop-shadow(0 6px 18px rgba(0,26,77,.5)); }
+  .sello-marca :global(.sello-logo) { width: 100%; height: auto; display: block; }
   .placa-hero { position: absolute; right: 0; top: 1rem; padding: .625rem .875rem; }
   .placa-hero img { height: 2.25rem; width: auto; max-width: 11rem; object-fit: contain; display: block; }
   .ficha-mini { position: absolute; left: 0; bottom: .5rem; display: grid; gap: .125rem; padding: .875rem 1rem; max-width: 18rem; }
@@ -272,12 +285,12 @@ const confianza = [
   .punto label:hover span { background: #fff; }
   .punto input:focus-visible + label span { outline: 3px solid var(--focus); outline-offset: 3px; }
   /* Sin JS: los puntos siguen la rotación por CSS y al elegir uno se detiene y muestra ese equipo */
-  @keyframes punto-desfile { 0%, 3% { width: .5rem; background: rgba(255,255,255,.35); } 6%, 20% { width: 1.75rem; background: var(--brillante); } 23%, 100% { width: .5rem; background: rgba(255,255,255,.35); } }
+  @keyframes punto-desfile { 0%, 2% { width: .5rem; background: rgba(255,255,255,.35); } 4%, 16% { width: 1.75rem; background: var(--brillante); } 18.5%, 100% { width: .5rem; background: rgba(255,255,255,.35); } }
   .escena:not(.js) .punto label span { animation: punto-desfile calc(var(--n) * 5s) infinite; animation-delay: calc(var(--i) * 5s - 0.75s); }
   .escena:not(.js):has(input:checked) .slide, .escena:not(.js):has(input:checked) .punto label span { animation: none; }
   .escena:not(.js):has(input:checked) .slide.activa { opacity: 0; visibility: hidden; }
   /* Sin JS: la Q y el brillo toman el color del aliado del slide visible */
-  @keyframes q-color { 0%, 18% { color: var(--c0); } 20%, 38% { color: var(--c1); } 40%, 58% { color: var(--c2); } 60%, 78% { color: var(--c3); } 80%, 100% { color: var(--c4); } }
+  @keyframes q-color { 0%, 15% { color: var(--c0); } 16.7%, 32% { color: var(--c1); } 33.4%, 49% { color: var(--c2); } 50%, 65% { color: var(--c3); } 66.7%, 82% { color: var(--c4); } 83.4%, 100% { color: var(--c5); } }
   .escena:not(.js) :global(.q-hero) { animation: q-color calc(var(--n) * 5s) infinite; animation-delay: -0.75s; }
   .escena:not(.js):has(input:checked) :global(.q-hero) { animation: none; }
   .escena:not(.js):has(#hero-slide-0:checked) .slide[data-slide="0"] { opacity: 1; visibility: visible; }
@@ -290,6 +303,8 @@ const confianza = [
   .escena:not(.js):has(#hero-slide-3:checked) { --aliado: var(--c3); }
   .escena:not(.js):has(#hero-slide-4:checked) .slide[data-slide="4"] { opacity: 1; visibility: visible; }
   .escena:not(.js):has(#hero-slide-4:checked) { --aliado: var(--c4); }
+  .escena:not(.js):has(#hero-slide-5:checked) .slide[data-slide="5"] { opacity: 1; visibility: visible; }
+  .escena:not(.js):has(#hero-slide-5:checked) { --aliado: var(--c5); }
   @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } .hero .scrim { background: linear-gradient(180deg, rgba(0,26,77,.92), rgba(0,26,77,.97)); } .escena { max-width: 24rem; margin-bottom: 2.5rem; } .ficha-mini { max-width: 14rem; } }
   @media (max-width: 480px) { .buscador .btn { display: none; } .hero .cta .btn-lg { width: 100%; justify-content: center; } }
 
@@ -444,6 +459,7 @@ const confianza = [
     escena.addEventListener('mouseenter', stop); escena.addEventListener('mouseleave', play);
     escena.addEventListener('focusin', stop); escena.addEventListener('focusout', play);
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : play()));
-    ir(0); play();
+    // la primera (Quimiolab) dura más: la entrada del hero tarda ~5 s y no debe pasar de largo
+    ir(0); if (!reduce) timer = window.setTimeout(() => { ir(1); play(); }, 8000);
   }
 </script>
