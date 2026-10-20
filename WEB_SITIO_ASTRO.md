@@ -265,3 +265,6 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 
 ### 2026-10-19 — Franja azul superior en celular
 - En 390 px el teléfono y el correo se partían en dos líneas con mucho aire (85 px de alto). Ahora van en una sola línea centrada (32 px), sin la palabra «PBX» en celular. Los enlaces secundarios (Trabaja con nosotros, Línea de Transparencia, Vinculación) se ocultan hasta 1024 px —están en el pie— para que en tablet tampoco se parta (36 px en 768, 1100 y 1366).
+
+### 2026-10-19 — Swipe en el carrusel del hero
+- El carrusel solo cambiaba con los puntos. Ahora se desliza con el dedo (o arrastrando con el mouse): >40 px en horizontal pasa a la siguiente/anterior y reinicia el autoplay; si hubo deslizamiento no se abre la ficha. `touch-action: pan-y` deja el scroll vertical de la página intacto.
