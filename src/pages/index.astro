@@ -22,8 +22,10 @@ const hubs: Record<string, { titulo: string; texto: string; img: string; marcas:
 const destacados = ['helios-convencional', 'optilite', 'virclia-lotus', 'elite-ingenius', 'f2400-analyzer', 'b·r·a·h·m·s-kryptor-compact-plus'];
 const equiposDestacados = destacados.map((s) => equipos.find((e) => e.slug === s)).filter(Boolean) as typeof equipos;
 const [postDestacado, ...otrosPosts] = posts.slice(0, 4);
-// Slider del hero: los 5 equipos principales (uno por aliado), packshots locales del Portafolio 2026
+// Slider del hero: los equipos principales (uno por aliado, SD Biosensor primero), packshots locales
 const heroEquipos = [
+  // SD Biosensor (casa matriz): pedido de Dani/Eduardo, 23-oct-2026; recorte sin fondo de la foto del catálogo
+  { slug: 'm10-console', k: 'm10', img: '/img/equipos/m10.webp', w: 720, h: 328, tagline: 'PCR en tiempo real en el punto de atención', color: '#004A98' },
   { slug: 'helios-convencional', k: 'helios', img: '/img/equipos/helios.webp', w: 257, h: 348, tagline: 'Inmunofluorescencia automatizada · autoinmunidad', color: '#98B830' },
   { slug: 'optilite', k: 'optilite', img: '/img/equipos/optilite.webp', w: 748, h: 355, tagline: 'Proteínas especiales y cadenas ligeras libres', color: '#FCEA19' },
   { slug: 'virclia-lotus', k: 'virclia', img: '/img/equipos/virclia-lotus.webp', w: 630, h: 426, tagline: 'Quimioluminiscencia en monotest para infecciosas', color: '#009673' },
@@ -259,7 +261,7 @@ const confianza = [
   .slide { -webkit-user-drag: none; user-select: none; position: absolute; inset: 0; display: block; color: #fff; opacity: 0; visibility: hidden; transition: opacity var(--dur-4) var(--ease-in-out), visibility var(--dur-4); }
   .slide.activa { opacity: 1; visibility: visible; }
   /* Sin JS: rotación por CSS (5 s por equipo). Con JS, .escena.js toma el control. */
-  @keyframes desfile { 0%, 2% { opacity: 0; visibility: hidden; } 4%, 16% { opacity: 1; visibility: visible; } 18.5%, 100% { opacity: 0; visibility: hidden; } }
+  @keyframes desfile { 0%, 1.5% { opacity: 0; visibility: hidden; } 3.5%, 13.5% { opacity: 1; visibility: visible; } 15.5%, 100% { opacity: 0; visibility: hidden; } }
   .escena:not(.js) .slide { animation: desfile calc(var(--n) * 5s) infinite; animation-delay: calc(var(--i) * 5s - 0.75s); }
   .escena:not(.js) .slide.activa { opacity: 0; visibility: hidden; }
   @media (prefers-reduced-motion: reduce) { .escena:not(.js) .slide { animation: none; } .escena:not(.js) .slide.activa { opacity: 1; visibility: visible; } }
@@ -285,12 +287,12 @@ const confianza = [
   .punto label:hover span { background: #fff; }
   .punto input:focus-visible + label span { outline: 3px solid var(--focus); outline-offset: 3px; }
   /* Sin JS: los puntos siguen la rotación por CSS y al elegir uno se detiene y muestra ese equipo */
-  @keyframes punto-desfile { 0%, 2% { width: .5rem; background: rgba(255,255,255,.35); } 4%, 16% { width: 1.75rem; background: var(--brillante); } 18.5%, 100% { width: .5rem; background: rgba(255,255,255,.35); } }
+  @keyframes punto-desfile { 0%, 1.5% { width: .5rem; background: rgba(255,255,255,.35); } 3.5%, 13.5% { width: 1.75rem; background: var(--brillante); } 15.5%, 100% { width: .5rem; background: rgba(255,255,255,.35); } }
   .escena:not(.js) .punto label span { animation: punto-desfile calc(var(--n) * 5s) infinite; animation-delay: calc(var(--i) * 5s - 0.75s); }
   .escena:not(.js):has(input:checked) .slide, .escena:not(.js):has(input:checked) .punto label span { animation: none; }
   .escena:not(.js):has(input:checked) .slide.activa { opacity: 0; visibility: hidden; }
   /* Sin JS: la Q y el brillo toman el color del aliado del slide visible */
-  @keyframes q-color { 0%, 15% { color: var(--c0); } 16.7%, 32% { color: var(--c1); } 33.4%, 49% { color: var(--c2); } 50%, 65% { color: var(--c3); } 66.7%, 82% { color: var(--c4); } 83.4%, 100% { color: var(--c5); } }
+  @keyframes q-color { 0%, 13% { color: var(--c0); } 14.3%, 27.5% { color: var(--c1); } 28.6%, 41.8% { color: var(--c2); } 42.9%, 56% { color: var(--c3); } 57.1%, 70.3% { color: var(--c4); } 71.4%, 84.6% { color: var(--c5); } 85.7%, 100% { color: var(--c6); } }
   .escena:not(.js) :global(.q-hero) { animation: q-color calc(var(--n) * 5s) infinite; animation-delay: -0.75s; }
   .escena:not(.js):has(input:checked) :global(.q-hero) { animation: none; }
   .escena:not(.js):has(#hero-slide-0:checked) .slide[data-slide="0"] { opacity: 1; visibility: visible; }
@@ -305,6 +307,8 @@ const confianza = [
   .escena:not(.js):has(#hero-slide-4:checked) { --aliado: var(--c4); }
   .escena:not(.js):has(#hero-slide-5:checked) .slide[data-slide="5"] { opacity: 1; visibility: visible; }
   .escena:not(.js):has(#hero-slide-5:checked) { --aliado: var(--c5); }
+  .escena:not(.js):has(#hero-slide-6:checked) .slide[data-slide="6"] { opacity: 1; visibility: visible; }
+  .escena:not(.js):has(#hero-slide-6:checked) { --aliado: var(--c6); }
   @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } .hero .scrim { background: linear-gradient(180deg, rgba(0,26,77,.92), rgba(0,26,77,.97)); } .escena { max-width: 24rem; margin-bottom: 2.5rem; } .ficha-mini { max-width: 14rem; } }
   @media (max-width: 480px) { .buscador .btn { display: none; } .hero .cta .btn-lg { width: 100%; justify-content: center; } }
 

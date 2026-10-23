@@ -274,3 +274,8 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 - **noindex (1)**: es `/buscar/`, intencional (resultados de búsqueda interna).
 - **Rastreada sin indexar (16)**: home, fichas y paginación del blog rastreadas el 16–17 oct; responden 200, canonical propio e indexables: es la espera normal tras la migración.
 - **Página con redirección (8)**: URLs viejas que redirigen; esperado.
+
+### 2026-10-23 — Correcciones de Dani (WhatsApp)
+- **Hero**: entra el **STANDARD M10** de SD Biosensor (casa matriz) como primer equipo, después de la diapositiva de Quimiolab. Packshot `public/img/equipos/m10.webp` recortado (fondo blanco quitado por relleno desde los bordes) de la foto del catálogo. Rotación sin JS ajustada a 7 diapositivas.
+- **KRYPTOR compact PLUS**: descripción nueva enviada por Quimiolab, publicada en Firestore `cms` (mismo formato que el panel, con su versión en `cms_versiones`) para que el cliente la vea y edite desde /admin/. La meta descripción ya no repite el nombre cuando el texto trae ™/®.
+- «Que se note que somos filial de SD» arriba: ya está (endoso arriba a la derecha); Dani lo confirmó.
