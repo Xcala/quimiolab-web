@@ -1390,6 +1390,241 @@
         "source": "/producto/b·r·a·h·m·s-kryptor-gold/",
         "destination": "/marcas/thermo-fisher/",
         "type": 301
+      },
+      {
+        "source": "/categorias/toxo-igg-elisa",
+        "destination": "/producto/toxo-igg-elisa/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/alfa-1-glicoproteina-acida",
+        "destination": "/producto/alfa-1-glicoproteina-acida/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/hbsag-one-version-ultra-elisa",
+        "destination": "/producto/hbsag-one-version-ultra-elisa/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/cmv-elite-mgb-r-kit",
+        "destination": "/producto/cmv-elite-mgb-kit/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/aeskulisa-ss-b-1",
+        "destination": "/producto/aeskulisa-ss-b/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/aeskulisa-mpo-5",
+        "destination": "/producto/aeskulisa-mpo/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/hiv-ab-ag-elisa",
+        "destination": "/producto/hiv-ab-ag-elisa/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/mtb-extra-elite-mgb-r-kit",
+        "destination": "/producto/mtb-extra-elite-mgb-kit/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/brucella-igg",
+        "destination": "/producto/brucella-virclia-igg-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/mycoplasma-pneumoniae-virclia-r-igm-monotest",
+        "destination": "/producto/mycoplasma-pneumoniae-virclia-igm-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/genemap-fv-leiden-mutation-detection",
+        "destination": "/producto/genemap-fv-leiden-mutation-detection/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/prealbumina",
+        "destination": "/producto/prealbumina/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/mrsa-sa-elite-mgb-r-kit",
+        "destination": "/producto/mrsa-sa-elite-mgb-kit/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/epstein-barr-ebna-virclia-r-igg-monotest",
+        "destination": "/producto/epstein-barr-ebna-virclia-igg-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/syphilis-virclia-r-igg-igm-monotest",
+        "destination": "/producto/syphilis-virclia-iggigm-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/legionella-pneumophila-sg-1-6-virclia-r-igg-igm-monotest",
+        "destination": "/producto/legionella-pneumophila-sg-1-6-virclia-igg-igm-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/genemap-bcr-abl1-p190-p210-p230-screening",
+        "destination": "/producto/genemap-bcr-abl1-p190-p210-p230-screening/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/triage-cardiac-panel",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/triage-bnp-test",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/sofia-influenza-a-b",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/**",
+        "destination": "/productos/",
+        "type": 301
+      },
+      {
+        "source": "/politicas",
+        "destination": "/politica-de-datos/",
+        "type": 301
+      },
+      {
+        "source": "/blog/seguimiento-de-las-variantes-del-sars-cov-2-actualizacion-sobre-la-variante-mu-b-1-621",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/toxo-igg-elisa/",
+        "destination": "/producto/toxo-igg-elisa/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/alfa-1-glicoproteina-acida/",
+        "destination": "/producto/alfa-1-glicoproteina-acida/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/hbsag-one-version-ultra-elisa/",
+        "destination": "/producto/hbsag-one-version-ultra-elisa/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/cmv-elite-mgb-r-kit/",
+        "destination": "/producto/cmv-elite-mgb-kit/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/aeskulisa-ss-b-1/",
+        "destination": "/producto/aeskulisa-ss-b/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/aeskulisa-mpo-5/",
+        "destination": "/producto/aeskulisa-mpo/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/hiv-ab-ag-elisa/",
+        "destination": "/producto/hiv-ab-ag-elisa/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/mtb-extra-elite-mgb-r-kit/",
+        "destination": "/producto/mtb-extra-elite-mgb-kit/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/brucella-igg/",
+        "destination": "/producto/brucella-virclia-igg-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/mycoplasma-pneumoniae-virclia-r-igm-monotest/",
+        "destination": "/producto/mycoplasma-pneumoniae-virclia-igm-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/genemap-fv-leiden-mutation-detection/",
+        "destination": "/producto/genemap-fv-leiden-mutation-detection/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/prealbumina/",
+        "destination": "/producto/prealbumina/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/mrsa-sa-elite-mgb-r-kit/",
+        "destination": "/producto/mrsa-sa-elite-mgb-kit/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/epstein-barr-ebna-virclia-r-igg-monotest/",
+        "destination": "/producto/epstein-barr-ebna-virclia-igg-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/syphilis-virclia-r-igg-igm-monotest/",
+        "destination": "/producto/syphilis-virclia-iggigm-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/legionella-pneumophila-sg-1-6-virclia-r-igg-igm-monotest/",
+        "destination": "/producto/legionella-pneumophila-sg-1-6-virclia-igg-igm-monotest/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/genemap-bcr-abl1-p190-p210-p230-screening/",
+        "destination": "/producto/genemap-bcr-abl1-p190-p210-p230-screening/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/triage-cardiac-panel/",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/triage-bnp-test/",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/categorias/sofia-influenza-a-b/",
+        "destination": "/marcas/quidel/",
+        "type": 301
+      },
+      {
+        "source": "/politicas/",
+        "destination": "/politica-de-datos/",
+        "type": 301
+      },
+      {
+        "source": "/blog/seguimiento-de-las-variantes-del-sars-cov-2-actualizacion-sobre-la-variante-mu-b-1-621/",
+        "destination": "/blog/",
+        "type": 301
+      },
+      {
+        "source": "/landing/",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/perfil/",
+        "destination": "/",
+        "type": 301
       }
     ],
     "rewrites": [],

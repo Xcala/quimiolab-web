@@ -268,3 +268,9 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 
 ### 2026-10-19 — Swipe en el carrusel del hero
 - El carrusel solo cambiaba con los puntos. Ahora se desliza con el dedo (o arrastrando con el mouse): >40 px en horizontal pasa a la siguiente/anterior y reinicia el autoplay; si hubo deslizamiento no se abre la ficha. `touch-action: pan-y` deja el scroll vertical de la página intacto.
+
+### 2026-10-22 — Search Console: 404, noindex y sin indexar
+- **404 (60 URLs, rastreadas antes del lanzamiento)**: 38 ya respondían bien. Las 22 restantes eran fichas viejas del Webflow en `/categorias/<producto>` + `/politicas` + un artículo (variante Mu SARS-CoV-2). Redirecciones 301 a su `/producto/…` equivalente (Triage y Sofia, que no están en el catálogo → /marcas/quidel/; `/politicas` → /politica-de-datos/; el artículo → /blog/) y comodín `/categorias/**` → /productos/. Con y sin barra final. Mapa completo: 798/798 sin rotas.
+- **noindex (1)**: es `/buscar/`, intencional (resultados de búsqueda interna).
+- **Rastreada sin indexar (16)**: home, fichas y paginación del blog rastreadas el 16–17 oct; responden 200, canonical propio e indexables: es la espera normal tras la migración.
+- **Página con redirección (8)**: URLs viejas que redirigen; esperado.
