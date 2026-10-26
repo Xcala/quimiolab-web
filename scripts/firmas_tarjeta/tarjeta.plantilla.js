@@ -34,7 +34,7 @@
 
   // visual: «marca» (degradado navy, orbes y patrón), «claro» (blanco → hielo con panel navy) o «clasico» (plano)
   function plantilla(m, aj, estilo) {
-    var W = 620, H = estilo === "foto" ? 1150 : 1010;
+    var W = 620, H = estilo === "foto" ? 1200 : 1010;
     var visual = aj.visual || "marca", marca = visual !== "clasico", inv = visual === "claro";
     var base = marca ? MARCA.navy : aj.color;
     var acento = aj.acento || ORANGE, sobreAcento = tintaSobre(acento);
