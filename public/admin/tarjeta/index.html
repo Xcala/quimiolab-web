@@ -784,10 +784,18 @@ var GA = (function () {
       y = altoTapa + 52 * F;
     }
 
+    // Nombres largos: primero se achica la letra hasta 26 px; si aún no cabe, pasa a dos líneas y baja el resto
+    var tamNombre = 33 * F, lineasNombre = 1, anchoNombre = W * 0.88;
+    var textoNombre = aj.caso === "mayus" ? String(m.nombre).toUpperCase() : String(m.nombre);
+    var medidor = document.createElement("canvas").getContext("2d");
+    var mide = function (t) { medidor.font = "700 " + t + "px PoppinsQL, Poppins, Arial, sans-serif"; return medidor.measureText(textoNombre).width * 1.02; };
+    while (tamNombre > 26 * F && mide(tamNombre) > anchoNombre) tamNombre -= 0.5;
+    if (mide(tamNombre) > anchoNombre) { tamNombre = 30 * F; lineasNombre = 2; }
+    var altoNombre = (lineasNombre === 1 ? 44 : 44 + tamNombre * 1.15) * F;
     agregar({ tipo: "texto", nombre: "Nombre", campo: "nombre", texto: m.nombre, familia: "display",
-              caso: aj.caso, x: W * 0.06, y: y, w: W * 0.88, h: 44 * F, espaciado: -0.025,
-              tamano: 33 * F, peso: 700, color: tinta, alineado: "centro", interlineado: 1.15 });
-    y += 44 * F;
+              caso: aj.caso, x: W * 0.06, y: y, w: anchoNombre, h: altoNombre, espaciado: -0.025,
+              tamano: tamNombre, peso: 700, color: tinta, alineado: "centro", interlineado: 1.15 });
+    y += altoNombre;
     agregar({ tipo: "linea", nombre: "Raya", x: W / 2 - 24, y: y, w: 48, h: 4, trazo: acento, grosor: 4, punta: "round" });
     y += 22 * F;
     agregar({ tipo: "texto", nombre: "Cargo", campo: "cargo", texto: m.cargo, familia: "texto",
@@ -1615,6 +1623,7 @@ var GA = (function () {
   function refrescarDatos() {
     var m = A.miembro();
     A.recursos.imagenes.foto.src = m.foto || window.GA_RECURSOS.foto;
+    if (!A.editado) { A.reconstruir(); return; }
     A.pintar(); A.pintarPropiedades();
   }
 

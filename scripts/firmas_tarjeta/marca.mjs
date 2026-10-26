@@ -87,6 +87,9 @@ export function marcaTarjeta(t, { logoBlanco, logoColor }) {
   t = cambiar(t, '  function aplicarAjustes() {', pieza('tarjeta.ui.js') + '  function aplicarAjustes() {');
   t = cambiar(t, '    $("c-qr-tipo").value = A.ajustes.qrTipo;\n    $("c-caso").value = A.ajustes.caso;\n  }',
     '    $("c-qr-tipo").value = A.ajustes.qrTipo;\n    $("c-caso").value = A.ajustes.caso;\n    pintarMarca();\n  }');
+  // El tamaño del nombre depende de su largo: al cambiar de persona se rehace la plantilla (salvo diseño libre)
+  t = cambiar(t, '    A.recursos.imagenes.foto.src = m.foto || window.GA_RECURSOS.foto;\n    A.pintar(); A.pintarPropiedades();',
+    '    A.recursos.imagenes.foto.src = m.foto || window.GA_RECURSOS.foto;\n    if (!A.editado) { A.reconstruir(); return; }\n    A.pintar(); A.pintarPropiedades();');
   t = cambiar(t, '"Nuevo miembro" : "Editar miembro"', '"Nueva persona" : "Editar persona"');
   return t;
 }

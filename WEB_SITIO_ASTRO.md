@@ -279,3 +279,7 @@ Autorizado el lanzamiento. Decisiones de Nicolas: **dominio principal www.quimio
 - **Hero**: entra el **STANDARD M10** de SD Biosensor (casa matriz) como primer equipo, después de la diapositiva de Quimiolab. Packshot `public/img/equipos/m10.webp` recortado (fondo blanco quitado por relleno desde los bordes) de la foto del catálogo. Rotación sin JS ajustada a 7 diapositivas.
 - **KRYPTOR compact PLUS**: descripción nueva enviada por Quimiolab, publicada en Firestore `cms` (mismo formato que el panel, con su versión en `cms_versiones`) para que el cliente la vea y edite desde /admin/. La meta descripción ya no repite el nombre cuando el texto trae ™/®.
 - «Que se note que somos filial de SD» arriba: ya está (endoso arriba a la derecha); Dani lo confirmó.
+
+### 2026-10-26 — Tarjetas virtuales del equipo de Marketing y Comercial
+- Brief de Daniela («Tarjetas Marketing y Comercial»): 15 personas desde su matriz Excel. Se generaron con /admin/tarjeta/ (estilo sin foto) los PNG y .vcf de cada una, más un `.quimiolab.json` para «Abrir una copia». Los datos del equipo **no** van al repo ni a la página pública: se entregan en ZIP.
+- Plantilla de la tarjeta: los nombres largos achican la letra (33 → 26 px) y, si aún no caben, pasan a dos líneas y bajan el resto; antes se montaban sobre el cargo. Al cambiar de persona se rehace la plantilla (salvo diseño libre).
