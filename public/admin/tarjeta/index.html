@@ -721,7 +721,7 @@ var GA = (function () {
     var past = inv ? rgba(base, 0.07) : (marca ? "rgba(255,255,255,.10)" : aclarar(base, 0.11));
     var bordePast = marca && !inv ? "rgba(255,255,255,.22)" : null;      // glass sobre el degradado
     var F = aj.fuente, conFoto = estilo === "foto";
-    var altoTapa = (conFoto ? 0.635 : 0.50) * W;
+    var altoTapa = (conFoto ? 0.635 : 0.44) * W;
     var capas = [];
     function agregar(el) { el.id = id(); capas.push(el); return el; }
     var degradadoNavy = [MARCA.navy, MARCA.navy2, MARCA.navy3], paradas = [0, 0.52, 1];
@@ -754,23 +754,24 @@ var GA = (function () {
                        radios: { tl: 34, tr: 34, br: 78, bl: 0 }, colores: degradadoNavy, paradas: paradas, angulo: 35 });
     else agregar({ tipo: "rect", nombre: "Panel superior", x: 0, y: 0, w: W, h: altoTapa,
                    radios: { tl: 34, tr: 34, br: 78, bl: 0 }, relleno: tapa });
-    var corte = W * 0.235;
+    // el recorte cóncavo es un círculo de radio «corte»: no puede bajar más que el panel
+    var corte = Math.min(W * 0.235, altoTapa * 0.5);
     agregar({ tipo: "esquina", nombre: "Esquina de acento", x: W - W * 0.30, y: 0,
               w: W * 0.30, h: corte, relleno: acento, recorte: inv ? MARCA.navy3 : tapa });
 
     var lw = W * (conFoto ? 0.42 : 0.52) * (aj.logo / 100);
     var lh = lw * (aj.logoAlto || (104.09 / 634.43));
     var fuenteLogo = aj.logoPropio ? "logoPropio" : (inv ? "logoBlanco" : "logo");
-    var yLogo = altoTapa * (conFoto ? 0.20 : 0.26) - lh / 2;
+    var yLogo = altoTapa * (conFoto ? 0.20 : 0.30) - lh / 2;
     agregar({ tipo: "imagen", nombre: "Logo", src: fuenteLogo, x: (W - lw) / 2, y: yLogo, w: lw, h: lh });
 
     // endoso «Una empresa de SD Biosensor» (solo en piezas de Quimiolab)
     if (aj.endoso !== false && !aj.logoPropio) {
-      var yE = yLogo + lh + 16, colE = inv ? "rgba(255,255,255,.78)" : MARCA.gris, anchoSD = 104;
+      var yE = yLogo + lh + 16, colE = inv ? "rgba(255,255,255,.78)" : MARCA.gris, anchoSD = 128;
       agregar({ tipo: "texto", nombre: "Endoso", texto: "UNA EMPRESA DE", familia: "texto", x: W * 0.2, y: yE,
-                w: W * 0.6, h: 12, tamano: 8.5, peso: 700, espaciado: 0.25, color: colE, alineado: "centro" });
+                w: W * 0.6, h: 14, tamano: 10, peso: 700, espaciado: 0.25, color: colE, alineado: "centro" });
       agregar({ tipo: "imagen", nombre: "SD Biosensor", src: "sd", tinte: inv ? "#FFFFFF" : MARCA.navy,
-                x: (W - anchoSD) / 2, y: yE + 15, w: anchoSD, h: anchoSD * (38.24 / 355.09) });
+                x: (W - anchoSD) / 2, y: yE + 18, w: anchoSD, h: anchoSD * (38.24 / 355.09) });
     }
 
     var y;
@@ -799,20 +800,25 @@ var GA = (function () {
     agregar({ tipo: "linea", nombre: "Raya", x: W / 2 - 24, y: y, w: 48, h: 4, trazo: acento, grosor: 4, punta: "round" });
     y += 22 * F;
     agregar({ tipo: "texto", nombre: "Cargo", campo: "cargo", texto: m.cargo, familia: "texto",
-              x: W * 0.12, y: y, w: W * 0.76, h: 46 * F, tamano: 15.5 * F, peso: 400,
+              x: W * 0.08, y: y, w: W * 0.84, h: 56 * F, tamano: 22 * F, peso: 400,
               color: suave, alineado: "centro", interlineado: 1.4 });
-    y += 62 * F;
+    y += 66 * F;
 
-    var anchoP = W * 0.74, xP = (W - anchoP) / 2, altoP = 48;
+    var anchoP = W * 0.82, xP = (W - anchoP) / 2, altoP = 58;
     [["cel", m.cel, "telefono"], ["correo", m.correo, "correo"]].forEach(function (par) {
       if (!par[1]) return;
+      // el texto llena el alto de la pastilla; si no cabe a lo ancho (correos largos) se achica
+      var tamP = 22 * F;
+      medidor.font = "500 " + tamP + "px RobotoQL, Roboto, Arial, sans-serif";
+      var anchoT = medidor.measureText(String(par[1])).width;
+      if (anchoT > anchoP - 92) tamP = Math.max(15, tamP * (anchoP - 92) / anchoT);
       agregar({ tipo: "rect", nombre: "Pastilla " + par[0], x: xP, y: y, w: anchoP, h: altoP,
                 radio: altoP / 2, relleno: past, trazo: bordePast, grosor: bordePast ? 1 : 0 });
       agregar({ tipo: "imagen", nombre: "Icono " + par[0], src: par[2] + (inv ? "Oscuro" : ""),
-                x: xP + 26, y: y + altoP / 2 - 9, w: 18, h: 18 });
+                x: xP + 24, y: y + altoP / 2 - 12, w: 24, h: 24 });
       agregar({ tipo: "texto", nombre: "Texto " + par[0], campo: par[0], texto: par[1], familia: "texto",
-                x: xP + 52, y: y + altoP / 2 - 10 * F, w: anchoP - 78, h: 22 * F,
-                tamano: 14 * F, peso: 500, color: tinta, alineado: "centro" });
+                x: xP + 58, y: y + altoP / 2 - tamP * 0.55, w: anchoP - 84, h: tamP * 1.3,
+                tamano: tamP, peso: 500, color: tinta, alineado: "centro" });
       y += altoP + 13;
     });
     y += 10;
@@ -824,16 +830,16 @@ var GA = (function () {
     agregar({ tipo: "esquineros", nombre: "Esquineros", x: xQ + 9, y: y + 9,
               w: caja - 18, h: caja - 18, trazo: acento === "#FFCB2B" ? MARCA.azul : acento, grosor: 3, largo: 17 });
     agregar({ tipo: "texto", nombre: "Escanéame", texto: "ESCANÉAME", familia: "texto",
-              x: xQ, y: y + caja + 3, w: caja, h: 16 * F, tamano: 10.5 * F, peso: 700, espaciado: 0.2,
+              x: xQ, y: y + caja + 3, w: caja, h: 18 * F, tamano: 12 * F, peso: 700, espaciado: 0.2,
               color: MARCA.navy, alineado: "centro" });
     y += caja + 26 + 22;
 
-    var anchoB = W * 0.66, altoB = 46;
+    var anchoB = W * 0.66, altoB = 56, tamB = 18 * F;
     agregar({ tipo: "rect", nombre: "Botón web", x: (W - anchoB) / 2, y: y, w: anchoB, h: altoB,
               radio: altoB / 2, relleno: acento });
     agregar({ tipo: "texto", nombre: "Texto web", texto: "quimiolab.com", familia: "texto",
-              x: (W - anchoB) / 2, y: y + altoB / 2 - 10 * F, w: anchoB, h: 22 * F,
-              tamano: 14 * F, peso: 700, color: sobreAcento, alineado: "centro" });
+              x: (W - anchoB) / 2, y: y + altoB / 2 - tamB * 0.55, w: anchoB, h: tamB * 1.3,
+              tamano: tamB, peso: 700, color: sobreAcento, alineado: "centro" });
 
     return { w: W, h: H, radio: 34, capas: capas };
   }
