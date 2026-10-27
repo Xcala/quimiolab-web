@@ -1271,6 +1271,7 @@ var GAF = (function () {
       destino = v;
       try { localStorage.setItem(LLAVE + "_destino", v); } catch (e) { /* ignorar */ }
     },
+    get alGuardar() { return alGuardar; },
     set alGuardar(f) { alGuardar = f; },
     refrescarTodo: function () {
       CAMPOS.concat(["extra1Icono", "extra2Icono"]).forEach(function (k) {

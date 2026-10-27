@@ -119,5 +119,7 @@ export function marcaFirma(f, { logoBlanco, logoColor, foto }) {
   for (const v of ['b', 'x']) f = f.split(`${v}.textContent.trim()`).join(`(${v}.querySelector("b") || ${v}).textContent.trim()`);
   f = cambiar(f, '  aplicarControles();\n  pintar();\n\n  window.GAF_APP = {',
     '  aplicarControles();\n  pintar();\n  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { recursos.bandaClave = null; pintar(); });\n\n  window.GAF_APP = {');
+  // src/admin/equipo.ts encadena su aviso al de la capa de guardado para subir los cambios a Firestore
+  f = cambiar(f, '    set alGuardar(f) { alGuardar = f; },', '    get alGuardar() { return alGuardar; },\n    set alGuardar(f) { alGuardar = f; },');
   return f;
 }
