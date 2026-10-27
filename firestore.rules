@@ -50,6 +50,14 @@ service cloud.firestore {
         && request.resource.data.data is string && request.resource.data.data.size() < 1040000;
       allow delete: if esAdmin();
     }
+    // Equipo para la tarjeta virtual y la firma de correo (/admin/tarjeta/, /admin/firmas/): solo admins leen y escriben
+    match /equipo/{id} {
+      allow read, delete: if esAdmin();
+      allow create, update: if esAdmin()
+        && request.resource.data.keys().hasOnly(['nombre', 'cargo', 'correo', 'cel', 'ciudad', 'foto', 'orden', 'by', 'at'])
+        && request.resource.data.nombre is string && request.resource.data.nombre.size() <= 120
+        && (request.resource.data.foto == null || (request.resource.data.foto is string && request.resource.data.foto.size() < 900000));
+    }
     // Formulario de contacto/cotización: cualquiera puede crear (con campos y tamaños acotados); solo admins leen y gestionan
     function texto(v, max) { return v is string && v.size() <= max; }
     match /solicitudes/{id} {

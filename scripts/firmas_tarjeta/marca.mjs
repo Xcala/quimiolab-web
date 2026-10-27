@@ -91,6 +91,8 @@ export function marcaTarjeta(t, { logoBlanco, logoColor }) {
   t = cambiar(t, '    A.recursos.imagenes.foto.src = m.foto || window.GA_RECURSOS.foto;\n    A.pintar(); A.pintarPropiedades();',
     '    A.recursos.imagenes.foto.src = m.foto || window.GA_RECURSOS.foto;\n    if (!A.editado) { A.reconstruir(); return; }\n    A.pintar(); A.pintarPropiedades();');
   t = cambiar(t, '"Nuevo miembro" : "Editar miembro"', '"Nueva persona" : "Editar persona"');
+  // src/admin/equipo.ts encadena su aviso al de la capa de guardado para subir los cambios a Firestore
+  t = cambiar(t, '    set alGuardar(f) { alGuardar = f; },', '    get alGuardar() { return alGuardar; },\n    set alGuardar(f) { alGuardar = f; },');
   return t;
 }
 

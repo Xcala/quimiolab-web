@@ -1,0 +1,12 @@
+---
+// Herramienta generada por scripts/firmas_tarjeta.mjs (no editar el HTML a mano) + el equipo de Firestore (src/admin/equipo.ts)
+import html from '../../../admin/herramientas/firmas.html?raw';
+const [, cabeza = '', cuerpo = ''] = html.match(/<head>([\s\S]*)<\/head>\s*<body[^>]*>([\s\S]*)<\/body>/) ?? [];
+---
+<html lang="es">
+  <head><Fragment set:html={cabeza} /></head>
+  <body><Fragment set:html={cuerpo} /></body>
+</html>
+<script>
+  import '../../../admin/equipo.ts';
+</script>

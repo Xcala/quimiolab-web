@@ -1,4 +1,4 @@
-// Genera /admin/firmas/ y /admin/tarjeta/ (firma de correo y tarjeta virtual del equipo) a partir de los
+// Genera /admin/firmas/ y /admin/tarjeta/ (src/admin/herramientas/*.html, envueltas por src/pages/admin/{firmas,tarjeta}/index.astro) (firma de correo y tarjeta virtual del equipo) a partir de los
 // HTML autónomos de la skill «firma-y-tarjeta-virtual» (versión Grupo Alternativas), con la marca Quimiolab:
 // logos, colores, textos institucionales, vCard y llaves de guardado. Los datos de cada persona viven en el
 // navegador de quien edita (localStorage + «Guardar mi trabajo» en un archivo); no hay Firebase aquí.
@@ -118,7 +118,7 @@ t = marcaTarjeta(t, { logoBlanco: logoBlanco600, logoColor: logoColor600 });
 
 for (const [carpeta, html] of [['firmas', f], ['tarjeta', t]]) {
   if (/grupo ?alternativas/i.test(html)) throw new Error(`Quedó texto de Grupo Alternativas en ${carpeta}`);
-  mkdirSync(join(raiz, 'public/admin', carpeta), { recursive: true });
-  writeFileSync(join(raiz, 'public/admin', carpeta, 'index.html'), html);
-  console.log(`public/admin/${carpeta}/index.html · ${Math.round(html.length / 1024)} KB`);
+  mkdirSync(join(raiz, 'src/admin/herramientas'), { recursive: true });
+  writeFileSync(join(raiz, 'src/admin/herramientas', carpeta + '.html'), html);
+  console.log(`src/admin/herramientas/${carpeta}.html · ${Math.round(html.length / 1024)} KB`);
 }
